@@ -53,15 +53,15 @@
 <meta property="og:site_name" content="Tjjsjwhj">
 <meta property="og:description" content="1、为什么要有https？http协议被用于客户端和服务端之间传递消息，但是这个传输过程是以明文的方式发送内容，http协议不提供任何方式的数据加密。如果有人获取了浏览器和服务器之间的传输保报文，就可以直接读取其中的信息。因此，http协议不适合传输一些个人敏感信息，比如：个人账户密码、支付信息等。 由于http协议的安全缺陷，需要有一种协议来保证客户端和服务端通信的安全，于是就有了https。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png">
-<meta property="og:image" content="http://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png">
-<meta property="og:image" content="http://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png">
+<meta property="og:image" content="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png">
+<meta property="og:image" content="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png">
 <meta property="article:published_time" content="2020-01-04T14:54:10.000Z">
-<meta property="article:modified_time" content="2020-01-04T18:30:54.976Z">
+<meta property="article:modified_time" content="2020-01-04T18:54:59.732Z">
 <meta property="article:author" content="tjjsjwhj">
 <meta property="article:tag" content="https">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png">
+<meta name="twitter:image" content="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/01/04/https%E5%8E%9F%E7%90%86/">
 
@@ -214,7 +214,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-05 02:30:54" itemprop="dateModified" datetime="2020-01-05T02:30:54+08:00">2020-01-05</time>
+                <time title="Modified: 2020-01-05 02:54:59" itemprop="dateModified" datetime="2020-01-05T02:54:59+08:00">2020-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,10 +246,10 @@
 <p>https首先解决了身份认证的问题，即确保你要访问的对象就是你希望访问的对象。现实生活中，如果我们和某个人A交易，为了确保交易的安全性，首先需要确认A的身份。通常我们会检查A的身份证信息，资质信息等。确认了A的身份之后，我们才开始与对方交易。</p>
 <p>https的身份认证过程也是如此。Server端上线之初，会向权威的第三方的CA（Certificate Authority, 证书颁发机构）申请证书，然后第三方会通过线上线下核查的方式确认Server的信息，核查完之后，会给Server颁发一个证书，这个证书中记录了颁发机构的信息和Server的身份信息。</p>
 <p>初次请求https的时候，服务端首先会返回一个证书，这个证书中包含了访问对象的身份信息，客户端验证了证书之后发现，证书中的信息就是访问对象的信息，接下来就可以正常通信了。</p>
-<p><img src="http://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png" alt="认证过程"></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png" alt="认证过程"></p>
 <p>有的同学可能会有疑惑，如果我伪造一个证书，客户端怎么知道呢？比如我是A，但我非要在证书里写我是B，那你怎么知道呢，就像现实中伪造的各种证书一样？CA颁发的证书有个特性是不可修改。这个涉及到非对称加密的知识了，简单来说就是CA把公司的信息通过特定的摘要算法如MD5生成一段签名，再用私钥对签名进行加密。客户端拿到证书之后，根据证书中的摘要算法对证书中的信息计算出一个签名，然后用CA的公钥对密文进行解密，对比计算出的签名和解密出的签名，如果一致，就证明证书没有被修改过。</p>
 <p>下面是 <code>www.baidu.com</code>的证书信息（谷歌浏览器点地址栏的那个小锁）：</p>
-<p><img src="http://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png" alt="百度的证书"></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png" alt="百度的证书"></p>
 <p>从图中可以看到百度相关的信息，签发者相关的信息，签名算法（这里的签名算法是SHA-256）以及百度的公钥。</p>
 <p><strong>ii. 确保通过过程中的数据安全</strong></p>
 <p>解决了如何证明你就是你的问题之后，就需要解决如何保证通信过程中你们的通信内容不被窃取到。</p>
@@ -265,7 +265,7 @@
 <li>接下来双方通过密钥s来加密通信内容，互相传输</li>
 </ol>
 <p>再回到https的通信过程中，具体流程如下图所示：</p>
-<p><img src="http://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png" alt="https通信过程"></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png" alt="https通信过程"></p>
 <p><strong>以上就是https原理的简介。至于如何从http升级到https，下一篇将以本博客为例，示范升级过程。</strong></p>
 
     </div>
