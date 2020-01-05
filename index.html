@@ -176,7 +176,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/05/https%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -190,7 +190,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/04/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/" class="post-title-link" itemprop="url">证券投资的本质</a>
+            <a href="/2020/06/05/https%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">https原理</a>
         </h1>
 
         <div class="post-meta">
@@ -200,14 +200,265 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-01-04 23:30:07" itemprop="dateCreated datePublished" datetime="2020-01-04T23:30:07+08:00">2020-01-04</time>
+              <time title="创建时间：2020-06-05 22:54:10" itemprop="dateCreated datePublished" datetime="2020-06-05T22:54:10+08:00">2020-06-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-05 02:11:15" itemprop="dateModified" datetime="2020-01-05T02:11:15+08:00">2020-01-05</time>
+                <time title="修改时间：2020-01-05 13:13:14" itemprop="dateModified" datetime="2020-01-05T13:13:14+08:00">2020-01-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1、为什么要有https？"><a href="#1、为什么要有https？" class="headerlink" title="1、为什么要有https？"></a>1、为什么要有https？</h3><p>http协议被用于客户端和服务端之间传递消息，但是这个传输过程是以明文的方式发送内容，http协议不提供任何方式的数据加密。如果有人获取了浏览器和服务器之间的传输保报文，就可以直接读取其中的信息。因此，http协议不适合传输一些个人敏感信息，比如：个人账户密码、支付信息等。</p>
+<p>由于http协议的安全缺陷，需要有一种协议来保证客户端和服务端通信的安全，于是就有了https。</p>
+<h3 id="2、https主要解决了什么问题？"><a href="#2、https主要解决了什么问题？" class="headerlink" title="2、https主要解决了什么问题？"></a>2、https主要解决了什么问题？</h3><p><strong>i. 确保你想访问的对象是你希望访问的对象</strong></p>
+<p>网络世界里，真正决定你地址的是IP。平时我们所访问的网址如 <code>www.baidu.com</code> 都需要由DNS（域名转换系统）服务商将网址翻译成对应的IP地址，也就是说我们要访问的对象实际上是一个IP地址。如果中间网址到域名的转换关系被恶意的修改（也就是DNS劫持），我们的访问请求就会打到修改之后的恶意IP上，</p>
+<p>https首先解决了身份认证的问题，即确保你要访问的对象就是你希望访问的对象。现实生活中，如果我们和某个人A交易，为了确保交易的安全性，首先需要确认A的身份。通常我们会检查A的身份证信息，资质信息等。确认了A的身份之后，我们才开始与对方交易。</p>
+<p>https的身份认证过程也是如此。Server端上线之初，会向权威的第三方的CA（Certificate Authority, 证书颁发机构）申请证书，然后第三方会通过线上线下核查的方式确认Server的信息，核查完之后，会给Server颁发一个证书，这个证书中记录了颁发机构的信息和Server的身份信息。</p>
+<p>初次请求https的时候，服务端首先会返回一个证书，这个证书中包含了访问对象的身份信息，客户端验证了证书之后发现，证书中的信息就是访问对象的信息，接下来就可以正常通信了。</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png" alt="认证过程"></p>
+<p>有的同学可能会有疑惑，如果我伪造一个证书，客户端怎么知道呢？比如我是A，但我非要在证书里写我是B，那你怎么知道呢，就像现实中伪造的各种证书一样？CA颁发的证书有个特性是不可修改。这个涉及到非对称加密的知识了，简单来说就是CA把公司的信息通过特定的摘要算法如MD5生成一段签名，再用私钥对签名进行加密。客户端拿到证书之后，根据证书中的摘要算法对证书中的信息计算出一个签名，然后用CA的公钥对密文进行解密，对比计算出的签名和解密出的签名，如果一致，就证明证书没有被修改过。</p>
+<p>下面是 <code>www.baidu.com</code>的证书信息（谷歌浏览器点地址栏的那个小锁）：</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png" alt="百度的证书"></p>
+<p>从图中可以看到百度相关的信息，签发者相关的信息，签名算法（这里的签名算法是SHA-256）以及百度的公钥。</p>
+<p><strong>ii. 确保通过过程中的数据安全</strong></p>
+<p>解决了如何证明你就是你的问题之后，就需要解决如何保证通信过程中你们的通信内容不被窃取到。</p>
+<p>还是刚刚那个交易场景。你确认了和你交易的A的身份之后，你们开始放心的交易了。如果你们的交易内容是你想花大价钱从A受手里买一个产品的配方，有了这个配方之后，你就能财源滚滚，走上人生巅峰了，所以这个配方千万不能泄露出去。为了和网络通信的过程保持一致，我们假设你们不直接交易，而是需要一个传信的人帮你们传递这个配方。在原来http的协议下，这个配方就是明文传输的，如果有人劫持了这个信件就能获取到这个配方。所以就不能明文传递这个配方，得加密。那加密方式怎么选择呢？</p>
+<blockquote>
+<p>对称加密：对称加密指的的是采用单钥密码系统的加密方法，同一个密钥可以同时用作信息的加密和解密，这种加密方法称为对称加密，也称为单密钥加密<br>非对称加密：非对称加密算法是一种密钥的保密方法。 非对称加密算法需要两个密钥：公开密钥（publickey:简称公钥）和私有密钥（privatekey:简称私钥）。 公钥与私钥是一对，如果用公钥对数据进行加密，只有用对应的私钥才能解密。</p>
+</blockquote>
+<p>考虑到为了模拟真实的通信过程，你们是不能见面的，也就是说你不能通过耳语把你要用的密钥告诉A，所以你们否决了开始就用对称加密的方式，因为怎么把密钥传给对方是个问题。如果在传输密钥的过程中密钥泄露了，这就和明文传输配方没什么区别了。所以如何把密钥传给A？传输过程有以下几步：</p>
+<ol>
+<li>首先生成用于对称加密的密钥s</li>
+<li>利用证书中A传过来的公钥，对密钥s进行加密，传给A</li>
+<li>A利用自己的私钥，对传过来的密文进行解密，解密出密钥s</li>
+<li>接下来双方通过密钥s来加密通信内容，互相传输</li>
+</ol>
+<p>再回到https的通信过程中，具体流程如下图所示：</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png" alt="https通信过程"></p>
+<p><strong>以上就是https原理的简介。至于如何从http升级到https，下一篇将以本博客为例，示范升级过程。</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/2019-review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/04/2019-review/" class="post-title-link" itemprop="url">2019年个人总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-04 00:49:15" itemprop="dateCreated datePublished" datetime="2020-01-04T00:49:15+08:00">2020-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-05 13:13:23" itemprop="dateModified" datetime="2020-01-05T13:13:23+08:00">2020-01-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index">
+                    <span itemprop="name">生活</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>2019年已经过去3天了，再不写个人总结，2020年怕是又要稀里糊涂的过去了。</p>
+<p>如果给过去的这一年打个分，自认为能打到70分，算是部分满意。此外，2019年也是我从学校到工作过渡的一年，我是年初1月23号拿的毕业证，直接入职，到年底正好工作一整年。这一年，无论是工作内还是工作外，都有太多值得记录的事情。</p>
+<h2 id="回顾2019年初的目标"><a href="#回顾2019年初的目标" class="headerlink" title="回顾2019年初的目标"></a>回顾2019年初的目标</h2><hr>
+<p>大方向上，主要有下面几个：</p>
+<ul>
+<li>给自己和家人配置保险</li>
+<li>开始自己的投资规划</li>
+<li>学英语（这算是一个执念吧）</li>
+<li>练字</li>
+<li>提高自己的专业技能</li>
+</ul>
+<h3 id="给自己和家人配置保险"><a href="#给自己和家人配置保险" class="headerlink" title="给自己和家人配置保险"></a>给自己和家人配置保险</h3><p>一直以来就对保险充满了好感，觉得没有保险的人生是没有安全感的。对保险有好感的原因比较多，首先，我这个人比较怕死。这么多年，无论是亲身经历的，还是从电视新闻上看到的一些和生死相关的事情，都让我对死亡充满了敬畏。很多时候，生命远比我们想象的要脆弱。而保险，能让生命在最脆弱的时候，保留一份基本的尊严；其次是刚买房，家里也没什么积蓄，爸妈年纪都大了，我才刚开始工作，整个家庭的风险承受能力很低。所以，刚工作不到两个月，我就开始不断的看保险相关的知识，比对不同的保险。看的焦头烂额的时候，正好实验室的一个师姐也在了解保险，她的一个高中同学就是大都会的保险代理人。这期间通过这个代理人，了解了医疗险和重疾险的区别，再结合自身的实际情况，配置了如下的保险：</p>
+<p><strong>自己</strong>：医疗险+重疾险+恶性肿瘤医疗险（全球版）<br><strong>媳妇</strong>：医疗险+重疾险<br><strong>父母</strong>：好医保-住院医疗险</p>
+<p>医疗险是现在比较火的百万医疗险，报销型，保额足够了。重疾险是一份终身10万保额叠加20年期40万保额，一共50万保额。由于实在是担心自己得癌症，自己又加了一份恶性肿瘤医疗险（全球版），两个人全年保费8000左右。父母因为已经到51周岁，年级大了，不适合买重疾险，就再支付宝上买了好医保-住院医疗险，两个人全年保费1500左右。大都会的保险相比其他家的是偏贵了，之所以还选择他们家，是因为保险附带的增值服务比较多。</p>
+<p>因为刚开始工作，也没什么积蓄，暂时就先配置这些年，短期内不再变动。等以后收入增加了，再把重疾险的额度配置上去。</p>
+<h3 id="开始自己的投资规划"><a href="#开始自己的投资规划" class="headerlink" title="开始自己的投资规划"></a>开始自己的投资规划</h3><p>年初的时候看了不少公众号文章，都在宣传躺着赚钱，财务自由这些让人心里痒痒的观点，再加上之前自己胡乱投资基金、p2p这些，狠狠的踩了几趟雷，决定系统的开始自己的投资之路，万一走着走着就自由了呢？</p>
+<p>我的投资学习路径是两部分：</p>
+<ul>
+<li><strong>理论学习</strong></li>
+<li><strong>投资实践</strong></li>
+</ul>
+<p><strong>理论学习</strong>方面，主要包括财富观的培养、投资基础知识的学习。这一年，完成了以下书籍：</p>
+<ul>
+<li>傻瓜式投资</li>
+<li>穷爸爸和富爸爸</li>
+<li>小狗钱钱</li>
+<li>指数基金投资指南</li>
+<li>解读基金：我的投资观与实践</li>
+<li>漫步华尔街</li>
+</ul>
+<p>未完成书籍：</p>
+<ul>
+<li>聪明的投资者</li>
+<li>共同基金常识</li>
+<li>逃不开的经济周期</li>
+</ul>
+<p>这几本书比较硬核，看的比较慢，2020年继续。</p>
+<p><strong>投资实践</strong>方面，从抄作业开始，跟投E大的长赢计划，中途配置了教育基金和自己的养老基金，主要定投沪深300和中证500这两个指数基金。</p>
+<p>2019年收益率16%左右，基本是抄作业的功劳，比较满意，所以已有部分继续跟投，同时继续完善理论知识，完成自己的投资体系的建立，然后实现躺尸的同时，躺赢，哈哈~~</p>
+<h3 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h3><p>这部分进行的一般。由于工作上的变动，从算法转到了开发，自然语言处理和机器学习的学习就彻底搁置了下来。后端开发能力上，跟着业务，狠狠的补了下基础知识。主要的能力提升是对后端开发有了一个整体的认识：后端开发围绕的是数据的存储和在业务逻辑上的处理。</p>
+<p>关于后端开发知识，主要的提升在对nginx的了解、redis的了解上，其它的一些提升比较零碎，不成体系。</p>
+<h3 id="学英语"><a href="#学英语" class="headerlink" title="学英语"></a>学英语</h3><p>学英语是一直以来的执念，也没有什么具体的目标，就是想学，但是每次都是半途而废。</p>
+<p>19年，在水滴上完成了《人性的弱点》和《人性的优点》两本英文原著的半精读，其它就没有了。</p>
+<p>20年需要好好梳理下学英语到底是为了什么，需要达到一个什么样的目标，然后再重新定个计划，好好执行。</p>
+<h3 id="练字"><a href="#练字" class="headerlink" title="练字"></a>练字</h3><p>想练一手好字。。。19年一直处于想的状态。20年需要定个轻松易行的计划，争取每年提高一些。</p>
+<p>以上是19年年初规划的完成情况，整体看，喜忧参半。家庭规划上的完成情况比较满意，但是技能提升相关的规划完成度较差，这部分需要重新梳理一遍，并且制定出一个松紧有度的20年年度计划，希望20年结束的时候，能够完美的交出一份对的起自己的答卷。</p>
+<h2 id="2019年感触比较深的几件事"><a href="#2019年感触比较深的几件事" class="headerlink" title="2019年感触比较深的几件事"></a>2019年感触比较深的几件事</h2><hr>
+<h3 id="人生大事"><a href="#人生大事" class="headerlink" title="人生大事"></a>人生大事</h3><p>人生大事方面，完成了买房和领证。</p>
+<h4 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h4><p>媳妇还在上学，之前研究生入学的时候，没有意识到户口的重要性，就没有把户口转到学校，幸好18年政策变化，除了入学那一次可以迁户口，每年秋季开学也可以迁户口了，就赶紧办理，到19年初户口就下来了。户口下来之后，迅速的把房子给买了。现在回想买房的过程，觉得有点太草率了，有必要记录一下买房的过程，让自己在以后做类似买房这种重大决定的时候，不要被情绪左右。</p>
+<p>决定买房之前，和媳妇讨论要买什么样的房子，为了能买到预算范围内最合适的房子，我们首先列出了一系列的考虑因素，最终决定重点看<code>交通</code>，<code>医疗资源</code>，<code>菜市场</code>，<code>公园</code>，<code>商业配套</code> 这几个因素，由于我们都还年轻，再加上预算只有200左右（主要原因），就没有考虑学区房。交通方面，主要是地铁，所以我们以地铁线为基准，列出地铁线上每一站附近的<code>医院</code>，<code>商业配套</code>，<code>公园</code>，<code>学校</code>以及附近<code>房价</code>等情况，并以此筛选出候选站点。我们花了2个星期左右的时间，统计了1、2、3、4、5、6、9这几条地铁线，标出了一些候选，并决定每周末考察两个地铁站。</p>
+<p>在4月初的一个周末，我们开始了考察。首先去的是1号线终点附近的几个站点，找了链家的一个中介，带着我们看了附近的几个小区，整体看下来，这一片都是居民区，小区质量一般，配套还行，生活气息浓厚，商业气息差了些，不太满意。晚上临走的时候中介推荐了5号线附近一个新开的楼盘，说是性价比很高，强烈建议我们去看看。我们其实是不太想去的，一是当时有点晚，二是本身也不着急，奈何中介极力推荐，就说第二天去看看。</p>
+<blockquote>
+<p>我们常常在小钱上斤斤计较，如买菜和买衣服，而在大钱上冲动无比，如买房</p>
+</blockquote>
+<p>第二天跟着中介到了售楼处，好家伙，里面人声鼎沸，导购介绍和签合同的场景到处都是。在经过了导购员的讲解之后，对楼盘有了个整体印象。一共是两个小区，一大一小，大的小区靠着一个正在建的永旺商场，小的隔的远了些，靠着一个正在建的市民广场。附近就是外环和高速入口，地铁站1公里左右。交通不错，商业配套和生活配套也不错，缺点是都在规划中。价格和预算一致。两个人都比较满意，这个时候导购一直在强调，最近三天搞活动，预付定金，给2个点优惠。两个人都没啥定力，被导购这么一说，再加上对房子确实很满意，都开始犹豫要不要先交定金。和家里商量了下（家里没意见，也都不懂，说只要我们觉得满意就行，唉。。。），又咨询了一个在德佑的亲戚的意见，觉得还行，两个人就在晕乎乎的情况下，交定金了。</p>
+<p>晚上回去后，两个人都觉得草率了，但是因为本身对房子比较满意，没有发现什么地方有问题，就商量着真正交首付的时候，一定要仔细的比对合同，同时问明白一些关键指标，如果有什么地方不行，哪怕定金要不回来也不能买。付首付的时候，果然还是出问题了。一是我们发现这个房子没有阳台。当时看房型的时候，都觉得房型很好，方方正正，南北通透，愣是把阳台给漏了。二是问了下公摊，这一问，才知道公摊高达35%，105的房子套内面积才70，瞬间不想定了。后来和在德佑的那个亲戚沟通，他说这个公摊确实是很高了，但是套内面积70的三居也还行，其实套内面积差个2平米根本就感觉不出来。他这么一说，再加上内心清楚，这个房子吸引我的地方有很大一部分原因是旁边正在规划的市民广场，市民广场的规划里面有图书馆，电影院等，这个实在太吸引我了。所以和媳妇商量了好一会，犹豫再三，最终还是付了首付。</p>
+<p>进入2020年，回过头来看，买的房子单价降了近2000，市民广场的规划发生变动，广场的一半改成商业配套。房价下降这件事情，4月份其实是有预期的，当时看了很多文章，都在说19年的政策是强调房住不炒，而且目前国家经济处于转型的过程中，经济形式不好，未来一段时间内房价肯定会下跌，所以买房不用着急，但是并没深入的去研究论据，自己只是表面相信，所以在售楼处导购员反复推销的时候，我是如此的不堪一击；另外有一个观点是如果是刚需，随时可以上车。因为4月份的房价相比18年的顶点是降了不少的。现在想来，刚需随时可以上车这句话是理解错了。对当时的自己而言，其实买房并不是刚需，媳妇21年夏天才毕业，我在北京工作，我们暂时是没有住房需求的。市民广场规划发生变化这件事，就是买期房的风险了，幸好规划变化还能接受，希望未来没有大的变动。</p>
+<h4 id="领证"><a href="#领证" class="headerlink" title="领证"></a>领证</h4><p>因为买房用的是媳妇的户口，还贷款是我，加上父母不可能同意只以媳妇的名义买房，所以两个人就需要在签贷款合同前领证。由于买房这个决策太突然，导致领证这件事也变的很赶。两个人匆匆忙忙的去拍了结婚照，又急急忙忙的去民政局领了证。</p>
+<p>领证的当天，早上8点多就到了民政局。时间比较早，有点冷清，交了材料后，等了一小会，就轮到我们了。填了些材料，不一会，鲜红的两个结婚证就出来了。两个人拿到结婚证后，坐在沙发上缓了好一会，都觉得有点不真实。但因为下午还要赶紧去办贷款，缓过来之后又急急忙忙的去了售楼处。领证的过程就这么匆忙的结束了，都没来的及吃顿饭庆祝一下。</p>
+<p>回想起和媳妇相处的这几年，除了最开始的一年里面摩擦较多，后来磨合的越来越好，也不知当初两个人怎么就互相认定了。随着时间的推移，越发能体会到媳妇的好，也越发为自己当时的眼光感到得意。</p>
+<p>希望接下来的日子里，两个人能走的越来越好，把我们的小日子过的有滋有味。</p>
+<h3 id="工作波折"><a href="#工作波折" class="headerlink" title="工作波折"></a>工作波折</h3><h4 id="部门变动和线上事故"><a href="#部门变动和线上事故" class="headerlink" title="部门变动和线上事故"></a>部门变动和线上事故</h4><p>18年底到19年中这段时间，从实习转成了正式。这段时间里面，先是最初的业务被停掉，换了新业务，之后是部门换掉，从大搜到了手百，再就是经理也换了。中间由于各种原因，指导人换了又换，我也从最初的算法转到了开发。</p>
+<p>换到新部门和新业务期间，指导人被重新指定，姑且叫C吧。这段时间里，C主要忙于其它业务，没有太多时间顾到我，而我刚接手的项目对当时的我来说，难度系数较高。开发的过程中，费了很大劲才能勉强跟上进度。中间有个任务，因为一些原因，需要迁移。和C沟通技术方案的时候，不知道什么原因，C有点不耐烦，说：“我不管了，你随便怎么样吧”。当时心里就有点不舒服，但还是硬着头皮干了下去。终于线上运行的时候，出了严重的事故。</p>
+<p>出了事故之后，C在拉了组内相关的人，要重新评审技术方案。评审的过程中，C问其它人，说：“这件事，你们谁来主own？”，其他人回说：“你不是他指导人吗，你来呀”，C脱口而出：“我不是啊”。听到这个的时候，心里一阵苦涩，不过表面上还是没有任何异常，毕竟这个时候把问题解决掉更重要。当然后来还是C来主要把控这件事。</p>
+<p>之后的过程中，C的态度和之前有很明显的区别。讨论设计方案的时候，不断的指出方案上的不足，告诉我哪些地方需要多加注意，代码评审的时候，也是一行行的过代码，前后评审10多次。短短的几天内，我学到了很多，也很感激。</p>
+<p>后来C由于个人发展上的考虑，去了部门内的其他组。我的指导人也从C变成了组内的S。偶尔会想，如果开始的时候，C就能像最后那样，我是不是就不会经历后来的转正风波，当然也就不会迅速认识到工作和学校学习的不同和及时适应身份上的一个转变。凭良心说，C的业务能力很强，人品也没问题，可能是我的性格和他实在不搭，再加上初期的自己确实也有一些问题，导致两个人没能沟通好，这一点比较遗憾。</p>
+<h4 id="转正风波"><a href="#转正风波" class="headerlink" title="转正风波"></a>转正风波</h4><p>由于指导人C给的评价不好，给新经理留下一个很差的印象。试用期过了一大半的时候，新的指导人S通知我说我的转正比较危险，让我做好心里准备。当时听到这个，心里顿时一沉。指导人S说他也是第一次遇到这种事情，也不知道怎么处理，建议我做两手准备，而他接下来也会尽量把任务分给我一些，希望我能多一些产出。</p>
+<p>后来我主动找经理沟通了下我当前的状态，经理指出了我身上的一些不足，并且说给我一个月左右的观察期，同时指定了一些任务指标，希望我好好表现。这一个月里面，刚好业务上特别忙，又要准备那些任务指标，压力很大。天天晚上都是11点、12多才回去。工作日没有时间完成那些任务指标，只能周六日来弄。</p>
+<p>这期间十分感谢指导人S的尽心指导，使得我的业务能力有了很大的提高，从而顺利的通过了转正，以后有机会一定要好好的感谢他；也非常感谢媳妇，在这段时间里面没有给我任何压力，并且不断的鼓励我，让我没有其它的后顾之忧。</p>
+<p>转正风波这段期间，虽然说是压力很大，但是也仅此而已。首先是我和媳妇的感情很稳定，其次是虽然有房贷，但是两个人手上有一些钱足够支撑一年，经济上也没有太大压力，再次家里也很和谐。可以说这几个因素是我能顺利通过转正的坚实基础。</p>
+<p>工作上的这两件事给刚出学校我很大的冲击，让我迅速的认识到学校学习和社会工作的不同，及时调整自己，同时尽早开始思考自己的人生规划，为将来做准备。可以说是因祸得福。希望以后的自己能不断的提高，能自信的面对任何变化，让自己称为家人坚实的依靠。</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><hr>
+<p>2019年已经过去，这一年无论发生了什么，都变成了过去时，只有成长留了下来。人生短暂，希望接下来的日子里，能和时间做朋友，在未来，成为更好的自己！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/07/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/07/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/" class="post-title-link" itemprop="url">证券投资的本质</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-07 23:30:07" itemprop="dateCreated datePublished" datetime="2019-07-07T23:30:07+08:00">2019-07-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-05 13:12:55" itemprop="dateModified" datetime="2020-01-05T13:12:55+08:00">2020-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -318,7 +569,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -332,7 +583,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/04/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">https升级教程</a>
+            <a href="/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">https升级教程</a>
         </h1>
 
         <div class="post-meta">
@@ -342,14 +593,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-01-04 23:16:10" itemprop="dateCreated datePublished" datetime="2020-01-04T23:16:10+08:00">2020-01-04</time>
+              <time title="创建时间：2019-06-26 23:16:10" itemprop="dateCreated datePublished" datetime="2019-06-26T23:16:10+08:00">2019-06-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-05 03:42:52" itemprop="dateModified" datetime="2020-01-05T03:42:52+08:00">2020-01-05</time>
+                <time title="修改时间：2020-01-05 13:13:04" itemprop="dateModified" datetime="2020-01-05T13:13:04+08:00">2020-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -418,257 +669,6 @@
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">HTTPS 升级指南</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/29507417" target="_blank" rel="noopener">Linux下使用acme.sh申请和管理Let’s Encrypt证书
 </a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/https%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/04/https%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">https原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-04 22:54:10" itemprop="dateCreated datePublished" datetime="2020-01-04T22:54:10+08:00">2020-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-05 02:54:59" itemprop="dateModified" datetime="2020-01-05T02:54:59+08:00">2020-01-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1、为什么要有https？"><a href="#1、为什么要有https？" class="headerlink" title="1、为什么要有https？"></a>1、为什么要有https？</h3><p>http协议被用于客户端和服务端之间传递消息，但是这个传输过程是以明文的方式发送内容，http协议不提供任何方式的数据加密。如果有人获取了浏览器和服务器之间的传输保报文，就可以直接读取其中的信息。因此，http协议不适合传输一些个人敏感信息，比如：个人账户密码、支付信息等。</p>
-<p>由于http协议的安全缺陷，需要有一种协议来保证客户端和服务端通信的安全，于是就有了https。</p>
-<h3 id="2、https主要解决了什么问题？"><a href="#2、https主要解决了什么问题？" class="headerlink" title="2、https主要解决了什么问题？"></a>2、https主要解决了什么问题？</h3><p><strong>i. 确保你想访问的对象是你希望访问的对象</strong></p>
-<p>网络世界里，真正决定你地址的是IP。平时我们所访问的网址如 <code>www.baidu.com</code> 都需要由DNS（域名转换系统）服务商将网址翻译成对应的IP地址，也就是说我们要访问的对象实际上是一个IP地址。如果中间网址到域名的转换关系被恶意的修改（也就是DNS劫持），我们的访问请求就会打到修改之后的恶意IP上，</p>
-<p>https首先解决了身份认证的问题，即确保你要访问的对象就是你希望访问的对象。现实生活中，如果我们和某个人A交易，为了确保交易的安全性，首先需要确认A的身份。通常我们会检查A的身份证信息，资质信息等。确认了A的身份之后，我们才开始与对方交易。</p>
-<p>https的身份认证过程也是如此。Server端上线之初，会向权威的第三方的CA（Certificate Authority, 证书颁发机构）申请证书，然后第三方会通过线上线下核查的方式确认Server的信息，核查完之后，会给Server颁发一个证书，这个证书中记录了颁发机构的信息和Server的身份信息。</p>
-<p>初次请求https的时候，服务端首先会返回一个证书，这个证书中包含了访问对象的身份信息，客户端验证了证书之后发现，证书中的信息就是访问对象的信息，接下来就可以正常通信了。</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png" alt="认证过程"></p>
-<p>有的同学可能会有疑惑，如果我伪造一个证书，客户端怎么知道呢？比如我是A，但我非要在证书里写我是B，那你怎么知道呢，就像现实中伪造的各种证书一样？CA颁发的证书有个特性是不可修改。这个涉及到非对称加密的知识了，简单来说就是CA把公司的信息通过特定的摘要算法如MD5生成一段签名，再用私钥对签名进行加密。客户端拿到证书之后，根据证书中的摘要算法对证书中的信息计算出一个签名，然后用CA的公钥对密文进行解密，对比计算出的签名和解密出的签名，如果一致，就证明证书没有被修改过。</p>
-<p>下面是 <code>www.baidu.com</code>的证书信息（谷歌浏览器点地址栏的那个小锁）：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png" alt="百度的证书"></p>
-<p>从图中可以看到百度相关的信息，签发者相关的信息，签名算法（这里的签名算法是SHA-256）以及百度的公钥。</p>
-<p><strong>ii. 确保通过过程中的数据安全</strong></p>
-<p>解决了如何证明你就是你的问题之后，就需要解决如何保证通信过程中你们的通信内容不被窃取到。</p>
-<p>还是刚刚那个交易场景。你确认了和你交易的A的身份之后，你们开始放心的交易了。如果你们的交易内容是你想花大价钱从A受手里买一个产品的配方，有了这个配方之后，你就能财源滚滚，走上人生巅峰了，所以这个配方千万不能泄露出去。为了和网络通信的过程保持一致，我们假设你们不直接交易，而是需要一个传信的人帮你们传递这个配方。在原来http的协议下，这个配方就是明文传输的，如果有人劫持了这个信件就能获取到这个配方。所以就不能明文传递这个配方，得加密。那加密方式怎么选择呢？</p>
-<blockquote>
-<p>对称加密：对称加密指的的是采用单钥密码系统的加密方法，同一个密钥可以同时用作信息的加密和解密，这种加密方法称为对称加密，也称为单密钥加密<br>非对称加密：非对称加密算法是一种密钥的保密方法。 非对称加密算法需要两个密钥：公开密钥（publickey:简称公钥）和私有密钥（privatekey:简称私钥）。 公钥与私钥是一对，如果用公钥对数据进行加密，只有用对应的私钥才能解密。</p>
-</blockquote>
-<p>考虑到为了模拟真实的通信过程，你们是不能见面的，也就是说你不能通过耳语把你要用的密钥告诉A，所以你们否决了开始就用对称加密的方式，因为怎么把密钥传给对方是个问题。如果在传输密钥的过程中密钥泄露了，这就和明文传输配方没什么区别了。所以如何把密钥传给A？传输过程有以下几步：</p>
-<ol>
-<li>首先生成用于对称加密的密钥s</li>
-<li>利用证书中A传过来的公钥，对密钥s进行加密，传给A</li>
-<li>A利用自己的私钥，对传过来的密文进行解密，解密出密钥s</li>
-<li>接下来双方通过密钥s来加密通信内容，互相传输</li>
-</ol>
-<p>再回到https的通信过程中，具体流程如下图所示：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png" alt="https通信过程"></p>
-<p><strong>以上就是https原理的简介。至于如何从http升级到https，下一篇将以本博客为例，示范升级过程。</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/2019-review/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/04/2019-review/" class="post-title-link" itemprop="url">2019年个人总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-04 00:49:15" itemprop="dateCreated datePublished" datetime="2020-01-04T00:49:15+08:00">2020-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-05 02:09:42" itemprop="dateModified" datetime="2020-01-05T02:09:42+08:00">2020-01-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>2019年已经过去3天了，再不写个人总结，2020年怕是又要稀里糊涂的过去了。</p>
-<p>如果给过去的这一年打个分，自认为能打到70分，算是部分满意。此外，2019年也是我从学校到工作过渡的一年，我是年初1月23号拿的毕业证，直接入职，到年底正好工作一整年。这一年，无论是工作内还是工作外，都有太多值得记录的事情。</p>
-<h2 id="回顾2019年初的目标"><a href="#回顾2019年初的目标" class="headerlink" title="回顾2019年初的目标"></a>回顾2019年初的目标</h2><hr>
-<p>大方向上，主要有下面几个：</p>
-<ul>
-<li>给自己和家人配置保险</li>
-<li>开始自己的投资规划</li>
-<li>学英语（这算是一个执念吧）</li>
-<li>练字</li>
-<li>提高自己的专业技能</li>
-</ul>
-<h3 id="给自己和家人配置保险"><a href="#给自己和家人配置保险" class="headerlink" title="给自己和家人配置保险"></a>给自己和家人配置保险</h3><p>一直以来就对保险充满了好感，觉得没有保险的人生是没有安全感的。对保险有好感的原因比较多，首先，我这个人比较怕死。这么多年，无论是亲身经历的，还是从电视新闻上看到的一些和生死相关的事情，都让我对死亡充满了敬畏。很多时候，生命远比我们想象的要脆弱。而保险，能让生命在最脆弱的时候，保留一份基本的尊严；其次是刚买房，家里也没什么积蓄，爸妈年纪都大了，我才刚开始工作，整个家庭的风险承受能力很低。所以，刚工作不到两个月，我就开始不断的看保险相关的知识，比对不同的保险。看的焦头烂额的时候，正好实验室的一个师姐也在了解保险，她的一个高中同学就是大都会的保险代理人。这期间通过这个代理人，了解了医疗险和重疾险的区别，再结合自身的实际情况，配置了如下的保险：</p>
-<p><strong>自己</strong>：医疗险+重疾险+恶性肿瘤医疗险（全球版）<br><strong>媳妇</strong>：医疗险+重疾险<br><strong>父母</strong>：好医保-住院医疗险</p>
-<p>医疗险是现在比较火的百万医疗险，报销型，保额足够了。重疾险是一份终身10万保额叠加20年期40万保额，一共50万保额。由于实在是担心自己得癌症，自己又加了一份恶性肿瘤医疗险（全球版），两个人全年保费8000左右。父母因为已经到51周岁，年级大了，不适合买重疾险，就再支付宝上买了好医保-住院医疗险，两个人全年保费1500左右。大都会的保险相比其他家的是偏贵了，之所以还选择他们家，是因为保险附带的增值服务比较多。</p>
-<p>因为刚开始工作，也没什么积蓄，暂时就先配置这些年，短期内不再变动。等以后收入增加了，再把重疾险的额度配置上去。</p>
-<h3 id="开始自己的投资规划"><a href="#开始自己的投资规划" class="headerlink" title="开始自己的投资规划"></a>开始自己的投资规划</h3><p>年初的时候看了不少公众号文章，都在宣传躺着赚钱，财务自由这些让人心里痒痒的观点，再加上之前自己胡乱投资基金、p2p这些，狠狠的踩了几趟雷，决定系统的开始自己的投资之路，万一走着走着就自由了呢？</p>
-<p>我的投资学习路径是两部分：</p>
-<ul>
-<li><strong>理论学习</strong></li>
-<li><strong>投资实践</strong></li>
-</ul>
-<p><strong>理论学习</strong>方面，主要包括财富观的培养、投资基础知识的学习。这一年，完成了以下书籍：</p>
-<ul>
-<li>傻瓜式投资</li>
-<li>穷爸爸和富爸爸</li>
-<li>小狗钱钱</li>
-<li>指数基金投资指南</li>
-<li>解读基金：我的投资观与实践</li>
-<li>漫步华尔街</li>
-</ul>
-<p>未完成书籍：</p>
-<ul>
-<li>聪明的投资者</li>
-<li>共同基金常识</li>
-<li>逃不开的经济周期</li>
-</ul>
-<p>这几本书比较硬核，看的比较慢，2020年继续。</p>
-<p><strong>投资实践</strong>方面，从抄作业开始，跟投E大的长赢计划，中途配置了教育基金和自己的养老基金，主要定投沪深300和中证500这两个指数基金。</p>
-<p>2019年收益率16%左右，基本是抄作业的功劳，比较满意，所以已有部分继续跟投，同时继续完善理论知识，完成自己的投资体系的建立，然后实现躺尸的同时，躺赢，哈哈~~</p>
-<h3 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h3><p>这部分进行的一般。由于工作上的变动，从算法转到了开发，自然语言处理和机器学习的学习就彻底搁置了下来。后端开发能力上，跟着业务，狠狠的补了下基础知识。主要的能力提升是对后端开发有了一个整体的认识：后端开发围绕的是数据的存储和在业务逻辑上的处理。</p>
-<p>关于后端开发知识，主要的提升在对nginx的了解、redis的了解上，其它的一些提升比较零碎，不成体系。</p>
-<h3 id="学英语"><a href="#学英语" class="headerlink" title="学英语"></a>学英语</h3><p>学英语是一直以来的执念，也没有什么具体的目标，就是想学，但是每次都是半途而废。</p>
-<p>19年，在水滴上完成了《人性的弱点》和《人性的优点》两本英文原著的半精读，其它就没有了。</p>
-<p>20年需要好好梳理下学英语到底是为了什么，需要达到一个什么样的目标，然后再重新定个计划，好好执行。</p>
-<h3 id="练字"><a href="#练字" class="headerlink" title="练字"></a>练字</h3><p>想练一手好字。。。19年一直处于想的状态。20年需要定个轻松易行的计划，争取每年提高一些。</p>
-<p>以上是19年年初规划的完成情况，整体看，喜忧参半。家庭规划上的完成情况比较满意，但是技能提升相关的规划完成度较差，这部分需要重新梳理一遍，并且制定出一个松紧有度的20年年度计划，希望20年结束的时候，能够完美的交出一份对的起自己的答卷。</p>
-<h2 id="2019年感触比较深的几件事"><a href="#2019年感触比较深的几件事" class="headerlink" title="2019年感触比较深的几件事"></a>2019年感触比较深的几件事</h2><hr>
-<h3 id="人生大事"><a href="#人生大事" class="headerlink" title="人生大事"></a>人生大事</h3><p>人生大事方面，完成了买房和领证。</p>
-<h4 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h4><p>媳妇还在上学，之前研究生入学的时候，没有意识到户口的重要性，就没有把户口转到学校，幸好18年政策变化，除了入学那一次可以迁户口，每年秋季开学也可以迁户口了，就赶紧办理，到19年初户口就下来了。户口下来之后，迅速的把房子给买了。现在回想买房的过程，觉得有点太草率了，有必要记录一下买房的过程，让自己在以后做类似买房这种重大决定的时候，不要被情绪左右。</p>
-<p>决定买房之前，和媳妇讨论要买什么样的房子，为了能买到预算范围内最合适的房子，我们首先列出了一系列的考虑因素，最终决定重点看<code>交通</code>，<code>医疗资源</code>，<code>菜市场</code>，<code>公园</code>，<code>商业配套</code> 这几个因素，由于我们都还年轻，再加上预算只有200左右（主要原因），就没有考虑学区房。交通方面，主要是地铁，所以我们以地铁线为基准，列出地铁线上每一站附近的<code>医院</code>，<code>商业配套</code>，<code>公园</code>，<code>学校</code>以及附近<code>房价</code>等情况，并以此筛选出候选站点。我们花了2个星期左右的时间，统计了1、2、3、4、5、6、9这几条地铁线，标出了一些候选，并决定每周末考察两个地铁站。</p>
-<p>在4月初的一个周末，我们开始了考察。首先去的是1号线终点附近的几个站点，找了链家的一个中介，带着我们看了附近的几个小区，整体看下来，这一片都是居民区，小区质量一般，配套还行，生活气息浓厚，商业气息差了些，不太满意。晚上临走的时候中介推荐了5号线附近一个新开的楼盘，说是性价比很高，强烈建议我们去看看。我们其实是不太想去的，一是当时有点晚，二是本身也不着急，奈何中介极力推荐，就说第二天去看看。</p>
-<blockquote>
-<p>我们常常在小钱上斤斤计较，如买菜和买衣服，而在大钱上冲动无比，如买房</p>
-</blockquote>
-<p>第二天跟着中介到了售楼处，好家伙，里面人声鼎沸，导购介绍和签合同的场景到处都是。在经过了导购员的讲解之后，对楼盘有了个整体印象。一共是两个小区，一大一小，大的小区靠着一个正在建的永旺商场，小的隔的远了些，靠着一个正在建的市民广场。附近就是外环和高速入口，地铁站1公里左右。交通不错，商业配套和生活配套也不错，缺点是都在规划中。价格和预算一致。两个人都比较满意，这个时候导购一直在强调，最近三天搞活动，预付定金，给2个点优惠。两个人都没啥定力，被导购这么一说，再加上对房子确实很满意，都开始犹豫要不要先交定金。和家里商量了下（家里没意见，也都不懂，说只要我们觉得满意就行，唉。。。），又咨询了一个在德佑的亲戚的意见，觉得还行，两个人就在晕乎乎的情况下，交定金了。</p>
-<p>晚上回去后，两个人都觉得草率了，但是因为本身对房子比较满意，没有发现什么地方有问题，就商量着真正交首付的时候，一定要仔细的比对合同，同时问明白一些关键指标，如果有什么地方不行，哪怕定金要不回来也不能买。付首付的时候，果然还是出问题了。一是我们发现这个房子没有阳台。当时看房型的时候，都觉得房型很好，方方正正，南北通透，愣是把阳台给漏了。二是问了下公摊，这一问，才知道公摊高达35%，105的房子套内面积才70，瞬间不想定了。后来和在德佑的那个亲戚沟通，他说这个公摊确实是很高了，但是套内面积70的三居也还行，其实套内面积差个2平米根本就感觉不出来。他这么一说，再加上内心清楚，这个房子吸引我的地方有很大一部分原因是旁边正在规划的市民广场，市民广场的规划里面有图书馆，电影院等，这个实在太吸引我了。所以和媳妇商量了好一会，犹豫再三，最终还是付了首付。</p>
-<p>进入2020年，回过头来看，买的房子单价降了近2000，市民广场的规划发生变动，广场的一半改成商业配套。房价下降这件事情，4月份其实是有预期的，当时看了很多文章，都在说19年的政策是强调房住不炒，而且目前国家经济处于转型的过程中，经济形式不好，未来一段时间内房价肯定会下跌，所以买房不用着急，但是并没深入的去研究论据，自己只是表面相信，所以在售楼处导购员反复推销的时候，我是如此的不堪一击；另外有一个观点是如果是刚需，随时可以上车。因为4月份的房价相比18年的顶点是降了不少的。现在想来，刚需随时可以上车这句话是理解错了。对当时的自己而言，其实买房并不是刚需，媳妇21年夏天才毕业，我在北京工作，我们暂时是没有住房需求的。市民广场规划发生变化这件事，就是买期房的风险了，幸好规划变化还能接受，希望未来没有大的变动。</p>
-<h4 id="领证"><a href="#领证" class="headerlink" title="领证"></a>领证</h4><p>因为买房用的是媳妇的户口，还贷款是我，加上父母不可能同意只以媳妇的名义买房，所以两个人就需要在签贷款合同前领证。由于买房这个决策太突然，导致领证这件事也变的很赶。两个人匆匆忙忙的去拍了结婚照，又急急忙忙的去民政局领了证。</p>
-<p>领证的当天，早上8点多就到了民政局。时间比较早，有点冷清，交了材料后，等了一小会，就轮到我们了。填了些材料，不一会，鲜红的两个结婚证就出来了。两个人拿到结婚证后，坐在沙发上缓了好一会，都觉得有点不真实。但因为下午还要赶紧去办贷款，缓过来之后又急急忙忙的去了售楼处。领证的过程就这么匆忙的结束了，都没来的及吃顿饭庆祝一下。</p>
-<p>回想起和媳妇相处的这几年，除了最开始的一年里面摩擦较多，后来磨合的越来越好，也不知当初两个人怎么就互相认定了。随着时间的推移，越发能体会到媳妇的好，也越发为自己当时的眼光感到得意。</p>
-<p>希望接下来的日子里，两个人能走的越来越好，把我们的小日子过的有滋有味。</p>
-<h3 id="工作波折"><a href="#工作波折" class="headerlink" title="工作波折"></a>工作波折</h3><h4 id="部门变动和线上事故"><a href="#部门变动和线上事故" class="headerlink" title="部门变动和线上事故"></a>部门变动和线上事故</h4><p>18年底到19年中这段时间，从实习转成了正式。这段时间里面，先是最初的业务被停掉，换了新业务，之后是部门换掉，从大搜到了手百，再就是经理也换了。中间由于各种原因，指导人换了又换，我也从最初的算法转到了开发。</p>
-<p>换到新部门和新业务期间，指导人被重新指定，姑且叫C吧。这段时间里，C主要忙于其它业务，没有太多时间顾到我，而我刚接手的项目对当时的我来说，难度系数较高。开发的过程中，费了很大劲才能勉强跟上进度。中间有个任务，因为一些原因，需要迁移。和C沟通技术方案的时候，不知道什么原因，C有点不耐烦，说：“我不管了，你随便怎么样吧”。当时心里就有点不舒服，但还是硬着头皮干了下去。终于线上运行的时候，出了严重的事故。</p>
-<p>出了事故之后，C在拉了组内相关的人，要重新评审技术方案。评审的过程中，C问其它人，说：“这件事，你们谁来主own？”，其他人回说：“你不是他指导人吗，你来呀”，C脱口而出：“我不是啊”。听到这个的时候，心里一阵苦涩，不过表面上还是没有任何异常，毕竟这个时候把问题解决掉更重要。当然后来还是C来主要把控这件事。</p>
-<p>之后的过程中，C的态度和之前有很明显的区别。讨论设计方案的时候，不断的指出方案上的不足，告诉我哪些地方需要多加注意，代码评审的时候，也是一行行的过代码，前后评审10多次。短短的几天内，我学到了很多，也很感激。</p>
-<p>后来C由于个人发展上的考虑，去了部门内的其他组。我的指导人也从C变成了组内的S。偶尔会想，如果开始的时候，C就能像最后那样，我是不是就不会经历后来的转正风波，当然也就不会迅速认识到工作和学校学习的不同和及时适应身份上的一个转变。凭良心说，C的业务能力很强，人品也没问题，可能是我的性格和他实在不搭，再加上初期的自己确实也有一些问题，导致两个人没能沟通好，这一点比较遗憾。</p>
-<h4 id="转正风波"><a href="#转正风波" class="headerlink" title="转正风波"></a>转正风波</h4><p>由于指导人C给的评价不好，给新经理留下一个很差的印象。试用期过了一大半的时候，新的指导人S通知我说我的转正比较危险，让我做好心里准备。当时听到这个，心里顿时一沉。指导人S说他也是第一次遇到这种事情，也不知道怎么处理，建议我做两手准备，而他接下来也会尽量把任务分给我一些，希望我能多一些产出。</p>
-<p>后来我主动找经理沟通了下我当前的状态，经理指出了我身上的一些不足，并且说给我一个月左右的观察期，同时指定了一些任务指标，希望我好好表现。这一个月里面，刚好业务上特别忙，又要准备那些任务指标，压力很大。天天晚上都是11点、12多才回去。工作日没有时间完成那些任务指标，只能周六日来弄。</p>
-<p>这期间十分感谢指导人S的尽心指导，使得我的业务能力有了很大的提高，从而顺利的通过了转正，以后有机会一定要好好的感谢他；也非常感谢媳妇，在这段时间里面没有给我任何压力，并且不断的鼓励我，让我没有其它的后顾之忧。</p>
-<p>转正风波这段期间，虽然说是压力很大，但是也仅此而已。首先是我和媳妇的感情很稳定，其次是虽然有房贷，但是两个人手上有一些钱足够支撑一年，经济上也没有太大压力，再次家里也很和谐。可以说这几个因素是我能顺利通过转正的坚实基础。</p>
-<p>工作上的这两件事给刚出学校我很大的冲击，让我迅速的认识到学校学习和社会工作的不同，及时调整自己，同时尽早开始思考自己的人生规划，为将来做准备。可以说是因祸得福。希望以后的自己能不断的提高，能自信的面对任何变化，让自己称为家人坚实的依靠。</p>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><hr>
-<p>2019年已经过去，这一年无论发生了什么，都变成了过去时，只有成长留了下来。人生短暂，希望接下来的日子里，能和时间做朋友，在未来，成为更好的自己！</p>
 
       
     </div>
