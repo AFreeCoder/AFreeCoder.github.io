@@ -176,6 +176,123 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/openssl%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/openssl%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">openssl升级教程</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-09 01:23:21 / 修改时间：01:23:54" itemprop="dateCreated datePublished" datetime="2020-01-09T01:23:21+08:00">2020-01-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>openssl版本号的含义</strong></p>
+<blockquote>
+<p>OpenSSL version numbers are formatted as n1.n2.n3x, where n1-3 are numbers and x, if present, is one or more letters. These can change depending on the release type:</p>
+<p>Major releases that change one/both of the first two digits, which can break compatibility with previous versions</p>
+<p>Minor releases that change the last digit, e.g. 1.1.0 vs. 1.1.1, can and are likely to contain new features, but in a way that does not break binary compatibility. This means that an application compiled and dynamically linked with 1.1.0 does not need to be recompiled when the shared library is updated to 1.1.1. It should be noted that some features are transparent to the application such as the maximum negotiated TLS version and cipher suites, performance improvements and so on. There is no need to recompile applications to benefit from these features.</p>
+<p>Letter releases, such as 1.0.2a, exclusively contain bug and security fixes and no new features.</p>
+</blockquote>
+<p>后面的字母表示bug的修复记录，那显然选字母越靠后，版本越稳定。</p>
+<h2 id="openssl升级步骤"><a href="#openssl升级步骤" class="headerlink" title="openssl升级步骤"></a>openssl升级步骤</h2><h4 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h4><p><a href="https://www.openssl.org/source/" target="_blank" rel="noopener">下载地址</a></p>
+<h4 id="解压编译"><a href="#解压编译" class="headerlink" title="解压编译"></a>解压编译</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf openssl-1.1.1d.tar.gz</span><br><span class="line"><span class="built_in">cd</span> openssl-1.1.1d</span><br><span class="line"><span class="comment"># --prefix是安装路径，--openssl是配置文件路径</span></span><br><span class="line">./config shared --prefix=/opt/openssl --openssldir=/usr/<span class="built_in">local</span>/ssl -D_GNU_SOURCE</span><br><span class="line">make clean</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p><code>-D_GNU_SOURCE</code>并不是必须的，只有当出现错误提示 <code>&#39;pthread_mutex_recursive&#39; undeclared (first use in this function)</code> 才需要带上，这个一般是因为系统太老。(<a href="https://github.com/openssl/openssl/issues/2261" target="_blank" rel="noopener">相关问题链接</a>)</p>
+<h4 id="检查动态链接"><a href="#检查动态链接" class="headerlink" title="检查动态链接"></a>检查动态链接</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldd /opt/openssl/bin/openssl</span><br></pre></td></tr></table></figure>
+<p><strong>如果提示</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">libssl.so.1.1 =&gt; not found</span><br><span class="line">libcrypto.so.1.1 =&gt; not found</span><br><span class="line">libdl.so.2 =&gt; /lib64/libdl.so.2 (0x0000003f0b300000)</span><br><span class="line">libpthread.so.0 =&gt; /lib64/tls/libpthread.so.0 (0x0000003f0b900000)</span><br><span class="line">libc.so.6 =&gt; /lib64/tls/libc.so.6 (0x0000003f0b000000)</span><br><span class="line">/lib64/ld-linux-x86-64.so.2 (0x0000003f0ae00000)</span><br></pre></td></tr></table></figure>
+<p>说明 <code>libssl.so.1.1</code> 等没有链接上，执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/openssl/lib/libssl.so.1.1 /usr/lib64/libssl.so.1.1</span><br><span class="line">sudo ln -s /opt/openssl/lib/libcrypto.so.1.1 /opt/openssl/lib/libcrypto.so.1.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h4><p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/openssl/bin/openssl version</span><br></pre></td></tr></table></figure>
+<p>显示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OpenSSL 1.1.1d  10 Sep 2019</span><br></pre></td></tr></table></figure>
+
+<h2 id="PHP下升级openssl"><a href="#PHP下升级openssl" class="headerlink" title="PHP下升级openssl"></a>PHP下升级openssl</h2><p><strong>php下添加openss扩展有两种方式</strong></p>
+<ol>
+<li>PHP源码编译安装的时候，带上 <code>--with-openssl[=DIR]</code> ,</li>
+<li>如果php已经安装完成了，不支持openssl，但是又不想重新编译，可以下载对应版本的php源码，解压进入到php/ext/openssl目录，执行 php/bin/phpize，生成configure文件，然后指定编译配置 <code>./configure --with-openssl[=DIR] --with-php-config=/php/bin/php-config</code>，<code>make</code>编译，生成 openssl.so，再在php.ini中开启即可。</li>
+</ol>
+<h2 id="PHP如何实现SM3签名算法？"><a href="#PHP如何实现SM3签名算法？" class="headerlink" title="PHP如何实现SM3签名算法？"></a>PHP如何实现SM3签名算法？</h2><blockquote>
+<p>SM2、SMS3等加密签名算法是国密算法，openssl从1.1.1版本开始支持</p>
+</blockquote>
+<p>由于希望能在PHP中实现<code>SM3</code>算法，想着能否通过升级openssl的方式实现，调研了一天发现，仅通过<code>openssl</code>的升级，无法快速实现。</p>
+<p><strong>原因如下</strong></p>
+<blockquote>
+<p>openssl1.1.1d的安装只是说在系统层面增加了openssl这个工具，安转完之后即可通过命令行的方式实现各种加密算法</p>
+<p>php实现openssl扩展，其原理是通过php/ext/openssl下面的源码，编译实现从openssl工具到php中使用的加密函数的一个映射，检查php/ext/openssl下面的openssl.c文件发现，并没有包含openssl源码中实现SMS3等算法的头文件，所以不管怎么编译，生成的php下的openssl扩展都没有SM3函数</p>
+</blockquote>
+<p><strong>那如何实现在PHP中使用SMS3算法？</strong></p>
+<ol>
+<li>修改php/ext/openssl下面的代码，增加SM3等算法的映射，重新编译生成openssl.so （工程量较大，需要熟悉源码）</li>
+<li>使用openssl的一个分支版本Gmssl。Gmssl在openssl的基础上实现了对一般国密算法的支持，同时提供了用于编译openssl.so的php/ext/openssl源码，编译生成openssl.so即可</li>
+<li>安装完openssl工具后，在PHP代码中直接执行linux命令：<code>echo -n &quot;abc&quot; | /opt/openssl/bin/openssl dgst -SM3</code> </li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/06/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E7%9A%84%E5%85%B3%E9%94%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -878,7 +995,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-05 13:15:12" itemprop="dateModified" datetime="2020-01-05T13:15:12+08:00">2020-01-05</time>
+                <time title="修改时间：2020-01-07 19:29:40" itemprop="dateModified" datetime="2020-01-07T19:29:40+08:00">2020-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1013,20 +1130,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
