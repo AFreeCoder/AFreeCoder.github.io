@@ -190,7 +190,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/27/Go-Modules-md/" class="post-title-link" itemprop="url">Go-Modules.md</a>
+            <a href="/2020/06/27/Go-Modules-md/" class="post-title-link" itemprop="url">Go Modules</a>
         </h1>
 
         <div class="post-meta">
@@ -200,7 +200,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-06-27 19:07:58" itemprop="dateCreated datePublished" datetime="2020-06-27T19:07:58+08:00">2020-06-27</time>
+              <time title="创建时间：2020-06-27 19:16:55" itemprop="dateCreated datePublished" datetime="2020-06-27T19:16:55+08:00">2020-06-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,7 +229,7 @@
 <p>In Go 1.14, module support is considered ready for production use, and all users are encouraged to migrate to modules from other dependency management systems.</p>
 </blockquote>
 <p>在go1.14中，模块支持被认为已经可以在生产环境中使用，因此鼓励所有用户将项目中的依赖管理系统都迁移到Go Mudules中。</p>
-<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p><strong>升级Go版本</strong></p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="Go-版本升级"><a href="#Go-版本升级" class="headerlink" title="Go 版本升级"></a>Go 版本升级</h3><p><strong>查看Go版本</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go env</span><br></pre></td></tr></table></figure>
 
 <p>如果显示版本低于1.14，则需要升级。</p>
@@ -249,11 +249,11 @@
 <p><strong>如何设置</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go env -w GO111MODULE=on</span><br><span class="line">go env -w GOPROXY=https://goproxy.cn,direct</span><br></pre></td></tr></table></figure>
 
-<p><strong>*趣闻</strong>：<a href="https://github.com/goproxy/goproxy.cn/issues/61" target="_blank" rel="noopener">goproxy.io 和 goproxy.cn 是什么关系?</a>*</p>
-<h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><blockquote>
+<p><strong>趣闻</strong>：<a href="https://github.com/goproxy/goproxy.cn/issues/61" target="_blank" rel="noopener">goproxy.io 和 goproxy.cn 是什么关系?</a></p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><blockquote>
 <p>如果使用 Go Modules 来管理依赖，那么你的项目就没有必要在 <code>GOPATH</code> 中了。</p>
 </blockquote>
-<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>1、随便创建一个项目目录</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>1、随便创建一个项目目录</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /tmp/scratchpad/repo</span><br><span class="line"><span class="built_in">cd</span> /tmp/scratchpad/repo</span><br></pre></td></tr></table></figure>
 <p>2、go mod 准备</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go mod init xxx/repo</span><br></pre></td></tr></table></figure>
@@ -268,51 +268,42 @@
 <tr>
 <th>xxx</th>
 <th>解释</th>
-<th>补充说明</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>download</td>
 <td>download modules to local cache</td>
-<td></td>
 </tr>
 <tr>
 <td>edit</td>
 <td>edit go.mod from tools or scripts</td>
-<td></td>
 </tr>
 <tr>
 <td>graph</td>
 <td>print module requirement graph</td>
-<td>清晰的展现出了模块之间的依赖关系，尽管是以文本的形式</td>
 </tr>
 <tr>
 <td>init</td>
 <td>initialize new module in current directory</td>
-<td></td>
 </tr>
 <tr>
 <td>tidy</td>
 <td>add missing and remove unused modules</td>
-<td></td>
 </tr>
 <tr>
 <td>vendor</td>
 <td>make vendored copy of dependencies</td>
-<td></td>
 </tr>
 <tr>
 <td>verify</td>
 <td>verify dependencies have expected content</td>
-<td></td>
 </tr>
 <tr>
 <td>why</td>
 <td>explain why packages or modules are needed</td>
-<td></td>
 </tr>
 </tbody></table>
-<h4 id="日常工作流程"><a href="#日常工作流程" class="headerlink" title="日常工作流程"></a>日常工作流程</h4><p>使用 go mod 之后，你的<strong>日常工作流程</strong>应该是这样：</p>
+<h3 id="日常工作流程"><a href="#日常工作流程" class="headerlink" title="日常工作流程"></a>日常工作流程</h3><p>使用 go mod 之后，你的<strong>日常工作流程</strong>应该是这样：</p>
 <ol>
 <li>在代码文件中写好 <code>import</code> 语句</li>
 <li>执行 <code>go run</code> or <code>go build</code> or <code>go test</code>，或者一些其它的标准命令时，会自动下载依赖以及更新 <code>go.mod</code> 文件。</li>
@@ -327,7 +318,7 @@
 <li><code>go mod tidy</code> 精简不必要的依赖，同时增加任何必要的依赖。</li>
 <li><code>go mod vendor</code> — 创建 vendor 目录，并复制依赖到其中。 </li>
 </ol>
-<h3 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h3><h4 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h4><blockquote>
+<h2 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h2><h3 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h3><blockquote>
 <p>A module is a collection of related Go packages that are versioned together as a single unit.</p>
 </blockquote>
 <p>仓库（repository）、模块（module）和 包（package）之间的关联：</p>
@@ -344,25 +335,25 @@
 <li>patch (修订号)：当你做了向下兼容的问题修正</li>
 </ol>
 </blockquote>
-<h4 id="go-mod"><a href="#go-mod" class="headerlink" title="go.mod"></a>go.mod</h4><p><code>go.mod</code> 文件中有4个命令：<code>module</code>， <code>require</code>，<code>replace</code>，<code>exclude</code>。</p>
+<h3 id="go-mod"><a href="#go-mod" class="headerlink" title="go.mod"></a>go.mod</h3><p><code>go.mod</code> 文件中有4个命令：<code>module</code>， <code>require</code>，<code>replace</code>，<code>exclude</code>。</p>
 <p><strong>example</strong></p>
 <figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module github.com/my/thing</span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">    github.com/some/dependency v1<span class="number">.2</span><span class="number">.3</span></span><br><span class="line">    github.com/another/dependency/v4 v4<span class="number">.0</span><span class="number">.0</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <p><code>module</code> 命令声明了当前模块的名称以及导入路径。</p>
 <p><code>require</code> 命令标明了当前模块所依赖的模块。</p>
 <p><code>replace</code> 和 <code>exclude</code> 命令仅对当前模块生效，即 build 主模块时，其它依赖模块中的 <code>replace</code> 和 <code>exclude</code> 命令都会被忽略掉。</p>
-<h4 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h4><p>如果当前模块依赖的一个模块名是 M，当你还没有将 M 添加到 <code>go.mod</code> 中的时候，如果执行 <code>go build</code> 或者 <code>go test</code> 等命令，会自动拉取 M 并将其添加到 <code>go.mod</code> 中，拉取规则如下：</p>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p>如果当前模块依赖的一个模块名是 M，当你还没有将 M 添加到 <code>go.mod</code> 中的时候，如果执行 <code>go build</code> 或者 <code>go test</code> 等命令，会自动拉取 M 并将其添加到 <code>go.mod</code> 中，拉取规则如下：</p>
 <ul>
 <li>拉取 M 最新的发行版本 v1.2.3，如果没有发行版本，则拉取最新的master的commit</li>
 <li>如果当前模块中的依赖 A 依赖 M v1.0.0，B 依赖 M v1.2.3，那么会选择 M v1.2.3 (最小版本选择算法)</li>
 </ul>
-<h4 id="语义导入版本控制"><a href="#语义导入版本控制" class="headerlink" title="语义导入版本控制"></a>语义导入版本控制</h4><p>这里说的是导入模块的时候，包的路径应该与模块版本相符。</p>
+<h3 id="语义导入版本控制"><a href="#语义导入版本控制" class="headerlink" title="语义导入版本控制"></a>语义导入版本控制</h3><p>这里说的是导入模块的时候，包的路径应该与模块版本相符。</p>
 <p>具体规则如下：</p>
 <ul>
 <li>模块的版本命令应该遵从 <a href="https://semver.org/" target="_blank" rel="noopener">semver</a> 协议。</li>
 <li>如果该模块的版本是 v2 或者更高，那么 <code>go.mod</code> 中声明该模块的时候，需要加上 <code>/v2</code> 的后缀，如 <code>module github.com/my/mod/v2</code> 或者 <code>require github.com/my/mod/v2 v2.0.1</code>。这种用法也被用在 <code>go get</code> 命令中，如 <code>go get github.com/my/mod/v2@v2.0.1</code></li>
 </ul>
-<h3 id="FAQs"><a href="#FAQs" class="headerlink" title="FAQs"></a>FAQs</h3><p><strong>1、go.mod 中模块被标记成 <code>incompatible</code> 是什么意思</strong></p>
+<h2 id="FAQs"><a href="#FAQs" class="headerlink" title="FAQs"></a>FAQs</h2><p><strong>1、go.mod 中模块被标记成 <code>incompatible</code> 是什么意思</strong></p>
 <p><strong>答：</strong> 如果 <code>Module</code> 的名字没有遵循 Golang 的规范，即在模块名中附带版本信息，那这就是一个不规范的模块，就会提示 <code>incompatible</code>。以 <code>github.com/labstack/echo</code> 为例，如果其当前版本是 <code>v3.3.10</code> ，那么 go.mod 中会这样显示：<code>github.com/labstack/echo v3.3.10+incompatible</code> 。</p>
 <p>想象一下，如果 <code>github.com/labstack/echo</code> 更新到了 <code>v4.1.1</code> ，如果你的模块依赖它，并且执行了更新全部依赖的命令会怎么样？ <code>github.com/labstack/echo</code> 会更新到 <code>v4.1.1</code>，但是根据 <a href="https://semver.org/" target="_blank" rel="noopener">semver</a> 协议，v4 是不兼容 v3 的，这个时候你的模块就会出问题。如果依赖符合规范，如 <code>github.com/labstack/echo/v3</code> ，那你更新全部依赖后，也只是将版本更新到 <code>v3.9.9</code> 或者小于 <code>v4</code> 的最大一个版本，不会出现兼容性的问题。</p>
 <p>当模块的版本小于等 v1 的时候，模块名默认不需附带版本信息。</p>
