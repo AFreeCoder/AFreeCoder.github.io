@@ -176,6 +176,175 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/19/faq-bot-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/19/faq-bot-1/" class="post-title-link" itemprop="url">FAQBot 实践系列#1 —— 从开源语料入手</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-19 15:26:31 / 修改时间：15:30:47" itemprop="dateCreated datePublished" datetime="2020-09-19T15:26:31+08:00">2020-09-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="语料"><a href="#语料" class="headerlink" title="语料"></a>语料</h2><p>FAQBot构建的基础是有一份高质量的问答语料。通过不断的搜索和查找，找到一份 <code>保险行业</code> 的问答语料：<a href="https://github.com/chatopera/insuranceqa-corpus-zh" target="_blank" rel="noopener">insuranceqa-corpus-zh</a></p>
+<h3 id="语料背景"><a href="#语料背景" class="headerlink" title="语料背景"></a>语料背景</h3><p>该语料库包含从网站 <a href="https://www.insurancelibrary.com/" target="_blank" rel="noopener">Insurance Library</a> 收集的问题和答案。<br>以下是官方介绍：</p>
+<blockquote>
+<ul>
+<li><p>该语料库的内容由现实世界的用户提出，高质量的答案由具有深度领域知识的专业人士提供。 所以这是一个具有真正价值的语料，而不是玩具。</p>
+</li>
+<li><p>在上述论文中，语料库用于答复选择任务。 另一方面，这种语料库的其他用法也是可能的。 例如，通过阅读理解答案，观察学习等自主学习，使系统能够最终拿出自己的看不见的问题的答案。</p>
+</li>
+<li><p>数据集分为两个部分“问答语料”和“问答对语料”。问答语料是从原始英文数据翻译过来，未经其他处理的。问答对语料是基于问答语料，又做了分词和去标去停，添加label。所以，”问答对语料”可以直接对接机器学习任务。如果对于数据格式不满意或者对分词效果不满意，可以直接对”问答语料”使用其他方法进行处理，获得可以用于训练模型的数据。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="语料格式"><a href="#语料格式" class="headerlink" title="语料格式"></a>语料格式</h3><p>训练数据之前，我们先仔细看下语料的格式。</p>
+<h4 id="原始语料"><a href="#原始语料" class="headerlink" title="原始语料"></a>原始语料</h4><p>原始语料的目录是 <code>/corpus/pool</code>。 </p>
+<p><strong>问题</strong></p>
+<p>train，test，valid 是存放问题的文件，分别对应着训练集、测试集和验证集。对应的 txt 文件中是中英对照的问题，json 文件中的信息比较全，包含了中英对照的问题，问题的领域（类别），对应的答案以及错误的答案（负样本）。示例如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"0"</span>: &#123;</span><br><span class="line">        <span class="attr">"zh"</span>: <span class="string">"医疗保险拿起公司支付吗？"</span>,</span><br><span class="line">        <span class="attr">"en"</span>: <span class="string">"Does  Medicare  Pick  Up  Co  Pays?"</span>,</span><br><span class="line">        <span class="attr">"domain"</span>: <span class="string">"medicare-insurance"</span>,</span><br><span class="line">        <span class="attr">"answers"</span>: [</span><br><span class="line">            <span class="string">"4436"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"negatives"</span>: [</span><br><span class="line">            <span class="string">"1650"</span>,</span><br><span class="line">            <span class="string">"14016"</span>,</span><br><span class="line">            <span class="string">"24487"</span>,</span><br><span class="line">            <span class="string">"18224"</span>,</span><br><span class="line">            <span class="string">"15953"</span>,</span><br><span class="line">            <span class="string">"16740"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>zh</code> 是根据答案原文翻译过来的，翻译质量一般。比如示例中英文的意思其实是问【医疗保险会承担挂号费吗】（ <code>co-pay</code> 是看医生前需要支付的定额费用，类似挂号费），如果直接看翻译就不知所云了。<code>answers</code> 和 <code>negatives</code> 中的数字表示对应答案的id，下面会提到。</p>
+<p><strong>答案</strong></p>
+<p><code>answers</code> 中包含了答案的id和答案的中英文对照。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"0"</span>: &#123;</span><br><span class="line">        <span class="attr">"zh"</span>: <span class="string">" 汽车跟随着。示例1：如果你被给了一辆汽车（借给），那辆车没有保险，你可以在汽车上买保险，你的保险将是主要的。另一个选择，有人帮你买车。例如，您的信用评分不足以融资，因此您的朋友在您的贷款下签署了主要付款人。您可以根据您的姓名获得保险，甚至将您的朋友列为保险单，作为损失赔偿人。在这种情况下，我们总是建议您获得贷款差距：汽车的实际现金价值与其仍然拥有的金额之间的差额。例2：你借的车有保险。您可以以您的名义购买政策，列出该政策的车辆，如果发生事故，您的政策将成为次要或超额。一旦主要汽车保险的限制用尽，您的保险将踢入，并希望支付其余费用。我特意用了这个词，因为每个事故都是独一无二的，没有实际的索赔情况就很难解释这个覆盖面。即使在给定的索赔情况下，有时索赔有两个可能的结果。"</span>,</span><br><span class="line">        <span class="attr">"en"</span>: <span class="string">" Coverage follows the car. Example 1: If you were given a car (loaned) and the car has no insurance, you can buy insurance on the car and your insurance will be primary. Another option, someone helped you to buy a car. For example your credit score isn't good enough to finance, so a friend of yours signed under your loan as a primary payor. You can get insurance under your name and even list your friend on the policy as a loss payee. In this case, we always suggest you get a loan gap coverage: the difference between the car's actual cash value and the amount still owned on it. Example 2: The car you are loaned has insurance. You can buy a policy under your name, list the car on that policy and in case of the accident, your policy will become a secondary or excess. Once the limits of the primary car insurance are exhausted, your coverage would kick in and hopefully pay for the rest. I specifically used the word hopefully, because each accident is unique and it's hard to interpret the coverage without the actual claim scenario. And even with a given claim scenario, sometimes there are 2 possible outcomes of a claim."</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="加工语料"><a href="#加工语料" class="headerlink" title="加工语料"></a>加工语料</h4><blockquote>
+<p>使用原始语料，还需要做很多工作才能进入机器学习的模型，比如分词，去停用词，去标点符号，添加label标记。所以，在原始语料的基础上，，insuranceqa-corpus-zh提供了一个使用HanLP分词和去标，去停，添加label的数据集，这个数据集完全是基于原始语料</p>
+</blockquote>
+<p>加工语料的目录是：<code>corpus/pairs</code></p>
+<p><strong>词表</strong><br><code>vocab_data</code> 包含<code>word2id</code> (dict, 从word到id), <code>id2word</code> (dict, 从id到word),<code>tf</code> (dict, 词频统计)和 <code>total</code> (单词总数)。 其中，未登录词的标识为 <code>UNKNOWN</code>，未登录词的id为0。</p>
+<p><strong>数据格式</strong><br>train、test、valid中的数据格式一直。示例中 <code>qid</code> 对应原始语料中问题的 <code>id</code>。 <code>question</code> 中的数值表示分词后，该词对应的<code>id</code>，即 <code>word2id</code> 的查表结果。<code>utterance</code> 是回复，<code>label</code> 如果是 <code>[1,0]</code> 代表回复是正确答案，<code>[0,1]</code> 代表回复不是正确答案，所以 <code>utterance</code> 包含了正例和负例的数据。每个问题含有10个负例和1个正例。该项目并没有说明负样本的采集方式。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"qid"</span>:<span class="string">"344"</span>,</span><br><span class="line">    <span class="attr">"question"</span>:[</span><br><span class="line">        <span class="number">2462</span>,<span class="number">3206</span>,<span class="number">8878</span>,<span class="number">17449</span>,<span class="number">11331</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"utterance"</span>:[</span><br><span class="line">        <span class="number">8878</span>,<span class="number">17449</span>,<span class="number">11331</span>,<span class="number">3206</span>,<span class="number">9757</span>,<span class="number">21338</span>,<span class="number">4757</span>,<span class="number">11331</span>,<span class="number">13381</span>,<span class="number">10310</span>,<span class="number">10114</span>,<span class="number">6069</span>,<span class="number">5231</span>,<span class="number">13346</span>,<span class="number">4185</span>,<span class="number">12750</span>,<span class="number">6568</span>,<span class="number">5425</span>,<span class="number">3206</span>,<span class="number">10114</span>,<span class="number">11705</span>,<span class="number">6194</span>,<span class="number">13402</span>,<span class="number">23991</span>,<span class="number">11273</span>,<span class="number">8231</span>,<span class="number">490</span>,<span class="number">10299</span>,<span class="number">9757</span>,<span class="number">9843</span>,<span class="number">18157</span>,<span class="number">13334</span>,<span class="number">23611</span>,<span class="number">1907</span>,<span class="number">10099</span>,<span class="number">6568</span>,<span class="number">7344</span>,<span class="number">1704</span>,<span class="number">16818</span>,<span class="number">2311</span>,<span class="number">6683</span>,<span class="number">12268</span>,<span class="number">7197</span>,<span class="number">9757</span>,<span class="number">11869</span>,<span class="number">23800</span>,<span class="number">10617</span>,<span class="number">1134</span>,<span class="number">22430</span>,<span class="number">23810</span>,<span class="number">9843</span>,<span class="number">14297</span>,<span class="number">10227</span>,<span class="number">14005</span>,<span class="number">5526</span>,<span class="number">12360</span>,<span class="number">13467</span>,<span class="number">16917</span>,<span class="number">22724</span>,<span class="number">22086</span>,<span class="number">24346</span>,<span class="number">20333</span>,<span class="number">12268</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"label"</span>:[<span class="number">1</span>,<span class="number">0</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="语料统计"><a href="#语料统计" class="headerlink" title="语料统计"></a>语料统计</h3><table>
+<thead>
+<tr>
+<th>语料集</th>
+<th>类别（Q/A）</th>
+<th>最大长度</th>
+<th>平均长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>train</td>
+<td>Q</td>
+<td>42</td>
+<td>5</td>
+</tr>
+<tr>
+<td>train</td>
+<td>A</td>
+<td>878</td>
+<td>162</td>
+</tr>
+<tr>
+<td>test</td>
+<td>Q</td>
+<td>33</td>
+<td>5</td>
+</tr>
+<tr>
+<td>test</td>
+<td>A</td>
+<td>878</td>
+<td>161</td>
+</tr>
+<tr>
+<td>valid</td>
+<td>Q</td>
+<td>31</td>
+<td>5</td>
+</tr>
+<tr>
+<td>878</td>
+<td>A</td>
+<td>878</td>
+<td>165</td>
+</tr>
+</tbody></table>
+<h2 id="Baseline复现"><a href="#Baseline复现" class="headerlink" title="Baseline复现"></a>Baseline复现</h2><h3 id="环境准备-训练"><a href="#环境准备-训练" class="headerlink" title="环境准备+训练"></a>环境准备+训练</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// git <span class="built_in">clone</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:chatopera/insuranceqa-corpus-zh.git</span><br><span class="line"></span><br><span class="line">// 安装环境依赖</span><br><span class="line">pip install -r Requirements.txt</span><br><span class="line"></span><br><span class="line">// 更新数据处理的代码</span><br><span class="line">pip install --upgrade insuranceqa_data</span><br><span class="line"></span><br><span class="line">// 模型训练</span><br><span class="line">python3 deep_qa_1/network.py</span><br></pre></td></tr></table></figure>
+
+<p>训练的过程中可能会出现以下错误：</p>
+<ol>
+<li>ssl.SSLError 问题<ul>
+<li>原因是 insuranceqa_data 加载数据的时候，读取数据的路径是绝对路径，读不到数据文件，触发下载，需要修改 insuranceqa_data 中的加载路径为：<code>curdir = os.getcwd()</code> </li>
+<li>本质原因是 Python3 请求https时，会对ssl进行校验，要么安装证书，要么关闭校验，具体方法百度即可。</li>
+</ul>
+</li>
+<li>ImportError: Python is not installed as a framework. <ul>
+<li>mac 下使用matplotlib画图可能会出现这个问题。根据报错提示，在涉及画图的代码中加上 <code>import matplotlib; matplotlib.use(&#39;TkAgg&#39;)</code> 即可</li>
+</ul>
+</li>
+</ol>
+<h3 id="训练结果"><a href="#训练结果" class="headerlink" title="训练结果"></a>训练结果</h3><p><strong>主要训练参数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hidden_layers &#x3D; [100, 50]</span><br><span class="line">question_max_length &#x3D; 20</span><br><span class="line">utterance_max_length &#x3D; 99</span><br><span class="line">lr &#x3D; 0.001</span><br><span class="line">epoch &#x3D; 50</span><br><span class="line">batch_size &#x3D; 100</span><br></pre></td></tr></table></figure>
+
+<p><strong>准确率</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_accuracy.png" alt="accuracy"></p>
+<p><strong>loss变化</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_loss.png" alt="loss"></p>
+<p>可以看到，准确率到了0.9之后几乎就不变了，loss开始下降的很快，之后在0.8附近剧烈波动，说明这个时候再进行更多的迭代训练并不会对准确率的提升有显著的效果，baseline的方法已经到了极限，需要寻找更好的算法了。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>至此，baseline 已经复现完毕。接下来的文章准备以此为基础，不断优化算法，在此基础之上尽可能的提高准确率。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/18/invest-pratice-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -201,7 +370,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-07-18 15:28:09 / 修改时间：15:36:50" itemprop="dateCreated datePublished" datetime="2020-07-18T15:28:09+08:00">2020-07-18</time>
+              <time title="创建时间：2020-07-18 15:28:09 / 修改时间：16:04:00" itemprop="dateCreated datePublished" datetime="2020-07-18T15:28:09+08:00">2020-07-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -326,15 +495,15 @@
 <p>考虑到25年后，自己可能还在工作，或者领取退休金，所以实际的生活幸福感会更高。</p>
 <p><strong>注：这里不考虑疾病支出是因为这部分的支出可以通过一个完备的保险计划来覆盖掉。关于如何配置好家庭保险，之后会单独拎出来介绍。</strong></p>
 <h3 id="500万的目标是否合理"><a href="#500万的目标是否合理" class="headerlink" title="500万的目标是否合理"></a>500万的目标是否合理</h3><h4 id="500万够不够？"><a href="#500万够不够？" class="headerlink" title="500万够不够？"></a>500万够不够？</h4><p>根据上面的拍脑袋，25年后被动收入50万就能完全覆盖家庭的日常开支。</p>
-<p>每年50万的被动收入，本金500万的情况下，需要的年化收益率是10%。这个收益率的要求是比较高的，因为那个时候，我们对资产配置的要求已经从获取超额收益变成了获取稳定收益，能承受的风险水平大大降低，那相应的收益率必然会下降。</p>
+<p>每年50万的被动收入，本金500万的情况下，需要的年化收益率是10%。这个收益率的要求是比较高的，因为那个时候，我们对资产配置的要求已经从获取超额收益变成了获取稳定收益，能承受的风险水平大大降低，相应的收益率水平也会降低。</p>
 <p>但是假设25年后，立即退休，开始领取养老金，社保交25年对应的养老金的替代率能达到50%，有这笔收入作为补充，需要实现的稳定收益率会大大降低，大约6%-7%附近，还是可行的。</p>
-<p>这么一看，500万的目标还是合理的。</p>
+<p>这么一看，500万的目标是合理的。</p>
 <h4 id="能不能通过工资实现？"><a href="#能不能通过工资实现？" class="headerlink" title="能不能通过工资实现？"></a>能不能通过工资实现？</h4><p>同居民消费价格指数一样，未来20、30年，在不出现科技突破导致生产力水平再一次突飞猛进的情况下，工资水平大概率会以一个较低的增长率水平缓慢增长。</p>
 <p>以美国为例，看一下1990年-2018年这28年间 <a href="https://www.statista.com/statistics/200838/median-household-income-in-the-united-states/" target="_blank" rel="noopener">美国家庭收入中位数</a> 的变化，最低是1993年的52334，最高是2018年63179，也就是说，这28年间工资的最大增幅才20%。</p>
-<p>当然，如果再去看一下1990年-2018年间 <a href="https://www.ceicdata.com/zh-hans/indicator/united-states/annual-household-income-per-capita" target="_blank" rel="noopener">美国家庭人均收入</a> 的变化，你会会惊讶的发现其呈稳定增长趋势。结合上面的美国家庭收入中位数几乎不变的事实，可以得出这样一个结论：美国的贫富差距正在迅速扩大。</p>
+<p>当然，如果再去看一下1990年-2018年间 <a href="https://www.ceicdata.com/zh-hans/indicator/united-states/annual-household-income-per-capita" target="_blank" rel="noopener">美国家庭人均收入</a> 的变化，你会惊讶的发现其呈稳定增长趋势。结合上面的美国家庭收入中位数几乎不变的事实，可以得出这样一个结论：美国的贫富差距正在迅速扩大。</p>
 <p>中国大概率也会进入这样的状态，当然，考虑到未来一段时间内，中国的经济增长水平仍然会维持在一个中低速增长的水平，因此工资水平还是会有一段时间的中低速的增长，只是不可能会像改革开放之后30年内，出现隔一段时间就翻一番的场景了。</p>
-<p>低速增长的工资水平和物价水平想抵消，意味着很难通过工资实现资本的快速积累，但同时这也意味着在相当长的一段时间内，我们可以维持一个相对稳定的储蓄率。</p>
-<h4 id="能不能攒到500万？"><a href="#能不能攒到500万？" class="headerlink" title="能不能攒到500万？"></a>能不能攒到500万？</h4><p>假设初始金额为0，目标500万，不同期限下每月投入金额和收益率的对应关系如下：</p>
+<p>低速增长的工资水平和物价水平相抵消，意味着很难通过工资实现资本的快速积累，但同时这也意味着在相当长的一段时间内，我们可以维持一个相对稳定的储蓄率。</p>
+<h4 id="能不能攒到500万？"><a href="#能不能攒到500万？" class="headerlink" title="能不能攒到500万？"></a>能不能攒到500万？</h4><p>假设初始金额为0，目标500万，不同期限下每月投入金额和需要的年化收益率的对应关系如下：</p>
 <table>
 <thead>
 <tr>
@@ -395,8 +564,8 @@
 <td>6.143%</td>
 </tr>
 </tbody></table>
-<p>那么实现接近15%的年化收益率，难度高吗？这里以沪深300指数为例，沪深300指数基日是2004年12月31日，基点是1000点，2020年1月3号是4144点，折算成年化收益率是9.941%。如果配合一定的策略，完全是可以获取更高的收益率水平的。</p>
 <p>综合考虑自己的个人情况，认为每月投入2000，实现15%的年化收益率这种方案比较适合自己。这里面每月投入2000很简单，但是实现15%的收益率不太容易，需要持续不断的投入精力学习各种理财知识。</p>
+<p>那么实现接近15%的年化收益率，难度高吗？这里以沪深300指数为例，沪深300指数基日是2004年12月31日，基点是1000点，2020年1月3号是4144点，折算成年化收益率是9.941%。如果配合一定的策略，完全是可以获取更高的收益率水平的。</p>
 <p>因此，如何构建自己的投资体系，实现15%的超额收益，也是<code>【财务自由实证系列】</code>的一个目标之一。</p>
 <h2 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h2><p>本篇算是 <code>【财务自由实证系列】</code> 的一个序，之后这个系列会定期公开自己财务自由计划的进展，记录自己在实现这个目标过程中的点点滴滴，同时证明这样的一个财务自由计划是完全有可能实现的。</p>
 
@@ -1693,153 +1862,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/2019-review/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/04/2019-review/" class="post-title-link" itemprop="url">2019年个人总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-04 00:49:15" itemprop="dateCreated datePublished" datetime="2020-01-04T00:49:15+08:00">2020-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-26 01:04:47" itemprop="dateModified" datetime="2020-04-26T01:04:47+08:00">2020-04-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>2019年已经过去3天了，再不写个人总结，2020年怕是又要稀里糊涂的过去了。</p>
-<p>如果给过去的这一年打个分，自认为能打到70分，算是部分满意。此外，2019年也是我从学校到工作过渡的一年，我是年初1月23号拿的毕业证，直接入职，到年底正好工作一整年。这一年，无论是工作内还是工作外，都有太多值得记录的事情。</p>
-<h2 id="回顾2019年初的目标"><a href="#回顾2019年初的目标" class="headerlink" title="回顾2019年初的目标"></a>回顾2019年初的目标</h2><hr>
-<p>大方向上，主要有下面几个：</p>
-<ul>
-<li>给自己和家人配置保险</li>
-<li>开始自己的投资规划</li>
-<li>学英语（这算是一个执念吧）</li>
-<li>练字</li>
-<li>提高自己的专业技能</li>
-</ul>
-<h3 id="给自己和家人配置保险"><a href="#给自己和家人配置保险" class="headerlink" title="给自己和家人配置保险"></a>给自己和家人配置保险</h3><p>一直以来就对保险充满了好感，觉得没有保险的人生是没有安全感的。对保险有好感的原因比较多，首先，我这个人比较怕死。这么多年，无论是亲身经历的，还是从电视新闻上看到的一些和生死相关的事情，都让我对死亡充满了敬畏。很多时候，生命远比我们想象的要脆弱。而保险，能让生命在最脆弱的时候，保留一份基本的尊严；其次是刚买房，家里也没什么积蓄，爸妈年纪都大了，我才刚开始工作，整个家庭的风险承受能力很低。所以，刚工作不到两个月，我就开始不断的看保险相关的知识，比对不同的保险。看的焦头烂额的时候，正好实验室的一个师姐也在了解保险，她的一个高中同学就是大都会的保险代理人。这期间通过这个代理人，了解了医疗险和重疾险的区别，再结合自身的实际情况，配置了如下的保险：</p>
-<p><strong>自己</strong>：医疗险+重疾险+恶性肿瘤医疗险（全球版）<br><strong>媳妇</strong>：医疗险+重疾险<br><strong>父母</strong>：好医保-住院医疗险</p>
-<p>医疗险是现在比较火的百万医疗险，报销型，保额足够了。重疾险是一份终身10万保额叠加20年期40万保额，一共50万保额。由于实在是担心自己得癌症，自己又加了一份恶性肿瘤医疗险（全球版），两个人全年保费8000左右。父母因为已经到51周岁，年级大了，不适合买重疾险，就再支付宝上买了好医保-住院医疗险，两个人全年保费1500左右。大都会的保险相比其他家的是偏贵了，之所以还选择他们家，是因为保险附带的增值服务比较多。</p>
-<p>因为刚开始工作，也没什么积蓄，暂时就先配置这些年，短期内不再变动。等以后收入增加了，再把重疾险的额度配置上去。</p>
-<h3 id="开始自己的投资规划"><a href="#开始自己的投资规划" class="headerlink" title="开始自己的投资规划"></a>开始自己的投资规划</h3><p>年初的时候看了不少公众号文章，都在宣传躺着赚钱，财务自由这些让人心里痒痒的观点，再加上之前自己胡乱投资基金、p2p这些，狠狠的踩了几趟雷，决定系统的开始自己的投资之路，万一走着走着就自由了呢？</p>
-<p>我的投资学习路径是两部分：</p>
-<ul>
-<li><strong>理论学习</strong></li>
-<li><strong>投资实践</strong></li>
-</ul>
-<p><strong>理论学习</strong>方面，主要包括财富观的培养、投资基础知识的学习。这一年，完成了以下书籍：</p>
-<ul>
-<li>傻瓜式投资</li>
-<li>穷爸爸和富爸爸</li>
-<li>小狗钱钱</li>
-<li>指数基金投资指南</li>
-<li>解读基金：我的投资观与实践</li>
-<li>漫步华尔街</li>
-</ul>
-<p>未完成书籍：</p>
-<ul>
-<li>聪明的投资者</li>
-<li>共同基金常识</li>
-<li>逃不开的经济周期</li>
-</ul>
-<p>这几本书比较硬核，看的比较慢，2020年继续。</p>
-<p><strong>投资实践</strong>方面，从抄作业开始，跟投E大的长赢计划，中途配置了教育基金和自己的养老基金，主要定投沪深300和中证500这两个指数基金。</p>
-<p>2019年收益率16%左右，基本是抄作业的功劳，比较满意，所以已有部分继续跟投，同时继续完善理论知识，完成自己的投资体系的建立，然后实现躺尸的同时，躺赢，哈哈~~</p>
-<h3 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h3><p>这部分进行的一般。由于工作上的变动，从算法转到了开发，自然语言处理和机器学习的学习就彻底搁置了下来。后端开发能力上，跟着业务，狠狠的补了下基础知识。主要的能力提升是对后端开发有了一个整体的认识：后端开发围绕的是数据的存储和在业务逻辑上的处理。</p>
-<p>关于后端开发知识，主要的提升在对nginx的了解、redis的了解上，其它的一些提升比较零碎，不成体系。</p>
-<h3 id="学英语"><a href="#学英语" class="headerlink" title="学英语"></a>学英语</h3><p>学英语是一直以来的执念，也没有什么具体的目标，就是想学，但是每次都是半途而废。</p>
-<p>19年，在水滴上完成了《人性的弱点》和《人性的优点》两本英文原著的半精读，其它就没有了。</p>
-<p>20年需要好好梳理下学英语到底是为了什么，需要达到一个什么样的目标，然后再重新定个计划，好好执行。</p>
-<h3 id="练字"><a href="#练字" class="headerlink" title="练字"></a>练字</h3><p>想练一手好字。。。19年一直处于想的状态。20年需要定个轻松易行的计划，争取每年提高一些。</p>
-<p>以上是19年年初规划的完成情况，整体看，喜忧参半。家庭规划上的完成情况比较满意，但是技能提升相关的规划完成度较差，这部分需要重新梳理一遍，并且制定出一个松紧有度的20年年度计划，希望20年结束的时候，能够完美的交出一份对的起自己的答卷。</p>
-<h2 id="2019年感触比较深的几件事"><a href="#2019年感触比较深的几件事" class="headerlink" title="2019年感触比较深的几件事"></a>2019年感触比较深的几件事</h2><hr>
-<h3 id="人生大事"><a href="#人生大事" class="headerlink" title="人生大事"></a>人生大事</h3><p>人生大事方面，完成了买房和领证。</p>
-<h4 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h4><p>媳妇还在上学，之前研究生入学的时候，没有意识到户口的重要性，就没有把户口转到学校，幸好18年政策变化，除了入学那一次可以迁户口，每年秋季开学也可以迁户口了，就赶紧办理，到19年初户口就下来了。户口下来之后，迅速的把房子给买了。现在回想买房的过程，觉得有点太草率了，有必要记录一下买房的过程，让自己在以后做类似买房这种重大决定的时候，不要被情绪左右。</p>
-<p>决定买房之前，和媳妇讨论要买什么样的房子，为了能买到预算范围内最合适的房子，我们首先列出了一系列的考虑因素，最终决定重点看<code>交通</code>，<code>医疗资源</code>，<code>菜市场</code>，<code>公园</code>，<code>商业配套</code> 这几个因素，由于我们都还年轻，再加上预算只有200左右（主要原因），就没有考虑学区房。交通方面，主要是地铁，所以我们以地铁线为基准，列出地铁线上每一站附近的<code>医院</code>，<code>商业配套</code>，<code>公园</code>，<code>学校</code>以及附近<code>房价</code>等情况，并以此筛选出候选站点。我们花了2个星期左右的时间，统计了1、2、3、4、5、6、9这几条地铁线，标出了一些候选，并决定每周末考察两个地铁站。</p>
-<p>在4月初的一个周末，我们开始了考察。首先去的是1号线终点附近的几个站点，找了链家的一个中介，带着我们看了附近的几个小区，整体看下来，这一片都是居民区，小区质量一般，配套还行，生活气息浓厚，商业气息差了些，不太满意。晚上临走的时候中介推荐了5号线附近一个新开的楼盘，说是性价比很高，强烈建议我们去看看。我们其实是不太想去的，一是当时有点晚，二是本身也不着急，奈何中介极力推荐，就说第二天去看看。</p>
-<blockquote>
-<p>我们常常在小钱上斤斤计较，如买菜和买衣服，而在大钱上冲动无比，如买房</p>
-</blockquote>
-<p>第二天跟着中介到了售楼处，好家伙，里面人声鼎沸，导购介绍和签合同的场景到处都是。在经过了导购员的讲解之后，对楼盘有了个整体印象。一共是两个小区，一大一小，大的小区靠着一个正在建的永旺商场，小的隔的远了些，靠着一个正在建的市民广场。附近就是外环和高速入口，地铁站1公里左右。交通不错，商业配套和生活配套也不错，缺点是都在规划中。价格和预算一致。两个人都比较满意，这个时候导购一直在强调，最近三天搞活动，预付定金，给2个点优惠。两个人都没啥定力，被导购这么一说，再加上对房子确实很满意，都开始犹豫要不要先交定金。和家里商量了下（家里没意见，也都不懂，说只要我们觉得满意就行，唉。。。），又咨询了一个在德佑的亲戚的意见，觉得还行，两个人就在晕乎乎的情况下，交定金了。</p>
-<p>晚上回去后，两个人都觉得草率了，但是因为本身对房子比较满意，没有发现什么地方有问题，就商量着真正交首付的时候，一定要仔细的比对合同，同时问明白一些关键指标，如果有什么地方不行，哪怕定金要不回来也不能买。付首付的时候，果然还是出问题了。一是我们发现这个房子没有阳台。当时看房型的时候，都觉得房型很好，方方正正，南北通透，愣是把阳台给漏了。二是问了下公摊，这一问，才知道公摊高达35%，105的房子套内面积才70，瞬间不想定了。后来和在德佑的那个亲戚沟通，他说这个公摊确实是很高了，但是套内面积70的三居也还行，其实套内面积差个2平米根本就感觉不出来。他这么一说，再加上内心清楚，这个房子吸引我的地方有很大一部分原因是旁边正在规划的市民广场，市民广场的规划里面有图书馆，电影院等，这个实在太吸引我了。所以和媳妇商量了好一会，犹豫再三，最终还是付了首付。</p>
-<p>进入2020年，回过头来看，买的房子单价降了近2000，市民广场的规划发生变动，广场的一半改成商业配套。房价下降这件事情，4月份其实是有预期的，当时看了很多文章，都在说19年的政策是强调房住不炒，而且目前国家经济处于转型的过程中，经济形式不好，未来一段时间内房价肯定会下跌，所以买房不用着急，但是并没深入的去研究论据，自己只是表面相信，所以在售楼处导购员反复推销的时候，我是如此的不堪一击；另外有一个观点是如果是刚需，随时可以上车。因为4月份的房价相比18年的顶点是降了不少的。现在想来，刚需随时可以上车这句话是理解错了。对当时的自己而言，其实买房并不是刚需，媳妇21年夏天才毕业，我在北京工作，我们暂时是没有住房需求的。市民广场规划发生变化这件事，就是买期房的风险了，幸好规划变化还能接受，希望未来没有大的变动。</p>
-<h4 id="领证"><a href="#领证" class="headerlink" title="领证"></a>领证</h4><p>因为买房用的是媳妇的户口，还贷款是我，加上父母不可能同意只以媳妇的名义买房，所以两个人就需要在签贷款合同前领证。由于买房这个决策太突然，导致领证这件事也变的很赶。两个人匆匆忙忙的去拍了结婚照，又急急忙忙的去民政局领了证。</p>
-<p>领证的当天，早上8点多就到了民政局。时间比较早，有点冷清，交了材料后，等了一小会，就轮到我们了。填了些材料，不一会，鲜红的两个结婚证就出来了。两个人拿到结婚证后，坐在沙发上缓了好一会，都觉得有点不真实。但因为下午还要赶紧去办贷款，缓过来之后又急急忙忙的去了售楼处。领证的过程就这么匆忙的结束了，都没来的及吃顿饭庆祝一下。</p>
-<p>回想起和媳妇相处的这几年，除了最开始的一年里面摩擦较多，后来磨合的越来越好，也不知当初两个人怎么就互相认定了。随着时间的推移，越发能体会到媳妇的好，也越发为自己当时的眼光感到得意。</p>
-<p>希望接下来的日子里，两个人能走的越来越好，把我们的小日子过的有滋有味。</p>
-<h3 id="工作波折"><a href="#工作波折" class="headerlink" title="工作波折"></a>工作波折</h3><h4 id="部门变动和线上事故"><a href="#部门变动和线上事故" class="headerlink" title="部门变动和线上事故"></a>部门变动和线上事故</h4><p>18年底到19年中这段时间，从实习转成了正式。这段时间里面，先是最初的业务被停掉，换了新业务，之后是部门换掉，从大搜到了手百，再就是经理也换了。中间由于各种原因，指导人换了又换，我也从最初的算法转到了开发。</p>
-<p>换到新部门和新业务期间，指导人被重新指定。这段时间里，我刚接手的项目对当时的我来说，难度系数较高。开发的过程中，费了很大劲才能勉强跟上进度。中间有个任务，因为一些原因，需要迁移。由于开始没有能和指导人C有一个比较好的沟通，设计方案做的比较差，线上运行的时候，出了严重的事故。</p>
-<p>之后复盘过程中，C不断的指出方案上的不足，告诉我哪些地方需要多加注意，代码评审的时候，也是一行行的过代码，前后评审10多次。短短的几天内，我学到了很多，也很感激。</p>
-<p>后来C由于个人发展上的考虑，去了部门内的其他组。我的指导人也从C变成了组内的S。偶尔会想，如果开始的时候，C就能像最后那样，我是不是就不会经历后来的转正风波，当然也就不会迅速认识到工作和学校学习的不同和及时适应身份上的一个转变。凭良心说，C的业务能力很强，人品也没问题，可能是我的性格和他实在不搭，再加上初期的自己确实也有一些问题，导致两个人没能沟通好，这一点比较遗憾。</p>
-<h4 id="转正风波"><a href="#转正风波" class="headerlink" title="转正风波"></a>转正风波</h4><p>由于指导人C给的评价不好，给新经理留下一个很差的印象。试用期过了一大半的时候，新的指导人S通知我说我的转正比较危险，让我做好心里准备。当时听到这个，心里顿时一沉。指导人S说他也是第一次遇到这种事情，也不知道怎么处理，建议我做两手准备，而他接下来也会尽量把任务分给我一些，希望我能多一些产出。</p>
-<p>后来我主动找经理沟通了下我当前的状态，经理指出了我身上的一些不足，并且说给我一个月左右的观察期，同时指定了一些任务指标，希望我好好表现。这一个月里面，刚好业务上特别忙，又要准备那些任务指标，压力很大。天天晚上都是11点、12多才回去。工作日没有时间完成那些任务指标，只能周六日来弄。</p>
-<p>这期间十分感谢指导人S的尽心指导，使得我的业务能力有了很大的提高，从而顺利的通过了转正，以后有机会一定要好好的感谢他；也非常感谢媳妇，在这段时间里面没有给我任何压力，并且不断的鼓励我，让我没有其它的后顾之忧。</p>
-<p>转正风波这段期间，虽然说是压力很大，但是也仅此而已。首先是我和媳妇的感情很稳定，其次是虽然有房贷，但是两个人手上有一些钱足够支撑一年，经济上也没有太大压力，再次家里也很和谐。可以说这几个因素是我能顺利通过转正的坚实基础。</p>
-<p>工作上的这两件事给刚出学校我很大的冲击，让我迅速的认识到学校学习和社会工作的不同，及时调整自己，同时尽早开始思考自己的人生规划，为将来做准备。可以说是因祸得福。希望以后的自己能不断的提高，能自信的面对任何变化，让自己成为家人坚实的依靠。</p>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><hr>
-<p>2019年已经过去，这一年无论发生了什么，都变成了过去时，只有成长留了下来。人生短暂，希望接下来的日子里，能和时间做朋友，在未来，成为更好的自己！</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1910,20 +1932,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="语料FAQBot构建的基础是有一份高质量的问答语料。通过不断的搜索和查找，找到一份 保险行业 的问答语料：insuranceqa-corpus-zh 语料背景该语料库包含从网站 Insurance Library 收集的问题和答案。以下是官方介绍：   该语料库的内容由现实世界的用户提出，高质量的答案由具有深度领域知识的专业人士提供。 所以这是一个具有真正价值的语料，而不是玩具。  在上述论文中，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FAQBot 实践系列#1 —— 从开源语料入手">
+<meta property="og:url" content="http://yoursite.com/2020/09/19/faq-bot-1/index.html">
+<meta property="og:site_name" content="tjjsjwhj的个人空间~">
+<meta property="og:description" content="语料FAQBot构建的基础是有一份高质量的问答语料。通过不断的搜索和查找，找到一份 保险行业 的问答语料：insuranceqa-corpus-zh 语料背景该语料库包含从网站 Insurance Library 收集的问题和答案。以下是官方介绍：   该语料库的内容由现实世界的用户提出，高质量的答案由具有深度领域知识的专业人士提供。 所以这是一个具有真正价值的语料，而不是玩具。  在上述论文中，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_accuracy.png">
+<meta property="og:image" content="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_loss.png">
+<meta property="article:published_time" content="2020-09-19T07:26:31.000Z">
+<meta property="article:modified_time" content="2020-09-19T07:30:47.234Z">
+<meta property="article:author" content="tjjsjwhj">
+<meta property="article:tag" content="QABot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_accuracy.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/19/faq-bot-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>FAQBot 实践系列#1 —— 从开源语料入手 | tjjsjwhj的个人空间~</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">tjjsjwhj的个人空间~</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">自由，从这里开始</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/19/faq-bot-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          FAQBot 实践系列#1 —— 从开源语料入手
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-19 15:26:31 / 修改时间：15:30:47" itemprop="dateCreated datePublished" datetime="2020-09-19T15:26:31+08:00">2020-09-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="语料"><a href="#语料" class="headerlink" title="语料"></a>语料</h2><p>FAQBot构建的基础是有一份高质量的问答语料。通过不断的搜索和查找，找到一份 <code>保险行业</code> 的问答语料：<a href="https://github.com/chatopera/insuranceqa-corpus-zh" target="_blank" rel="noopener">insuranceqa-corpus-zh</a></p>
+<h3 id="语料背景"><a href="#语料背景" class="headerlink" title="语料背景"></a>语料背景</h3><p>该语料库包含从网站 <a href="https://www.insurancelibrary.com/" target="_blank" rel="noopener">Insurance Library</a> 收集的问题和答案。<br>以下是官方介绍：</p>
+<blockquote>
+<ul>
+<li><p>该语料库的内容由现实世界的用户提出，高质量的答案由具有深度领域知识的专业人士提供。 所以这是一个具有真正价值的语料，而不是玩具。</p>
+</li>
+<li><p>在上述论文中，语料库用于答复选择任务。 另一方面，这种语料库的其他用法也是可能的。 例如，通过阅读理解答案，观察学习等自主学习，使系统能够最终拿出自己的看不见的问题的答案。</p>
+</li>
+<li><p>数据集分为两个部分“问答语料”和“问答对语料”。问答语料是从原始英文数据翻译过来，未经其他处理的。问答对语料是基于问答语料，又做了分词和去标去停，添加label。所以，”问答对语料”可以直接对接机器学习任务。如果对于数据格式不满意或者对分词效果不满意，可以直接对”问答语料”使用其他方法进行处理，获得可以用于训练模型的数据。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="语料格式"><a href="#语料格式" class="headerlink" title="语料格式"></a>语料格式</h3><p>训练数据之前，我们先仔细看下语料的格式。</p>
+<h4 id="原始语料"><a href="#原始语料" class="headerlink" title="原始语料"></a>原始语料</h4><p>原始语料的目录是 <code>/corpus/pool</code>。 </p>
+<p><strong>问题</strong></p>
+<p>train，test，valid 是存放问题的文件，分别对应着训练集、测试集和验证集。对应的 txt 文件中是中英对照的问题，json 文件中的信息比较全，包含了中英对照的问题，问题的领域（类别），对应的答案以及错误的答案（负样本）。示例如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"0"</span>: &#123;</span><br><span class="line">        <span class="attr">"zh"</span>: <span class="string">"医疗保险拿起公司支付吗？"</span>,</span><br><span class="line">        <span class="attr">"en"</span>: <span class="string">"Does  Medicare  Pick  Up  Co  Pays?"</span>,</span><br><span class="line">        <span class="attr">"domain"</span>: <span class="string">"medicare-insurance"</span>,</span><br><span class="line">        <span class="attr">"answers"</span>: [</span><br><span class="line">            <span class="string">"4436"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"negatives"</span>: [</span><br><span class="line">            <span class="string">"1650"</span>,</span><br><span class="line">            <span class="string">"14016"</span>,</span><br><span class="line">            <span class="string">"24487"</span>,</span><br><span class="line">            <span class="string">"18224"</span>,</span><br><span class="line">            <span class="string">"15953"</span>,</span><br><span class="line">            <span class="string">"16740"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>zh</code> 是根据答案原文翻译过来的，翻译质量一般。比如示例中英文的意思其实是问【医疗保险会承担挂号费吗】（ <code>co-pay</code> 是看医生前需要支付的定额费用，类似挂号费），如果直接看翻译就不知所云了。<code>answers</code> 和 <code>negatives</code> 中的数字表示对应答案的id，下面会提到。</p>
+<p><strong>答案</strong></p>
+<p><code>answers</code> 中包含了答案的id和答案的中英文对照。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"0"</span>: &#123;</span><br><span class="line">        <span class="attr">"zh"</span>: <span class="string">" 汽车跟随着。示例1：如果你被给了一辆汽车（借给），那辆车没有保险，你可以在汽车上买保险，你的保险将是主要的。另一个选择，有人帮你买车。例如，您的信用评分不足以融资，因此您的朋友在您的贷款下签署了主要付款人。您可以根据您的姓名获得保险，甚至将您的朋友列为保险单，作为损失赔偿人。在这种情况下，我们总是建议您获得贷款差距：汽车的实际现金价值与其仍然拥有的金额之间的差额。例2：你借的车有保险。您可以以您的名义购买政策，列出该政策的车辆，如果发生事故，您的政策将成为次要或超额。一旦主要汽车保险的限制用尽，您的保险将踢入，并希望支付其余费用。我特意用了这个词，因为每个事故都是独一无二的，没有实际的索赔情况就很难解释这个覆盖面。即使在给定的索赔情况下，有时索赔有两个可能的结果。"</span>,</span><br><span class="line">        <span class="attr">"en"</span>: <span class="string">" Coverage follows the car. Example 1: If you were given a car (loaned) and the car has no insurance, you can buy insurance on the car and your insurance will be primary. Another option, someone helped you to buy a car. For example your credit score isn't good enough to finance, so a friend of yours signed under your loan as a primary payor. You can get insurance under your name and even list your friend on the policy as a loss payee. In this case, we always suggest you get a loan gap coverage: the difference between the car's actual cash value and the amount still owned on it. Example 2: The car you are loaned has insurance. You can buy a policy under your name, list the car on that policy and in case of the accident, your policy will become a secondary or excess. Once the limits of the primary car insurance are exhausted, your coverage would kick in and hopefully pay for the rest. I specifically used the word hopefully, because each accident is unique and it's hard to interpret the coverage without the actual claim scenario. And even with a given claim scenario, sometimes there are 2 possible outcomes of a claim."</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="加工语料"><a href="#加工语料" class="headerlink" title="加工语料"></a>加工语料</h4><blockquote>
+<p>使用原始语料，还需要做很多工作才能进入机器学习的模型，比如分词，去停用词，去标点符号，添加label标记。所以，在原始语料的基础上，，insuranceqa-corpus-zh提供了一个使用HanLP分词和去标，去停，添加label的数据集，这个数据集完全是基于原始语料</p>
+</blockquote>
+<p>加工语料的目录是：<code>corpus/pairs</code></p>
+<p><strong>词表</strong><br><code>vocab_data</code> 包含<code>word2id</code> (dict, 从word到id), <code>id2word</code> (dict, 从id到word),<code>tf</code> (dict, 词频统计)和 <code>total</code> (单词总数)。 其中，未登录词的标识为 <code>UNKNOWN</code>，未登录词的id为0。</p>
+<p><strong>数据格式</strong><br>train、test、valid中的数据格式一直。示例中 <code>qid</code> 对应原始语料中问题的 <code>id</code>。 <code>question</code> 中的数值表示分词后，该词对应的<code>id</code>，即 <code>word2id</code> 的查表结果。<code>utterance</code> 是回复，<code>label</code> 如果是 <code>[1,0]</code> 代表回复是正确答案，<code>[0,1]</code> 代表回复不是正确答案，所以 <code>utterance</code> 包含了正例和负例的数据。每个问题含有10个负例和1个正例。该项目并没有说明负样本的采集方式。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"qid"</span>:<span class="string">"344"</span>,</span><br><span class="line">    <span class="attr">"question"</span>:[</span><br><span class="line">        <span class="number">2462</span>,<span class="number">3206</span>,<span class="number">8878</span>,<span class="number">17449</span>,<span class="number">11331</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"utterance"</span>:[</span><br><span class="line">        <span class="number">8878</span>,<span class="number">17449</span>,<span class="number">11331</span>,<span class="number">3206</span>,<span class="number">9757</span>,<span class="number">21338</span>,<span class="number">4757</span>,<span class="number">11331</span>,<span class="number">13381</span>,<span class="number">10310</span>,<span class="number">10114</span>,<span class="number">6069</span>,<span class="number">5231</span>,<span class="number">13346</span>,<span class="number">4185</span>,<span class="number">12750</span>,<span class="number">6568</span>,<span class="number">5425</span>,<span class="number">3206</span>,<span class="number">10114</span>,<span class="number">11705</span>,<span class="number">6194</span>,<span class="number">13402</span>,<span class="number">23991</span>,<span class="number">11273</span>,<span class="number">8231</span>,<span class="number">490</span>,<span class="number">10299</span>,<span class="number">9757</span>,<span class="number">9843</span>,<span class="number">18157</span>,<span class="number">13334</span>,<span class="number">23611</span>,<span class="number">1907</span>,<span class="number">10099</span>,<span class="number">6568</span>,<span class="number">7344</span>,<span class="number">1704</span>,<span class="number">16818</span>,<span class="number">2311</span>,<span class="number">6683</span>,<span class="number">12268</span>,<span class="number">7197</span>,<span class="number">9757</span>,<span class="number">11869</span>,<span class="number">23800</span>,<span class="number">10617</span>,<span class="number">1134</span>,<span class="number">22430</span>,<span class="number">23810</span>,<span class="number">9843</span>,<span class="number">14297</span>,<span class="number">10227</span>,<span class="number">14005</span>,<span class="number">5526</span>,<span class="number">12360</span>,<span class="number">13467</span>,<span class="number">16917</span>,<span class="number">22724</span>,<span class="number">22086</span>,<span class="number">24346</span>,<span class="number">20333</span>,<span class="number">12268</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"label"</span>:[<span class="number">1</span>,<span class="number">0</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="语料统计"><a href="#语料统计" class="headerlink" title="语料统计"></a>语料统计</h3><table>
+<thead>
+<tr>
+<th>语料集</th>
+<th>类别（Q/A）</th>
+<th>最大长度</th>
+<th>平均长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>train</td>
+<td>Q</td>
+<td>42</td>
+<td>5</td>
+</tr>
+<tr>
+<td>train</td>
+<td>A</td>
+<td>878</td>
+<td>162</td>
+</tr>
+<tr>
+<td>test</td>
+<td>Q</td>
+<td>33</td>
+<td>5</td>
+</tr>
+<tr>
+<td>test</td>
+<td>A</td>
+<td>878</td>
+<td>161</td>
+</tr>
+<tr>
+<td>valid</td>
+<td>Q</td>
+<td>31</td>
+<td>5</td>
+</tr>
+<tr>
+<td>878</td>
+<td>A</td>
+<td>878</td>
+<td>165</td>
+</tr>
+</tbody></table>
+<h2 id="Baseline复现"><a href="#Baseline复现" class="headerlink" title="Baseline复现"></a>Baseline复现</h2><h3 id="环境准备-训练"><a href="#环境准备-训练" class="headerlink" title="环境准备+训练"></a>环境准备+训练</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// git <span class="built_in">clone</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:chatopera/insuranceqa-corpus-zh.git</span><br><span class="line"></span><br><span class="line">// 安装环境依赖</span><br><span class="line">pip install -r Requirements.txt</span><br><span class="line"></span><br><span class="line">// 更新数据处理的代码</span><br><span class="line">pip install --upgrade insuranceqa_data</span><br><span class="line"></span><br><span class="line">// 模型训练</span><br><span class="line">python3 deep_qa_1/network.py</span><br></pre></td></tr></table></figure>
+
+<p>训练的过程中可能会出现以下错误：</p>
+<ol>
+<li>ssl.SSLError 问题<ul>
+<li>原因是 insuranceqa_data 加载数据的时候，读取数据的路径是绝对路径，读不到数据文件，触发下载，需要修改 insuranceqa_data 中的加载路径为：<code>curdir = os.getcwd()</code> </li>
+<li>本质原因是 Python3 请求https时，会对ssl进行校验，要么安装证书，要么关闭校验，具体方法百度即可。</li>
+</ul>
+</li>
+<li>ImportError: Python is not installed as a framework. <ul>
+<li>mac 下使用matplotlib画图可能会出现这个问题。根据报错提示，在涉及画图的代码中加上 <code>import matplotlib; matplotlib.use(&#39;TkAgg&#39;)</code> 即可</li>
+</ul>
+</li>
+</ol>
+<h3 id="训练结果"><a href="#训练结果" class="headerlink" title="训练结果"></a>训练结果</h3><p><strong>主要训练参数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hidden_layers &#x3D; [100, 50]</span><br><span class="line">question_max_length &#x3D; 20</span><br><span class="line">utterance_max_length &#x3D; 99</span><br><span class="line">lr &#x3D; 0.001</span><br><span class="line">epoch &#x3D; 50</span><br><span class="line">batch_size &#x3D; 100</span><br></pre></td></tr></table></figure>
+
+<p><strong>准确率</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_accuracy.png" alt="accuracy"></p>
+<p><strong>loss变化</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_loss.png" alt="loss"></p>
+<p>可以看到，准确率到了0.9之后几乎就不变了，loss开始下降的很快，之后在0.8附近剧烈波动，说明这个时候再进行更多的迭代训练并不会对准确率的提升有显著的效果，baseline的方法已经到了极限，需要寻找更好的算法了。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>至此，baseline 已经复现完毕。接下来的文章准备以此为基础，不断优化算法，在此基础之上尽可能的提高准确率。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/QABot/" rel="tag"># QABot</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/18/invest-pratice-0/" rel="prev" title="财务自由实证#0">
+      <i class="fa fa-chevron-left"></i> 财务自由实证#0
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语料"><span class="nav-number">1.</span> <span class="nav-text">语料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语料背景"><span class="nav-number">1.1.</span> <span class="nav-text">语料背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语料格式"><span class="nav-number">1.2.</span> <span class="nav-text">语料格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原始语料"><span class="nav-number">1.2.1.</span> <span class="nav-text">原始语料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加工语料"><span class="nav-number">1.2.2.</span> <span class="nav-text">加工语料</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语料统计"><span class="nav-number">1.3.</span> <span class="nav-text">语料统计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Baseline复现"><span class="nav-number">2.</span> <span class="nav-text">Baseline复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境准备-训练"><span class="nav-number">2.1.</span> <span class="nav-text">环境准备+训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练结果"><span class="nav-number">2.2.</span> <span class="nav-text">训练结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">3.</span> <span class="nav-text">后续</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">tjjsjwhj</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tjjsjwhj" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;tjjsjwhj" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:tjjsjwhj@126.com" title="E-Mail → mailto:tjjsjwhj@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tjjsjwhj</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
