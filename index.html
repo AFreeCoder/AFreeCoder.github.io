@@ -176,6 +176,151 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/06/go-benchmark-pprof/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/06/go-benchmark-pprof/" class="post-title-link" itemprop="url">Golang:一次结合benchmark和pprof的性能优化经历</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-06 18:44:15 / 修改时间：19:01:26" itemprop="dateCreated datePublished" datetime="2020-12-06T18:44:15+08:00">2020-12-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>testing 是go自带的一个轻量级的测试框架，主要有三个用途：单元测试(Test)，基准测试(Benchmark)以及示例测试(Example)。</p>
+</blockquote>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>写go也有几个月了，一直没太关注类似 <code>benchmark</code> 之类的性能分析工具，只知道埋头写业务代码。直到前几天，工作上的一个项目遇到了性能瓶颈，需要分析一下原因，就用到了 <code>benchmark</code>。一顿分析，终于发现了程序中的”性能消耗大户“，颇有成就感。</p>
+<h2 id="测试case准备"><a href="#测试case准备" class="headerlink" title="测试case准备"></a>测试case准备</h2><p>平时写代码的过程中，会经常写一些 <code>print</code> 或者 <code>debug</code> 函数，谁又能想到，这些 <code>print</code> 偷偷摸摸的消耗了多少 <code>CPU</code> 和 内存资源呢？</p>
+<p>AES对称加密是业务代码中经常会用到的一种加密方式，但是编码习惯如果不好，或者测试代码忘了删，就会导致加密性能急剧下降。</p>
+<p><strong>大师兄写的AES加密函数</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncryptA</span><span class="params">(aesKey, IV, origin []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	block, err := aes.NewCipher(aesKey)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	blocksize := block.BlockSize()</span><br><span class="line">	blockMode := cipher.NewCBCEncrypter(block, IV)</span><br><span class="line">	originData := PKCS5Pading(origin, blocksize)</span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(originData))</span><br><span class="line">	blockMode.CryptBlocks(crypted, originData)</span><br><span class="line">	<span class="keyword">return</span> crypted</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>二师兄写的AES加密函数</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncryptB</span><span class="params">(aesKey, IV, origin []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	block, err := aes.NewCipher(aesKey)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	blocksize := block.BlockSize()</span><br><span class="line">	blockMode := cipher.NewCBCEncrypter(block, IV)</span><br><span class="line">	originData := PKCS5Pading(origin, blocksize)</span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(originData))</span><br><span class="line">	blockMode.CryptBlocks(crypted, originData)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 把加密结果打印到日志看看</span></span><br><span class="line">	f, _ := os.Create(<span class="string">"temp.log"</span>)</span><br><span class="line">	<span class="keyword">defer</span> f.Close()</span><br><span class="line">	log.SetOutput(f)</span><br><span class="line">	log.Println(fmt.Sprintf(<span class="string">"encrypt res is %s"</span>, base64.StdEncoding.EncodeToString(crypted)))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> crypted</span><br></pre></td></tr></table></figure>
+
+<p>乍一看，大师兄和二师兄写的差不多，只是二师兄多了一个把加密结果写到日志中的操作。</p>
+<p><strong><em>就这么一点点的区别，性能能差多少呢?让我们把悬念留到最后。</em></strong></p>
+<h2 id="benchmark-实施"><a href="#benchmark-实施" class="headerlink" title="benchmark 实施"></a>benchmark 实施</h2><p>假设当前项目中的代码就是二师兄写的，我们就来分析一下，当前的性能瓶颈到底在什么地方。</p>
+<h3 id="benchmark编写"><a href="#benchmark编写" class="headerlink" title="benchmark编写"></a>benchmark编写</h3><p><strong>写benchmark几个注意点</strong>：</p>
+<ul>
+<li>文件名以 <code>_test.go</code> 结尾，如 <code>practice_test.go</code></li>
+<li>函数名统一以 <code>Benchmark</code> 开头，参数是 <code>*testing.B</code></li>
+<li>对于要测试的函数，函数外面套上一个 for 循环，for 循环次数的上限是 <code>b.N</code></li>
+<li>为了排除其它流程的干扰，一般会在 for 循环前加上 <code>b.ResetTimer</code></li>
+</ul>
+<p><strong>对二师兄的加密函数写个基准测试</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkAesEncryptB</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	aesKey := []<span class="keyword">byte</span>(<span class="string">"1234567890abcdef"</span>)</span><br><span class="line">	IV := []<span class="keyword">byte</span>(<span class="string">"7878676756564545"</span>)</span><br><span class="line"></span><br><span class="line">	originData := bytes.Repeat([]<span class="keyword">byte</span>&#123;<span class="number">28</span>&#125;, <span class="number">1</span>&lt;&lt;<span class="number">29</span>)</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; b.N; i++ &#123;</span><br><span class="line">		AesEncryptB(aesKey, IV, originData)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了更加明显的对比，这里我们测试的加密数据的大小是512MB（即 1&lt;&lt; 29）</p>
+<h3 id="执行benchmark命令"><a href="#执行benchmark命令" class="headerlink" title="执行benchmark命令"></a>执行benchmark命令</h3><blockquote>
+<p>testing 框架下的基准测试依赖 <code>go test</code> 工具</p>
+</blockquote>
+<p><strong>benchmark 命令示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">test</span> -bench BenchmarkAesEncryptB -run none -benchmem -cpuprofile cpuprofile.out -memprofile memprofile.out</span><br></pre></td></tr></table></figure>
+
+<p>这个命令中的参数比较多，我们一个个的解释。</p>
+<ul>
+<li><code>-bench</code> 表示执行哪些基准测试函数，后面可以加需要执行的基准测试函数名称，也可以加 <code>.</code>，表示执行全部的基准测试函数。（其实 <code>-bench</code> 后面可以加正则表达式）</li>
+<li><code>-run</code> 表示执行哪些单元测试和示例测试函数，一般会加none，表示都不执行</li>
+<li><code>-benchmen</code> 表示打印函数执行过程中的内存分配</li>
+<li><code>-cpuprofile</code> 表示将全过程的 <code>CPU</code> 的一些概要数据写到文件 <code>cpuprofile.out</code> 中</li>
+<li><code>memprofile</code> 表示将全过程的内存的一些概要数据写到文件 <code>memprofile.out</code> 中</li>
+</ul>
+<p><strong>执行结果分析</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">goos: darwin</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: go_practice/benchmart_example</span><br><span class="line">BenchmarkAesEncryptB-8                 1        8570217455 ns/op        6218811264 B/op       55 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok      go_practice/benchmart_example   9.985s</span><br></pre></td></tr></table></figure>
+
+<p>从执行结果中能看到，for 循环每执行一次，耗时 8570217455 纳秒，同时会有55次内存分配操作，每次操作 6218811264 字节。</p>
+<p>到这里，我们其实已经完成了基准测试的一个基本流程，也对二师兄的加密函数的性能和内存使用状况有了一个初步的认识。</p>
+<p><strong>但是，我们还是不知道性能瓶颈在哪！！</strong></p>
+<h2 id="终极杀器：benchmark-pprof"><a href="#终极杀器：benchmark-pprof" class="headerlink" title="终极杀器：benchmark + pprof"></a>终极杀器：benchmark + pprof</h2><blockquote>
+<p>pprof 是 go 自带的 <code>CPU</code> 分析器，常用来分析性能瓶颈。</p>
+</blockquote>
+<p>在前面的基准测试中，我们生成了 <code>CPU</code> 概要文件 <code>cpuprofile.out</code> 以及内存概要文件 <code>memprofile.out</code>，现在可以派上大用场了。</p>
+<p>pprof 既可以通过命令行交互的方式查看CPU（内存）的概要数据，也可以通过web的方式查看直观的图形化展示。这里我们主要通过web的方式来展示。</p>
+<p><strong><em>当然，使用pprof工具前，你需要先安装 <code>graphviz</code>，如果是mac，执行 <code>brew install graphviz</code> 就行。</em></strong></p>
+<h3 id="pprof-分析-CPU"><a href="#pprof-分析-CPU" class="headerlink" title="pprof 分析 CPU"></a>pprof 分析 CPU</h3><p><strong>执行命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go tool pprof -http=<span class="string">":8081"</span> cpuprofile.out</span><br></pre></td></tr></table></figure>
+
+<p>通过地址 <code>http://localhost:8081/ui/</code> 能看到</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/go-benchmark-pprof/cpuprofile.png" alt="cpuprofile.png"></p>
+<p>从这个截图中，我们很容易看到，加密部分总共耗时5.11s，完全用在加密上的耗时才0.76s，其它时间都是用在日志打印上和字符串转化上，</p>
+<h3 id="pprof-分析内存"><a href="#pprof-分析内存" class="headerlink" title="pprof 分析内存"></a>pprof 分析内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go tool pprof -http=<span class="string">":8081"</span> memprofile.out</span><br></pre></td></tr></table></figure>
+
+<p>通过地址 <code>http://localhost:8081/ui/</code> 能看到</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/go-benchmark-pprof/memprofile.png" alt="memprofile.png"></p>
+<p>从这个截图图中，我们很容易看到，5930.71MB的内存使用，真正用在加密上的才512MB以及对原始字符串padding操作的640MB，其它内存都耗费在字符串转化和各种 <code>print</code> 操作上。</p>
+<p>很直观的，我们就知道了二师兄的代码问题就在那一段日志打印的操作上。</p>
+<h3 id="优化二师兄的代码"><a href="#优化二师兄的代码" class="headerlink" title="优化二师兄的代码"></a>优化二师兄的代码</h3><p>根据上面的分析，我们需要优化的就是日志打印的那部分代码。二师兄的代码优化后其实就是大师兄的代码。</p>
+<p>我们把大师兄和二师兄的代码放一起跑一遍基准测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">test</span> -bench . -run none -benchmem -cpuprofile cpuprofile.out -memprofile memprofile.out</span><br></pre></td></tr></table></figure>
+
+<p><strong>得到</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">goos: darwin</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: go_practice/benchmart_example</span><br><span class="line">BenchmarkAesEncryptA-8                 1        1174023307 ns/op        1207968624 B/op       13 allocs/op</span><br><span class="line">BenchmarkAesEncryptB-8                 1        7496300203 ns/op        6218810296 B/op       50 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok      go_practice/benchmart_example   9.508s</span><br></pre></td></tr></table></figure>
+
+<p>从 <code>CPU</code> 耗时上看，大师兄的代码耗时只有二师兄的 1/7，单次内存消耗只有二师兄的 1/5，并且内存分配次数也只有二师兄的 1/4 左右。</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>二师兄在追赶大师兄的道路上，又前进了一大步，可喜可贺~~</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://my.oschina.net/solate/blog/3034188" target="_blank" rel="noopener">go benchmark 性能测试</a></p>
+<p>[2] <a href="https://golang.org/cmd/go/#hdr-Testing_flags" target="_blank" rel="noopener">go testing</a></p>
+<p><strong><em>原创不易，欢迎关注我的公众号：码农的自由之路</em></strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/02/go-file-lock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1664,166 +1809,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/13/mysql%E4%B9%8Bredolog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/13/mysql%E4%B9%8Bredolog/" class="post-title-link" itemprop="url">MySQL 日志之 redolog</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-13 01:55:06" itemprop="dateCreated datePublished" datetime="2020-04-13T01:55:06+08:00">2020-04-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-21 16:08:59" itemprop="dateModified" datetime="2020-06-21T16:08:59+08:00">2020-06-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、redolog-概述"><a href="#一、redolog-概述" class="headerlink" title="一、redolog 概述"></a>一、redolog 概述</h2><p><code>mysql</code> 有多种日志，每种日志都有其特定的用途。 <code>redolog</code> 是 <code>mysql</code> 存储引擎为 <code>innodb</code> 时，特有的日志。 <code>innodb</code> 是 <code>mysql</code> 最常用的存储引擎，它的事务的持久性就是通过 <code>redolog</code>保证的。</p>
-<h2 id="二、redolog-介绍"><a href="#二、redolog-介绍" class="headerlink" title="二、redolog 介绍"></a>二、redolog 介绍</h2><p>为了更清晰的将 <code>redolog</code> 讲清楚，本文会围绕以下几个方面逐层展开。</p>
-<ul>
-<li><code>redolog</code> 是什么？</li>
-<li><code>redolog</code> 存储形式</li>
-<li><code>redolog</code> 是怎么产生的？</li>
-<li><code>redolog</code> 的格式</li>
-<li>为什么用 <code>redolog</code> 来保证事务的持久性？</li>
-</ul>
-<h3 id="2-1-redolog-是什么"><a href="#2-1-redolog-是什么" class="headerlink" title="2.1 redolog 是什么"></a>2.1 redolog 是什么</h3><p><code>redolog</code> 是存储引擎 <code>innodb</code> 特有的、在引擎层生成的（ <code>binlog</code> 是在 <code>server</code> 层产生的，不管用任何引擎都会生成），用于保证事务持久性的日志。 <code>redolog</code> 采用了 <code>WAL</code> ( <code>Write-Ahead Logging</code> ) 机制，即日志优先落盘，也就是说，一个事务发生之后， <code>innodb</code> 会先将数据页的变动写到 <code>redolog</code> 中，而不是实际的数据文件中，一旦 <code>redolog</code> 写入完成，就认为这个事务的操作记录完成了。之后mysql会有一套更新机制，定期的将 <code>redolog</code> 中的内容写入到数据文件中。</p>
-<p>在 <code>mysql</code> 中， <code>redolog</code> 不会用来做物理上的主从复制，它主要的应用场景是 <code>crash-recovery</code> (崩溃恢复).</p>
-<p>无论mysql有没有发生异常，重新启动的时候，mysql都会通过 <code>redolog</code> 恢复，确保数据没有问题。</p>
-<h3 id="2-2-redolog-的存储形式"><a href="#2-2-redolog-的存储形式" class="headerlink" title="2.2 redolog 的存储形式"></a>2.2 redolog 的存储形式</h3><p>我们可以执行如下 <code>mysql</code> 命令查看 <code>redolog</code> 相关的部分信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;%innodb_log%”;</span><br></pre></td></tr></table></figure>
-
-<p>执行结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+------------------------------------+----------+</span><br><span class="line">| Variable_name                      | Value    |</span><br><span class="line">+------------------------------------+----------+</span><br><span class="line">| innodb_log_buffer_size             | 16777216 |</span><br><span class="line">| innodb_log_checksums               | ON       |</span><br><span class="line">| innodb_log_compressed_pages        | ON       |</span><br><span class="line">| innodb_log_file_size               | 50331648 |</span><br><span class="line">| innodb_log_files_in_group          | 2        |</span><br><span class="line">| innodb_log_group_home_dir          | .&#x2F;       |</span><br><span class="line">| innodb_log_spin_cpu_abs_lwm        | 80       |</span><br><span class="line">| innodb_log_spin_cpu_pct_hwm        | 50       |</span><br><span class="line">| innodb_log_wait_for_flush_spin_hwm | 400      |</span><br><span class="line">| innodb_log_write_ahead_size        | 8192     |</span><br><span class="line">+------------------------------------+----------+</span><br></pre></td></tr></table></figure>
-
-<p>一些参数的解释：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">innodb_log_buffer_size: redolog缓存区的大小，即16m</span><br><span class="line">innodb_log_file_size: redolog文件的大小，即48m</span><br><span class="line">innodb_log_files_in_group: 日志文件组中文件数量</span><br><span class="line">innodb_log_group_home_dir: 日志文件组路径即 mysql&#x2F;data</span><br></pre></td></tr></table></figure>
-
-<p>如果 <code>mysql</code> 的安装路径是默认路径，那么：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mysql</span><br><span class="line">ls data</span><br></pre></td></tr></table></figure>
-
-<p>形如 <code>ib_logfile0</code>、 <code>ib_logfile1</code> 之类的文件就是 <code>redolog file</code>。为什么这里会出现两个 <code>ib_logfile</code> ？这是因为 <code>redolog file</code> 其实指的是一个文件组，由多个 <code>ib_logfile</code> 合并起来共同表示。</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/redolog_checkpoint.png" alt="redolog checkpoint"></p>
-<p><code>redolog</code> 的大小是在配置中设置好的，不能无限制写入。 <code>innodb</code> 采用了循环写入的方式，图中 <code>checkpoint</code> 和 <code>writepos</code> 就是用来区分哪些数据已经从日志文件中刷新到数据文件中。<code>writepos</code> -&gt; <code>checkpoint</code> 之间的数据是已经写入到数据文件中的，是可以删除的，<code>checkpoint</code> -&gt; <code>writepos</code> 之间的数据是已经写入到日志文件中，但是还没有写入到数据文件中，是不可以擦除的。</p>
-<p>如果有新的数据写入到日志文件上，<code>writepos</code> 的位置就会顺时钟挪动，如果发现超过了 <code>checkpoint</code> 的位置，就会强制将一部分 <code>checkpoint</code> 右边的数据刷如磁盘中的数据文件上，然后将 <code>checkpoint</code> 顺时针移动一定的位置。</p>
-<h3 id="2-3-redolog-是怎么产生的"><a href="#2-3-redolog-是怎么产生的" class="headerlink" title="2.3 redolog 是怎么产生的"></a>2.3 redolog 是怎么产生的</h3><h4 id="2-3-1-事务的执行引起-redolog-的更新"><a href="#2-3-1-事务的执行引起-redolog-的更新" class="headerlink" title="2.3.1 事务的执行引起 redolog 的更新"></a>2.3.1 事务的执行引起 redolog 的更新</h4><p><code>redolog</code> 更新的依据是事务的执行。每一次事务执行完毕之后，所引起的数据页的变化都会先写到 <code>redolog</code> 中（当然，如果事务中是先 <code>insert</code> 再 <code>delete</code>，实际不对数据页做出改变的话， <code>redolog</code> 是不会更新的）。</p>
-<p><em>注：<code>innodb</code> 中 <code>insert</code> 或者 <code>update</code> 语句默认都是事务。</em></p>
-<h4 id="2-3-2-redolog-的写入流程"><a href="#2-3-2-redolog-的写入流程" class="headerlink" title="2.3.2 redolog 的写入流程"></a>2.3.2 redolog 的写入流程</h4><p>并不是事务一执行，数据页就被写入到 <code>redolog</code> 中。 <code>redolog</code> 本身是文件，频繁的写文件，会导致性能的降低，所以 <code>redolog</code> 的写入流程如下，以一个 update 操作为例：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/redolog_wiriting_process.png" alt="redolog 刷新流程"></p>
-<p>在最后一步，将数据从缓存刷入文件的时候，其实中间还有一步，缓存中的数据会先刷到 <code>linux</code> 的文件缓存中，然后才会再被刷入到日志文件中。如果 <code>Linux</code> 机器忽然重启，就有可能丢失这部分数据， <code>redolog file</code> 就会更新失败。</p>
-<p><code>redolog buffer</code> 何时刷入日志文件，是否需要强制刷新 <code>Linux</code> 文件缓存？ <code>innodb</code> 主要通过下面这两个参数控制：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+--------------------------------+-------+</span><br><span class="line">| Variable_name                  | Value |</span><br><span class="line">+--------------------------------+-------+</span><br><span class="line">| innodb_flush_log_at_timeout    | 1     |</span><br><span class="line">| innodb_flush_log_at_trx_commit | 1     |</span><br><span class="line">+--------------------------------+-------+</span><br></pre></td></tr></table></figure>
-
-<p><code>innodb_flush_log_at_trx_commit</code> 配置的详细说明如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Controls the balance between strict ACID compliance for commit operations and higher performance that is possible when commit-related I&#x2F;O operations are rearranged and done in batches. You can achieve better performance by changing the default value but then you can lose transactions in a crash.</span><br><span class="line">* The default setting of 1 is required for full ACID compliance. Logs are written and flushed to disk at each transaction commit.</span><br><span class="line">* With a setting of 0, logs are written and flushed to disk once per second. Transactions for which logs have not been flushed can be lost in a crash.</span><br><span class="line">* With a setting of 2, logs are written after each transaction commit and flushed to disk once per second. Transactions for which logs have not been flushed can be lost in a crash.</span><br><span class="line">* For settings 0 and 2, once-per-second flushing is not 100% guaranteed. Flushing may occur more frequently due to DDL changes and other internal InnoDB activities that cause logs to be flushed independently of the innodb_flush_log_at_trx_commit setting, and sometimes less frequently due to scheduling issues. If logs are flushed once per second, up to one second of transactions can be lost in a crash. If logs are flushed more or less frequently than once per second, the amount of transactions that can be lost varies accordingly.</span><br><span class="line">* Log flushing frequency is controlled by innodb_flush_log_at_timeout, which allows you to set log flushing frequency to N seconds (where N is 1 ... 2700, with a default value of 1). However, any mysqld process crash can erase up to N seconds of transactions.</span><br><span class="line">* DDL changes and other internal InnoDB activities flush the log independently of the innodb_flush_log_at_trx_commit setting.</span><br><span class="line">* InnoDB crash recovery works regardless of the innodb_flush_log_at_trx_commit setting. Transactions are either applied entirely or erased entirely.</span><br></pre></td></tr></table></figure>
-
-<p>根据上面的解释，<code>innodb_flush_log_at_trx_commit = 1</code> 时， <code>logbuffer</code> 实时刷入，且系统缓存也会实时刷入文件，此时数据库的四大特性：ACID 能够严格保证。 <code>innodb_flush_log_at_trx_commit</code> 等于其它值的时候，可以通过 <code>innodb_flush_log_at_timeout</code> 来控制缓存刷新的频率。</p>
-<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_flush_log_at_timeout" target="_blank" rel="noopener">相关配置的详细解释</a></p>
-<h3 id="2-4-redolog-文件格式"><a href="#2-4-redolog-文件格式" class="headerlink" title="2.4 redolog 文件格式"></a>2.4 redolog 文件格式</h3><h4 id="2-4-1-redolog-文件存储地址"><a href="#2-4-1-redolog-文件存储地址" class="headerlink" title="2.4.1 redolog 文件存储地址"></a>2.4.1 redolog 文件存储地址</h4><p>根据上文中 <code>innodb_log</code> 的配置 <code>innodb_log_group_home_dir = ./</code> (这里的当前目录即mysql的数据文件目录，如果你是安装在默认路径，一般数据文件目录为 <code>/usr/local/mysql/data</code> )，文件目录如下:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">drwxr-x---   12 _mysql  _mysql       384 Mar 13 00:31 #innodb_temp</span><br><span class="line">drwxr-x---    3 _mysql  _mysql        96 Apr  4 22:10 appengine_common</span><br><span class="line">-rw-r-----    1 _mysql  _mysql        56 Aug 28  2019 auto.cnf</span><br><span class="line">-rw-r-----    1 _mysql  _mysql      7062 Mar  6 20:58 binlog.000014</span><br><span class="line">-rw-r-----    1 _mysql  _mysql       178 Mar  7 01:47 binlog.000015</span><br><span class="line">-rw-r-----    1 _mysql  _mysql       178 Mar  7 02:10 binlog.000016</span><br><span class="line">-rw-r-----    1 _mysql  _mysql       178 Mar  7 02:34 binlog.000017</span><br><span class="line">-rw-r-----    1 _mysql  _mysql       178 Mar 12 11:24 binlog.000018</span><br><span class="line">-rw-r-----    1 _mysql  _mysql       178 Mar 12 12:25 binlog.000019</span><br><span class="line">-rw-r-----    1 _mysql  _mysql       178 Mar 13 00:31 binlog.000020</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  51286298 Apr  4 22:26 binlog.000021</span><br><span class="line">-rw-r-----    1 _mysql  _mysql       128 Mar 13 00:31 binlog.index</span><br><span class="line">-rw-------    1 _mysql  _mysql      1680 Aug 28  2019 ca-key.pem</span><br><span class="line">-rw-r--r--    1 _mysql  _mysql      1112 Aug 28  2019 ca.pem</span><br><span class="line">-rw-r--r--    1 _mysql  _mysql      1112 Aug 28  2019 client-cert.pem</span><br><span class="line">-rw-------    1 _mysql  _mysql      1680 Aug 28  2019 client-key.pem</span><br><span class="line">-rw-r-----    1 _mysql  _mysql      4110 Mar 13 00:31 ib_buffer_pool</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  50331648 Apr  4 22:26 ib_logfile0</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  50331648 Apr  4 22:26 ib_logfile1</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  12582912 Apr  4 22:26 ibdata1</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  12582912 Mar 13 00:31 ibtmp1</span><br><span class="line">drwxr-x---    8 _mysql  _mysql       256 Nov  8 23:52 mysql</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  24117248 Apr  4 22:26 mysql.ibd</span><br><span class="line">-rw-r-----    1 _mysql  _mysql     19195 Mar 13 00:31 mysqld.local.err</span><br><span class="line">-rw-r-----    1 _mysql  _mysql         4 Mar 13 00:31 mysqld.local.pid</span><br><span class="line">drwxr-x---  105 _mysql  _mysql      3360 Nov  8 23:52 performance_schema</span><br><span class="line">-rw-------    1 _mysql  _mysql      1680 Aug 28  2019 private_key.pem</span><br><span class="line">-rw-r--r--    1 _mysql  _mysql       452 Aug 28  2019 public_key.pem</span><br><span class="line">-rw-r--r--    1 _mysql  _mysql      1112 Aug 28  2019 server-cert.pem</span><br><span class="line">-rw-------    1 _mysql  _mysql      1676 Aug 28  2019 server-key.pem</span><br><span class="line">drwxr-x---    3 _mysql  _mysql        96 Nov  8 23:52 sys</span><br><span class="line">drwxr-x---    3 _mysql  _mysql        96 Mar 30 23:15 test</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  12582912 Apr  4 22:26 undo_001</span><br><span class="line">-rw-r-----    1 _mysql  _mysql  12582912 Apr  4 22:26 undo_002</span><br></pre></td></tr></table></figure>
-
-<p>其中前缀是 <code>ib_logfile</code> 的文件就是。</p>
-<p>如果你想看一下文件中的具体内容，可以通过命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings ib_logfile0</span><br></pre></td></tr></table></figure>
-
-<p>大概感知一下。在文件中，我们能搜到诸如 <code>thread_id</code>，<code>space_id</code> 之类的字段。</p>
-<h4 id="2-4-2-redolog-格式简介"><a href="#2-4-2-redolog-格式简介" class="headerlink" title="2.4.2 redolog 格式简介"></a>2.4.2 redolog 格式简介</h4><p>尽管一个 <code>redolog</code> 有多个文件，但是每个文件的格式是一致的，只是有一些数据只会存在第一个文件中。</p>
-<p>第一个文件 <code>ib_logfile0</code> 的格式如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/indb_file0_overview.png" alt="ib_logfile0"></p>
-<p>从图中可以看到，日志文件中包含了文件头信息和具体的日志信息，这些日志信息分别写在每一个日志块中。</p>
-<p>其它文件 <code>ib_logfile*</code> 的格式如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/indb_file1_overview.png" alt="ib_logfile*"></p>
-<p>其它的日志文件内容格式基本一样，主要区别在 <code>checkpoint</code> 信息（ <code>checkpoint</code> 记录的是已经更新到数据文件中的 LSN）。</p>
-<p>在深刻理解 <code>checkpoint</code> 的含义前，首先需要理解 <code>LSN</code>（ <code>og sequence number</code> ）的概念。</p>
-<p><strong>什么是LSN？</strong></p>
-<p><code>LSN</code> 表示日志记录创建开始到特定的日志记录已经写入的字节数。 <code>mysql</code> 通过 <code>LSN</code> 来判断是否需要刷新 <code>buffer</code> 到 <code>redolog</code> 上以及是否需要将 <code>redolog</code> 写到磁盘上。<code>LSN</code> 是单调递增的。</p>
-<p>以我本地的数据库为例。</p>
-<p>第一步，查看 <code>innodb</code> 的状态：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engine innodb status\G;</span><br></pre></td></tr></table></figure>
-<p>部分结果如下(后面的数据就是 <code>LSN</code> )：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">LOG</span><br><span class="line">---</span><br><span class="line">Log sequence number          85755920</span><br><span class="line">Log buffer assigned up to    85755920</span><br><span class="line">Log buffer completed up to   85755920</span><br><span class="line">Log written up to            85755920</span><br><span class="line">Log flushed up to            85755920</span><br><span class="line">Added dirty pages up to      85755920</span><br><span class="line">Pages flushed up to          85755920</span><br><span class="line">Last checkpoint at           85755920</span><br></pre></td></tr></table></figure>
-
-<p>然后我删除了 <code>MySQL</code> 中的一个数据库，再次查看 innodb 的状态，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">LOG</span><br><span class="line">---</span><br><span class="line">Log sequence number          85755974</span><br><span class="line">Log buffer assigned up to    85755974</span><br><span class="line">Log buffer completed up to   85755974</span><br><span class="line">Log written up to            85755974</span><br><span class="line">Log flushed up to            85755974</span><br><span class="line">Added dirty pages up to      85755974</span><br><span class="line">Pages flushed up to          85755920</span><br><span class="line">Last checkpoint at           85755920</span><br></pre></td></tr></table></figure>
-<p>可以看到， <code>buffer</code> 中的 <code>LSN</code> 已经更新了，<code>redolog</code> 中日志记录的 <code>LSN</code> 也已经更新到最新，但是 <code>checkpoint</code> 还是之前的记录，因为 <code>checkpoint</code> 小于 <code>redolog</code> 最新的 <code>LSN</code> ，所以 <code>mysql</code> 认为需要将 <code>checkpoint</code> 之后的数据继续更新到数据文件中。</p>
-<p>继续查看 <code>innodb</code> 的状态，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">LOG</span><br><span class="line">---</span><br><span class="line">Log sequence number          85755974</span><br><span class="line">Log buffer assigned up to    85755974</span><br><span class="line">Log buffer completed up to   85755974</span><br><span class="line">Log written up to            85755974</span><br><span class="line">Log flushed up to            85755974</span><br><span class="line">Added dirty pages up to      85755974</span><br><span class="line">Pages flushed up to          85755974</span><br><span class="line">Last checkpoint at           85755974</span><br></pre></td></tr></table></figure>
-
-<p>这次可以看到，<code>checkpoin</code>t 已经更新成最新的 <code>LSN</code> 了，这表明之前没来的及更新到数据文件中 <code>redolog</code> 也已经更新进去了。所以最终全部的 <code>LSN</code> 是保持一致的。</p>
-<p>再细的日志格式就不在这里展开了，我看的也不深，如果你想更深入的了解，一是可以去参考 <code>mysql</code> 的源码，或者参考下面的这两篇文章。</p>
-<p><strong>注</strong>：这一节内容主要参考了文章 <a href="https://blog.51cto.com/wangwei007/2287431" target="_blank" rel="noopener">MySQL InnoDB redo Log 浅析</a> 和 <a href="http://mysql.taobao.org/monthly/2017/09/07/" target="_blank" rel="noopener">MySQL · 源码分析 · Innodb 引擎Redo日志存储格式简介</a>。</p>
-<h3 id="2-5-为什么用-redolog-来保证事务的持久性？"><a href="#2-5-为什么用-redolog-来保证事务的持久性？" class="headerlink" title="2.5 为什么用 redolog 来保证事务的持久性？"></a>2.5 为什么用 redolog 来保证事务的持久性？</h3><blockquote>
-<p>事务的持久性是指事务一旦提交就会永久生效</p>
-</blockquote>
-<p><code>redolog</code> 采用的机制是 <code>WAL</code> (Write-Ahead Logging) 机制，因此事务的持久性是通过日志的持久性实现的，即每次事务提交，在持久化一个数据页的时候，首先将数据页内容持久化到日志中。</p>
-<p>为什么要采用 <code>WAL</code> 机制？因为将数据页写到日志中的时间要远远快于写到数据存储文件中。我们知道，<code>innodb</code> 底层的存储实现是 <code>B+Tree</code>，对数据页的寻址是通过指针决定的。如果执行多条 <code>update</code> 语句，影响的数据页在不同的磁盘块上，那么对计算机来说磁盘块的寻址会消耗很多时间；而如果是将这些数据页的变动直接写到日志文件中，因为是顺序写入，消耗的时间远远小于前者。</p>
-<p>从 IO 次数来说，<code>WAL</code> 刷新是少量 IO，DaTa 刷新是大量 IO， <code>WAL</code> 刷新次数少得多；<br>从 IO 花销来说， <code>WAL</code> 刷新是连续IO，Data 刷新是随机IO， <code>WAL</code> 刷新花销小得多.</p>
-<p>因此WAL机制在保证事务持久性和数据完整性的同时，成功地提升了系统性能。</p>
-<p><strong>Tips</strong></p>
-<p>redolog 除了用来保证事务的持久性，它所采用的 <strong>两阶段提交</strong> 机制也保证了事务的一致性。<strong>两阶段提交</strong> 涉及到 <code>binlog</code>，后续讲 <code>binlog</code> 的时候，会重点讲解下。</p>
-<p>参考课程：<a href="https://time.geekbang.org/column/intro/100020801?code=rNEW29DDq73FD01HP-2AEicuNieaJ24KUQ9tYhCk1Ow%3D" target="_blank" rel="noopener">https://time.geekbang.org/column/intro/100020801?code=rNEW29DDq73FD01HP-2AEicuNieaJ24KUQ9tYhCk1Ow%3D</a></p>
-<h2 id="三、结语"><a href="#三、结语" class="headerlink" title="三、结语"></a>三、结语</h2><p>相信经过上面的讲解，你应该对 <code>redolog</code> 的概念、用处有了一个清晰的认识，并且能根据不同的生产环境对相关的配置做出合适的调整。如果你希望对 <code>redolog</code> 的具体格式以及实现有更深入的理解，可以结合上文提到文章和源码继续深入了解。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1894,7 +1879,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1907,7 +1892,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
