@@ -176,6 +176,961 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/19/faq-bot-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/19/faq-bot-1/" class="post-title-link" itemprop="url">FAQBot 实践系列#1 —— 从开源语料入手</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-19 15:26:31 / 修改时间：15:30:47" itemprop="dateCreated datePublished" datetime="2020-09-19T15:26:31+08:00">2020-09-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="语料"><a href="#语料" class="headerlink" title="语料"></a>语料</h2><p>FAQBot构建的基础是有一份高质量的问答语料。通过不断的搜索和查找，找到一份 <code>保险行业</code> 的问答语料：<a href="https://github.com/chatopera/insuranceqa-corpus-zh" target="_blank" rel="noopener">insuranceqa-corpus-zh</a></p>
+<h3 id="语料背景"><a href="#语料背景" class="headerlink" title="语料背景"></a>语料背景</h3><p>该语料库包含从网站 <a href="https://www.insurancelibrary.com/" target="_blank" rel="noopener">Insurance Library</a> 收集的问题和答案。<br>以下是官方介绍：</p>
+<blockquote>
+<ul>
+<li><p>该语料库的内容由现实世界的用户提出，高质量的答案由具有深度领域知识的专业人士提供。 所以这是一个具有真正价值的语料，而不是玩具。</p>
+</li>
+<li><p>在上述论文中，语料库用于答复选择任务。 另一方面，这种语料库的其他用法也是可能的。 例如，通过阅读理解答案，观察学习等自主学习，使系统能够最终拿出自己的看不见的问题的答案。</p>
+</li>
+<li><p>数据集分为两个部分“问答语料”和“问答对语料”。问答语料是从原始英文数据翻译过来，未经其他处理的。问答对语料是基于问答语料，又做了分词和去标去停，添加label。所以，”问答对语料”可以直接对接机器学习任务。如果对于数据格式不满意或者对分词效果不满意，可以直接对”问答语料”使用其他方法进行处理，获得可以用于训练模型的数据。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="语料格式"><a href="#语料格式" class="headerlink" title="语料格式"></a>语料格式</h3><p>训练数据之前，我们先仔细看下语料的格式。</p>
+<h4 id="原始语料"><a href="#原始语料" class="headerlink" title="原始语料"></a>原始语料</h4><p>原始语料的目录是 <code>/corpus/pool</code>。 </p>
+<p><strong>问题</strong></p>
+<p>train，test，valid 是存放问题的文件，分别对应着训练集、测试集和验证集。对应的 txt 文件中是中英对照的问题，json 文件中的信息比较全，包含了中英对照的问题，问题的领域（类别），对应的答案以及错误的答案（负样本）。示例如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"0"</span>: &#123;</span><br><span class="line">        <span class="attr">"zh"</span>: <span class="string">"医疗保险拿起公司支付吗？"</span>,</span><br><span class="line">        <span class="attr">"en"</span>: <span class="string">"Does  Medicare  Pick  Up  Co  Pays?"</span>,</span><br><span class="line">        <span class="attr">"domain"</span>: <span class="string">"medicare-insurance"</span>,</span><br><span class="line">        <span class="attr">"answers"</span>: [</span><br><span class="line">            <span class="string">"4436"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"negatives"</span>: [</span><br><span class="line">            <span class="string">"1650"</span>,</span><br><span class="line">            <span class="string">"14016"</span>,</span><br><span class="line">            <span class="string">"24487"</span>,</span><br><span class="line">            <span class="string">"18224"</span>,</span><br><span class="line">            <span class="string">"15953"</span>,</span><br><span class="line">            <span class="string">"16740"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>zh</code> 是根据答案原文翻译过来的，翻译质量一般。比如示例中英文的意思其实是问【医疗保险会承担挂号费吗】（ <code>co-pay</code> 是看医生前需要支付的定额费用，类似挂号费），如果直接看翻译就不知所云了。<code>answers</code> 和 <code>negatives</code> 中的数字表示对应答案的id，下面会提到。</p>
+<p><strong>答案</strong></p>
+<p><code>answers</code> 中包含了答案的id和答案的中英文对照。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"0"</span>: &#123;</span><br><span class="line">        <span class="attr">"zh"</span>: <span class="string">" 汽车跟随着。示例1：如果你被给了一辆汽车（借给），那辆车没有保险，你可以在汽车上买保险，你的保险将是主要的。另一个选择，有人帮你买车。例如，您的信用评分不足以融资，因此您的朋友在您的贷款下签署了主要付款人。您可以根据您的姓名获得保险，甚至将您的朋友列为保险单，作为损失赔偿人。在这种情况下，我们总是建议您获得贷款差距：汽车的实际现金价值与其仍然拥有的金额之间的差额。例2：你借的车有保险。您可以以您的名义购买政策，列出该政策的车辆，如果发生事故，您的政策将成为次要或超额。一旦主要汽车保险的限制用尽，您的保险将踢入，并希望支付其余费用。我特意用了这个词，因为每个事故都是独一无二的，没有实际的索赔情况就很难解释这个覆盖面。即使在给定的索赔情况下，有时索赔有两个可能的结果。"</span>,</span><br><span class="line">        <span class="attr">"en"</span>: <span class="string">" Coverage follows the car. Example 1: If you were given a car (loaned) and the car has no insurance, you can buy insurance on the car and your insurance will be primary. Another option, someone helped you to buy a car. For example your credit score isn't good enough to finance, so a friend of yours signed under your loan as a primary payor. You can get insurance under your name and even list your friend on the policy as a loss payee. In this case, we always suggest you get a loan gap coverage: the difference between the car's actual cash value and the amount still owned on it. Example 2: The car you are loaned has insurance. You can buy a policy under your name, list the car on that policy and in case of the accident, your policy will become a secondary or excess. Once the limits of the primary car insurance are exhausted, your coverage would kick in and hopefully pay for the rest. I specifically used the word hopefully, because each accident is unique and it's hard to interpret the coverage without the actual claim scenario. And even with a given claim scenario, sometimes there are 2 possible outcomes of a claim."</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="加工语料"><a href="#加工语料" class="headerlink" title="加工语料"></a>加工语料</h4><blockquote>
+<p>使用原始语料，还需要做很多工作才能进入机器学习的模型，比如分词，去停用词，去标点符号，添加label标记。所以，在原始语料的基础上，，insuranceqa-corpus-zh提供了一个使用HanLP分词和去标，去停，添加label的数据集，这个数据集完全是基于原始语料</p>
+</blockquote>
+<p>加工语料的目录是：<code>corpus/pairs</code></p>
+<p><strong>词表</strong><br><code>vocab_data</code> 包含<code>word2id</code> (dict, 从word到id), <code>id2word</code> (dict, 从id到word),<code>tf</code> (dict, 词频统计)和 <code>total</code> (单词总数)。 其中，未登录词的标识为 <code>UNKNOWN</code>，未登录词的id为0。</p>
+<p><strong>数据格式</strong><br>train、test、valid中的数据格式一直。示例中 <code>qid</code> 对应原始语料中问题的 <code>id</code>。 <code>question</code> 中的数值表示分词后，该词对应的<code>id</code>，即 <code>word2id</code> 的查表结果。<code>utterance</code> 是回复，<code>label</code> 如果是 <code>[1,0]</code> 代表回复是正确答案，<code>[0,1]</code> 代表回复不是正确答案，所以 <code>utterance</code> 包含了正例和负例的数据。每个问题含有10个负例和1个正例。该项目并没有说明负样本的采集方式。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"qid"</span>:<span class="string">"344"</span>,</span><br><span class="line">    <span class="attr">"question"</span>:[</span><br><span class="line">        <span class="number">2462</span>,<span class="number">3206</span>,<span class="number">8878</span>,<span class="number">17449</span>,<span class="number">11331</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"utterance"</span>:[</span><br><span class="line">        <span class="number">8878</span>,<span class="number">17449</span>,<span class="number">11331</span>,<span class="number">3206</span>,<span class="number">9757</span>,<span class="number">21338</span>,<span class="number">4757</span>,<span class="number">11331</span>,<span class="number">13381</span>,<span class="number">10310</span>,<span class="number">10114</span>,<span class="number">6069</span>,<span class="number">5231</span>,<span class="number">13346</span>,<span class="number">4185</span>,<span class="number">12750</span>,<span class="number">6568</span>,<span class="number">5425</span>,<span class="number">3206</span>,<span class="number">10114</span>,<span class="number">11705</span>,<span class="number">6194</span>,<span class="number">13402</span>,<span class="number">23991</span>,<span class="number">11273</span>,<span class="number">8231</span>,<span class="number">490</span>,<span class="number">10299</span>,<span class="number">9757</span>,<span class="number">9843</span>,<span class="number">18157</span>,<span class="number">13334</span>,<span class="number">23611</span>,<span class="number">1907</span>,<span class="number">10099</span>,<span class="number">6568</span>,<span class="number">7344</span>,<span class="number">1704</span>,<span class="number">16818</span>,<span class="number">2311</span>,<span class="number">6683</span>,<span class="number">12268</span>,<span class="number">7197</span>,<span class="number">9757</span>,<span class="number">11869</span>,<span class="number">23800</span>,<span class="number">10617</span>,<span class="number">1134</span>,<span class="number">22430</span>,<span class="number">23810</span>,<span class="number">9843</span>,<span class="number">14297</span>,<span class="number">10227</span>,<span class="number">14005</span>,<span class="number">5526</span>,<span class="number">12360</span>,<span class="number">13467</span>,<span class="number">16917</span>,<span class="number">22724</span>,<span class="number">22086</span>,<span class="number">24346</span>,<span class="number">20333</span>,<span class="number">12268</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"label"</span>:[<span class="number">1</span>,<span class="number">0</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="语料统计"><a href="#语料统计" class="headerlink" title="语料统计"></a>语料统计</h3><table>
+<thead>
+<tr>
+<th>语料集</th>
+<th>类别（Q/A）</th>
+<th>最大长度</th>
+<th>平均长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>train</td>
+<td>Q</td>
+<td>42</td>
+<td>5</td>
+</tr>
+<tr>
+<td>train</td>
+<td>A</td>
+<td>878</td>
+<td>162</td>
+</tr>
+<tr>
+<td>test</td>
+<td>Q</td>
+<td>33</td>
+<td>5</td>
+</tr>
+<tr>
+<td>test</td>
+<td>A</td>
+<td>878</td>
+<td>161</td>
+</tr>
+<tr>
+<td>valid</td>
+<td>Q</td>
+<td>31</td>
+<td>5</td>
+</tr>
+<tr>
+<td>878</td>
+<td>A</td>
+<td>878</td>
+<td>165</td>
+</tr>
+</tbody></table>
+<h2 id="Baseline复现"><a href="#Baseline复现" class="headerlink" title="Baseline复现"></a>Baseline复现</h2><h3 id="环境准备-训练"><a href="#环境准备-训练" class="headerlink" title="环境准备+训练"></a>环境准备+训练</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// git <span class="built_in">clone</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:chatopera/insuranceqa-corpus-zh.git</span><br><span class="line"></span><br><span class="line">// 安装环境依赖</span><br><span class="line">pip install -r Requirements.txt</span><br><span class="line"></span><br><span class="line">// 更新数据处理的代码</span><br><span class="line">pip install --upgrade insuranceqa_data</span><br><span class="line"></span><br><span class="line">// 模型训练</span><br><span class="line">python3 deep_qa_1/network.py</span><br></pre></td></tr></table></figure>
+
+<p>训练的过程中可能会出现以下错误：</p>
+<ol>
+<li>ssl.SSLError 问题<ul>
+<li>原因是 insuranceqa_data 加载数据的时候，读取数据的路径是绝对路径，读不到数据文件，触发下载，需要修改 insuranceqa_data 中的加载路径为：<code>curdir = os.getcwd()</code> </li>
+<li>本质原因是 Python3 请求https时，会对ssl进行校验，要么安装证书，要么关闭校验，具体方法百度即可。</li>
+</ul>
+</li>
+<li>ImportError: Python is not installed as a framework. <ul>
+<li>mac 下使用matplotlib画图可能会出现这个问题。根据报错提示，在涉及画图的代码中加上 <code>import matplotlib; matplotlib.use(&#39;TkAgg&#39;)</code> 即可</li>
+</ul>
+</li>
+</ol>
+<h3 id="训练结果"><a href="#训练结果" class="headerlink" title="训练结果"></a>训练结果</h3><p><strong>主要训练参数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hidden_layers &#x3D; [100, 50]</span><br><span class="line">question_max_length &#x3D; 20</span><br><span class="line">utterance_max_length &#x3D; 99</span><br><span class="line">lr &#x3D; 0.001</span><br><span class="line">epoch &#x3D; 50</span><br><span class="line">batch_size &#x3D; 100</span><br></pre></td></tr></table></figure>
+
+<p><strong>准确率</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_accuracy.png" alt="accuracy"></p>
+<p><strong>loss变化</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_loss.png" alt="loss"></p>
+<p>可以看到，准确率到了0.9之后几乎就不变了，loss开始下降的很快，之后在0.8附近剧烈波动，说明这个时候再进行更多的迭代训练并不会对准确率的提升有显著的效果，baseline的方法已经到了极限，需要寻找更好的算法了。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>至此，baseline 已经复现完毕。接下来的文章准备以此为基础，不断优化算法，在此基础之上尽可能的提高准确率。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/18/invest-pratice-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/18/invest-pratice-0/" class="post-title-link" itemprop="url">财务自由实证#0——自由能实现吗?</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-18 15:28:09" itemprop="dateCreated datePublished" datetime="2020-07-18T15:28:09+08:00">2020-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-02 17:20:40" itemprop="dateModified" datetime="2021-05-02T17:20:40+08:00">2021-05-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
+                    <span itemprop="name">投资理财</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>受公众号 <code>【也谈钱】</code> 的影响，以及互联网加班的摧残，觉得有必要早早的开始梳理家庭的财务状况，并且制定财务自由的目标和方案，为自由而奋斗。</p>
+<h2 id="财务自由的目标"><a href="#财务自由的目标" class="headerlink" title="财务自由的目标"></a>财务自由的目标</h2><p>设置 <strong>财务自由</strong> 的目标前，首先需要知道财务自由的定义，明确自己需要实现的是哪种等级的财务自由，才能以此为依据，制定出切实可行的计划，并开始行动。</p>
+<p>这里我拍脑袋定了一个目标：</p>
+<ul>
+<li><strong>目标</strong>：500万（流动性资产）</li>
+<li><strong>期限</strong>：25年</li>
+</ul>
+<p>下面详细解释下这个脑袋是怎么拍的。</p>
+<h3 id="什么是财务自由？"><a href="#什么是财务自由？" class="headerlink" title="什么是财务自由？"></a>什么是财务自由？</h3><p>经常能看到一些标题党文章如 <a href="https://www.sohu.com/a/309461248_120139549" target="_blank" rel="noopener">2.9亿？！《2019北京财务自由等级图鉴》出炉！</a> 等等，看完之后瞬间觉得财务自由此生无望。。。</p>
+<p><strong>实际上</strong></p>
+<blockquote>
+<p>财务自由是指你无需为生活开销而努力为钱工作的状态。简单地说，你的资产产生的被动收入必须至少要等于或超过你的日常开支。–<a href="https://zh.wikipedia.org/wiki/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1" target="_blank" rel="noopener">wikipedia</a></p>
+</blockquote>
+<p>根据上面的定义，实现了被动收入大于日常开支就能实现财务自由。听起来很简单有没有~~</p>
+<p>被动收入的等级无法衡量，但是日常支出是可以衡量的。结合近几年财务自由越来越丰富的内涵，财务自由的等级可以戏分如下：</p>
+<ul>
+<li>外卖自由</li>
+<li>打车自由</li>
+<li>商场自由</li>
+<li>租房自由</li>
+<li>旅游自由</li>
+<li>辞职自由</li>
+<li>买车自由</li>
+<li>买房自由<br>……</li>
+</ul>
+<p>我这里使用的并且希望达到的目标就是财务自由最原本的定义，即日常生活开销的自由。</p>
+<h2 id="财务自由的可行性"><a href="#财务自由的可行性" class="headerlink" title="财务自由的可行性"></a>财务自由的可行性</h2><p>理论上被动收入没有上限，但是实现的难度也成指数上升，因此这里通过对日常生活开销的预估来倒推需要多少被动收入。</p>
+<h3 id="日常开销预估"><a href="#日常开销预估" class="headerlink" title="日常开销预估"></a>日常开销预估</h3><p>因为实现财务自由一定是很多很多年后，我们需要根据当前的生活水平来推断20年甚至30年之后的日常开支水平。下面尝试通过一些数据的分析来预估25年后的日常开销。</p>
+<h4 id="通货膨胀"><a href="#通货膨胀" class="headerlink" title="通货膨胀"></a>通货膨胀</h4><p>一说到财务自由的具体目标，很多小伙伴都会想到通货膨胀，说你现在定这么一个目标，多少年之后，钱早就不值钱了，有什么用？</p>
+<p>确实，通货膨胀的因素不能不考虑。</p>
+<blockquote>
+<p>在实践中，一般不直接、也不可能计算通货膨胀率，而是通过价格指数的年增长率来间接表示。</p>
+</blockquote>
+<blockquote>
+<p>由于居民消费价格是反映商品经过流通各环节形成的最终价格，它最全面地反映了商品流通对货币的需要量，因此，居民消费价格指数是最能充分、全面反映通货膨胀率的价格指数。目前，世界各国基本上均用居民消费价格指数，也就是CPI来反映通货膨胀的程度。</p>
+</blockquote>
+<p>看下几个主要国家居民消费价格指数(CPI)年率（同比）数据。</p>
+<p><strong>中国居民消费价格指数年率</strong><br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/China_cpi_year.png" alt="中国居民消费价格指数年率"></p>
+<p><strong>日本居民消费价格指数年率</strong><br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/Japan_cpi_year.png" alt="日本居民消费价格指数年率"></p>
+<p><strong>美国居民消费价格指数年率</strong><br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/USA_cpi_year.png" alt="美国居民消费价格指数年率"></p>
+<p><strong>英国居民消费价格指数年率</strong><br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/UK_cpi_year.png" alt="英国居民消费价格指数年率"></p>
+<p><strong>德国居民消费价格指数年率</strong><br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/German_cpi_year.png" alt="德国居民消费价格指数年率"></p>
+<p>对比5个国家发现，中国在2000年前，CPI年率有过两次高峰，2012年后，CPI年率基本稳定在3%附近，2020年初则是因为疫情的影响又高了起来。</p>
+<p>其它4个国家都是发达国家，日本在1995年后，CPI年率一直稳定在1.3%下面，2015附近年有过一次波峰，和2010附近的波谷正好抵消。美国自1993年之后，CPI年率一直在3%下面，但整体高于日本；英国自1993年之后，CPI年率基本在3%下面，但是它的波动较大，其中一半的时间CPI年率都在2%下面；德国1996年之后绝大部分时间都在2%下面。</p>
+<p>中国由于改革开放，造就了此后30年经济的高速增长，这也是工资、物价飞速增长的30年。但是近些年，我们能明显的感受到，经济的增长速度慢了下来，嗯，也叫经济新常态。之后还可能会进一步降低，降低到和老牌发达国家一样的低增速水平，这也意味着在接下来的一个较长的时期内，CPI年率会一直处于3%以下，并且大部分时间都达不到3%的水平。</p>
+<p>假设当前的物价是1，那么以3%的CPI年率计算，25年后，物价是2.1，翻了一倍，也就是说，同等数量的钱，25年后购买力降低了一半。</p>
+<h4 id="支出项预估"><a href="#支出项预估" class="headerlink" title="支出项预估"></a>支出项预估</h4><p>上面从宏观层面分析了未来20、30年物价可能出现的增长情况，这部分是我们作为个体所无法控制或者较难控制的。我们唯一能控制的就是日常支出。</p>
+<p>然而这一部分也是最难预估的一部分。就目前而言，每月固定开销就有房租、房贷、保险、日常消费等，再过几年还会会有小孩的教育费用等各种无法预料的支出。</p>
+<p>日常开支里，日常生活开销的其实占比很小，大头还是房贷、教育支出等。因此这部分思路如下：将人生分为两个阶段，目标完成前和目标完成后，分别考虑支出。</p>
+<table>
+<thead>
+<tr>
+<th>支出项</th>
+<th>25年期间</th>
+<th>25年之后</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>房贷</strong></td>
+<td>有（较大）</td>
+<td>无（房贷25年）</td>
+</tr>
+<tr>
+<td><strong>子女教育支出</strong></td>
+<td>有（较大）</td>
+<td>无</td>
+</tr>
+<tr>
+<td><strong>大病支出</strong></td>
+<td>保险覆盖</td>
+<td>保险覆盖</td>
+</tr>
+<tr>
+<td>赡养</td>
+<td>有（较低）</td>
+<td>有（稍大）</td>
+</tr>
+<tr>
+<td>保险支出</td>
+<td>有</td>
+<td>少量</td>
+</tr>
+<tr>
+<td>日常家庭开支</td>
+<td>有</td>
+<td>有</td>
+</tr>
+<tr>
+<td>其它</td>
+<td>有</td>
+<td>有</td>
+</tr>
+</tbody></table>
+<p>这里面真正大头的是房贷、子女教育支出和大病支出。除掉这三块之后，其它的其实没有多少。也就是说，相同的钱，在这25年里和25年后，所带来的幸福感是完全不同的。</p>
+<p>那么在一线城市，25年后，在没有房贷和子女教育费用的情况下，一年需要需要多少收入能过的比较幸福呢？</p>
+<p>我的答案是50万。</p>
+<p>换算到现在，依据当前物价水平，在年被动收入25万且没有房贷和子女教育支出的情况下可以过的的比较幸福。一般消费都能支撑的起，还能偶尔奢侈一把。</p>
+<p>考虑到25年后，自己可能还在工作，或者领取退休金，所以实际的生活幸福感会更高。</p>
+<p><strong>注：这里不考虑疾病支出是因为这部分的支出可以通过一个完备的保险计划来覆盖掉。关于如何配置好家庭保险，之后会单独拎出来介绍。</strong></p>
+<h3 id="500万的目标是否合理"><a href="#500万的目标是否合理" class="headerlink" title="500万的目标是否合理"></a>500万的目标是否合理</h3><h4 id="500万够不够？"><a href="#500万够不够？" class="headerlink" title="500万够不够？"></a>500万够不够？</h4><p>根据上面的拍脑袋，25年后被动收入50万就能完全覆盖家庭的日常开支。</p>
+<p>每年50万的被动收入，本金500万的情况下，需要的年化收益率是10%。这个收益率的要求是比较高的，因为那个时候，我们对资产配置的要求已经从获取超额收益变成了获取稳定收益，能承受的风险水平大大降低，相应的收益率水平也会降低。</p>
+<p>但是假设25年后，立即退休，开始领取养老金，社保交25年对应的养老金的替代率能达到50%，有这笔收入作为补充，需要实现的稳定收益率会大大降低，大约6%-7%附近，还是可行的。</p>
+<p>这么一看，500万的目标是合理的。</p>
+<h4 id="能不能通过工资实现？"><a href="#能不能通过工资实现？" class="headerlink" title="能不能通过工资实现？"></a>能不能通过工资实现？</h4><p>同居民消费价格指数一样，未来20、30年，在不出现科技突破导致生产力水平再一次突飞猛进的情况下，工资水平大概率会以一个较低的增长率水平缓慢增长。</p>
+<p>以美国为例，看一下1990年-2018年这28年间 <a href="https://www.statista.com/statistics/200838/median-household-income-in-the-united-states/" target="_blank" rel="noopener">美国家庭收入中位数</a> 的变化，最低是1993年的52334，最高是2018年63179，也就是说，这28年间工资的最大增幅才20%。</p>
+<p>当然，如果再去看一下1990年-2018年间 <a href="https://www.ceicdata.com/zh-hans/indicator/united-states/annual-household-income-per-capita" target="_blank" rel="noopener">美国家庭人均收入</a> 的变化，你会惊讶的发现其呈稳定增长趋势。结合上面的美国家庭收入中位数几乎不变的事实，可以得出这样一个结论：美国的贫富差距正在迅速扩大。</p>
+<p>中国大概率也会进入这样的状态，当然，考虑到未来一段时间内，中国的经济增长水平仍然会维持在一个中低速增长的水平，因此工资水平还是会有一段时间的中低速的增长，只是不可能会像改革开放之后30年内，出现隔一段时间就翻一番的场景了。</p>
+<p>低速增长的工资水平和物价水平相抵消，意味着很难通过工资实现资本的快速积累，但同时这也意味着在相当长的一段时间内，我们可以维持一个相对稳定的储蓄率。</p>
+<h4 id="能不能攒到500万？"><a href="#能不能攒到500万？" class="headerlink" title="能不能攒到500万？"></a>能不能攒到500万？</h4><p>假设初始金额为0，目标500万，不同期限下每月投入金额和需要的年化收益率的对应关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>每月投入金额</th>
+<th>年复合收益率（15年）</th>
+<th>年复合收益率（20年）</th>
+<th>年复合收益率（25年）</th>
+<th>年复合收益率（30年）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>500</td>
+<td>47.141%</td>
+<td>31.252%</td>
+<td>22.936%</td>
+<td>17.879%</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>39.033%</td>
+<td>25.719%</td>
+<td>18.724%</td>
+<td>14.469%</td>
+</tr>
+<tr>
+<td>1500</td>
+<td>34.374%</td>
+<td>22.492%</td>
+<td>16.243%</td>
+<td>12.445%</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>31.095%</td>
+<td>20.198%</td>
+<td><strong>14.467%</strong></td>
+<td>10.987%</td>
+</tr>
+<tr>
+<td>2500</td>
+<td>28.561%</td>
+<td>18.411%</td>
+<td>13.075%</td>
+<td>9.840%</td>
+</tr>
+<tr>
+<td>3000</td>
+<td>26.493%</td>
+<td>16.943%</td>
+<td>11.926%</td>
+<td>8.890%</td>
+</tr>
+<tr>
+<td>5000</td>
+<td>20.693%</td>
+<td>12.772%</td>
+<td>8.632%</td>
+<td>6.143%</td>
+</tr>
+</tbody></table>
+<p>综合考虑自己的个人情况，认为每月投入2000，实现15%的年化收益率这种方案比较适合自己。这里面每月投入2000很简单，但是实现15%的收益率不太容易，需要持续不断的投入精力学习各种理财知识。</p>
+<p>那么实现接近15%的年化收益率，难度高吗？这里以沪深300指数为例，沪深300指数基日是2004年12月31日，基点是1000点，2020年1月3号是4144点，折算成年化收益率是9.941%。如果配合一定的策略，完全是可以获取更高的收益率水平的。</p>
+<p>因此，如何构建自己的投资体系，实现15%的超额收益，也是<code>【财务自由实证系列】</code>的一个目标之一。</p>
+<h2 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h2><p>本篇算是 <code>【财务自由实证系列】</code> 的一个序，之后这个系列会定期公开自己财务自由计划的进展，记录自己在实现这个目标过程中的点点滴滴，同时证明这样的一个财务自由计划是完全有可能实现的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/27/Go-Modules-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/27/Go-Modules-md/" class="post-title-link" itemprop="url">Go Modules 简介</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 19:16:55 / 修改时间：19:24:22" itemprop="dateCreated datePublished" datetime="2020-06-27T19:16:55+08:00">2020-06-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>In Go 1.14, module support is considered ready for production use, and all users are encouraged to migrate to modules from other dependency management systems.</p>
+</blockquote>
+<p>在go1.14中，模块支持被认为已经可以在生产环境中使用，因此鼓励所有用户将项目中的依赖管理系统都迁移到Go Mudules中。</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="Go-版本升级"><a href="#Go-版本升级" class="headerlink" title="Go 版本升级"></a>Go 版本升级</h3><p><strong>查看Go版本</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go env</span><br></pre></td></tr></table></figure>
+
+<p>如果显示版本低于1.14，则需要升级。</p>
+<p><strong>下载Go最新版本</strong></p>
+<p>官网地址：<a href="https://golang.org/dl/" target="_blank" rel="noopener">https://golang.org/dl/</a> ，下载对应版本。这里以 <code>go1.14.4.darwin-amd64.tar.gz</code> 为例。</p>
+<p><strong>删除旧版本</strong></p>
+<ul>
+<li>通过 <code>go env</code> 获取安装路径（即 <code>GOROOT</code> ），一般是 <code>/usr/local/go</code> 。</li>
+<li><code>rm -rf /usr/local/go</code> </li>
+</ul>
+<p><strong>安装新版本</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -C /usr/<span class="built_in">local</span> -xzf go1.14.4.darwin-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>至此，Go1.14 升级完成，so easy~</p>
+<h3 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h3><p>由于一些原因，下载Go的各种依赖包的时候，速度很慢，通过一些镜像网站下载的话，可以获得如丝滑般的下载体验。</p>
+<p><strong>常见的Go Modules镜像网站：</strong><br>1、<a href="https://proxy.golang.org/" target="_blank" rel="noopener">https://proxy.golang.org/</a><br>GOPROXY 的默认值，这是一个在大陆无法访问的地址。。<br>2、<a href="https://goproxy.io/" target="_blank" rel="noopener">https://goproxy.io/</a><br>一个开源的为 Go Modules 而生的全球代理。国内开发者使用的较多，维护者是个人。<br>3、<a href="https://goproxy.cn/" target="_blank" rel="noopener">https://goproxy.cn/</a><br>Goproxy 中国，最初开发者是 <a href="https://aofeisheng.com/" target="_blank" rel="noopener">@盛傲飞</a>，目前是七牛云托管和维护。你甚至可以像 goproxy.baidu.com 一样将该服务用作上游代理。</p>
+<p><strong>如何设置</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go env -w GO111MODULE=on</span><br><span class="line">go env -w GOPROXY=https://goproxy.cn,direct</span><br></pre></td></tr></table></figure>
+
+<p><strong>趣闻</strong>：<a href="https://github.com/goproxy/goproxy.cn/issues/61" target="_blank" rel="noopener">goproxy.io 和 goproxy.cn 是什么关系?</a></p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><blockquote>
+<p>如果使用 Go Modules 来管理依赖，那么你的项目就没有必要在 <code>GOPATH</code> 中了。</p>
+</blockquote>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>1、随便创建一个项目目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /tmp/scratchpad/repo</span><br><span class="line"><span class="built_in">cd</span> /tmp/scratchpad/repo</span><br></pre></td></tr></table></figure>
+<p>2、go mod 准备</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go mod init xxx/repo</span><br></pre></td></tr></table></figure>
+<p>其中 <code>xxx</code> 是你项目托管的目录。如果是在github上，则是 <code>github.com/yourname/repo</code> 。</p>
+<p>3、测试代码</p>
+<p>repo 下 main.go 中添加如下测试代码</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	</span><br><span class="line">	<span class="string">"github.com/labstack/echo"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	e := echo.New()</span><br><span class="line">	e.GET(<span class="string">"/"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c echo.Context)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> c.String(http.StatusOK, <span class="string">"Hello, World!"</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">	e.Logger.Fatal(e.Start(<span class="string">":1323"</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、go mod xxx 相关命令</p>
+<table>
+<thead>
+<tr>
+<th>xxx</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>download</td>
+<td>download modules to local cache</td>
+</tr>
+<tr>
+<td>edit</td>
+<td>edit go.mod from tools or scripts</td>
+</tr>
+<tr>
+<td>graph</td>
+<td>print module requirement graph</td>
+</tr>
+<tr>
+<td>init</td>
+<td>initialize new module in current directory</td>
+</tr>
+<tr>
+<td>tidy</td>
+<td>add missing and remove unused modules</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>make vendored copy of dependencies</td>
+</tr>
+<tr>
+<td>verify</td>
+<td>verify dependencies have expected content</td>
+</tr>
+<tr>
+<td>why</td>
+<td>explain why packages or modules are needed</td>
+</tr>
+</tbody></table>
+<h3 id="日常工作流程"><a href="#日常工作流程" class="headerlink" title="日常工作流程"></a>日常工作流程</h3><p>使用 go mod 之后，你的<strong>日常工作流程</strong>应该是这样：</p>
+<ol>
+<li>在代码文件中写好 <code>import</code> 语句</li>
+<li>执行 <code>go run</code> or <code>go build</code> or <code>go test</code>，或者一些其它的标准命令时，会自动下载依赖以及更新 <code>go.mod</code> 文件。</li>
+<li>当你需要指定依赖的版本的时候，你可以使用命令 <code>go get foo@v1.2.3</code>， <code>go get foo@master</code> ，<code>go get foo@e3702bed2</code> 直接下载指定版本（这些命令都会直接更新go.mod），或者直接修改 go.mod 文件。</li>
+</ol>
+<p>一些你可能会用到的其它功能：</p>
+<ol>
+<li><code>go list -m all</code> – 查看全部直接或者间接的依赖</li>
+<li><code>go list -u -m all</code> – 查看全部直接或者间接的依赖版本及最新版本</li>
+<li><code>go get -u ./...</code> or <code>go get -u=patch ./...</code> ,，更新全部直接或者间接依赖到最新 <code>minor</code> 版本或者 <code>patch</code> 版本</li>
+<li><code>go build ./...</code> or <code>go test ./...</code></li>
+<li><code>go mod tidy</code> 精简不必要的依赖，同时增加任何必要的依赖。</li>
+<li><code>go mod vendor</code> — 创建 vendor 目录，并复制依赖到其中。 </li>
+</ol>
+<h2 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h2><h3 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h3><blockquote>
+<p>A module is a collection of related Go packages that are versioned together as a single unit.</p>
+</blockquote>
+<p>仓库（repository）、模块（module）和 包（package）之间的关联：</p>
+<ul>
+<li>一个仓库包含了一个或多个 Go Modules</li>
+<li>每个模块包含了一个或多个 Go Packages</li>
+<li>每个包 包含了某个路径下的一个或多个 Go Source 文件</li>
+</ul>
+<p>Modules 必须被语义版本化 （遵循 <a href="https://semver.org/" target="_blank" rel="noopener">semver</a> 协议），其版本描述格式如 <code>v(major).(minor).(patch)</code> </p>
+<blockquote>
+<ol>
+<li>major (主版本号)：当你做了不兼容的 API 修改，</li>
+<li>minor (次版本号)：当你做了向下兼容的功能性新增</li>
+<li>patch (修订号)：当你做了向下兼容的问题修正</li>
+</ol>
+</blockquote>
+<h3 id="go-mod"><a href="#go-mod" class="headerlink" title="go.mod"></a>go.mod</h3><p><code>go.mod</code> 文件中有4个命令：<code>module</code>， <code>require</code>，<code>replace</code>，<code>exclude</code>。</p>
+<p><strong>example</strong></p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module github.com/my/thing</span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">    github.com/some/dependency v1<span class="number">.2</span><span class="number">.3</span></span><br><span class="line">    github.com/another/dependency/v4 v4<span class="number">.0</span><span class="number">.0</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><code>module</code> 命令声明了当前模块的名称以及导入路径。</p>
+<p><code>require</code> 命令标明了当前模块所依赖的模块。</p>
+<p><code>replace</code> 和 <code>exclude</code> 命令仅对当前模块生效，即 build 主模块时，其它依赖模块中的 <code>replace</code> 和 <code>exclude</code> 命令都会被忽略掉。</p>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p>如果当前模块依赖的一个模块名是 M，当你还没有将 M 添加到 <code>go.mod</code> 中的时候，如果执行 <code>go build</code> 或者 <code>go test</code> 等命令，会自动拉取 M 并将其添加到 <code>go.mod</code> 中，拉取规则如下：</p>
+<ul>
+<li>拉取 M 最新的发行版本 v1.2.3，如果没有发行版本，则拉取最新的master的commit</li>
+<li>如果当前模块中的依赖 A 依赖 M v1.0.0，B 依赖 M v1.2.3，那么会选择 M v1.2.3 (最小版本选择算法)</li>
+</ul>
+<h3 id="语义导入版本控制"><a href="#语义导入版本控制" class="headerlink" title="语义导入版本控制"></a>语义导入版本控制</h3><p>这里说的是导入模块的时候，包的路径应该与模块版本相符。</p>
+<p>具体规则如下：</p>
+<ul>
+<li>模块的版本命令应该遵从 <a href="https://semver.org/" target="_blank" rel="noopener">semver</a> 协议。</li>
+<li>如果该模块的版本是 v2 或者更高，那么 <code>go.mod</code> 中声明该模块的时候，需要加上 <code>/v2</code> 的后缀，如 <code>module github.com/my/mod/v2</code> 或者 <code>require github.com/my/mod/v2 v2.0.1</code>。这种用法也被用在 <code>go get</code> 命令中，如 <code>go get github.com/my/mod/v2@v2.0.1</code></li>
+</ul>
+<h2 id="FAQs"><a href="#FAQs" class="headerlink" title="FAQs"></a>FAQs</h2><p><strong>1、go.mod 中模块被标记成 <code>incompatible</code> 是什么意思</strong></p>
+<p><strong>答：</strong> 如果 <code>Module</code> 的名字没有遵循 Golang 的规范，即在模块名中附带版本信息，那这就是一个不规范的模块，就会提示 <code>incompatible</code>。以 <code>github.com/labstack/echo</code> 为例，如果其当前版本是 <code>v3.3.10</code> ，那么 go.mod 中会这样显示：<code>github.com/labstack/echo v3.3.10+incompatible</code> 。</p>
+<p>想象一下，如果 <code>github.com/labstack/echo</code> 更新到了 <code>v4.1.1</code> ，如果你的模块依赖它，并且执行了更新全部依赖的命令会怎么样？ <code>github.com/labstack/echo</code> 会更新到 <code>v4.1.1</code>，但是根据 <a href="https://semver.org/" target="_blank" rel="noopener">semver</a> 协议，v4 是不兼容 v3 的，这个时候你的模块就会出问题。如果依赖符合规范，如 <code>github.com/labstack/echo/v3</code> ，那你更新全部依赖后，也只是将版本更新到 <code>v3.9.9</code> 或者小于 <code>v4</code> 的最大一个版本，不会出现兼容性的问题。</p>
+<p>当模块的版本小于等 v1 的时候，模块名默认不需附带版本信息。</p>
+<p><strong>2、为什么 <code>go mod tidy</code> 会记录 <code>inderect</code> （非直接）依赖和测试依赖？</strong></p>
+<p><strong>答：</strong> <code>go mod dity</code> 会尽可能的反应出所需要的全部环境下（有可能是系统、处理器架构或者build tags）的依赖，而 <code>go build</code> 和 <code>go test</code> 仅仅是更新 <code>go.mod</code> ，添加当前环境的依赖。</p>
+<p><strong>3、如何在不支持 Module 的模块 A 中导入支持 Module 的 v2+ 的 模块 B?</strong></p>
+<p><strong>答：</strong> 这需要看 module B 是如何发布 v2+ module 的。</p>
+<ol>
+<li>如果是在主分支，在 go.mod 中通过 <code>module</code> 声明 <code>/v3</code> <ul>
+<li>模块 A 中不需要修改导入路径 （即使改了编译的时候也会忽略路径中的版本信息），在 <code>GOPATH</code> 模式下运行的时候，会选择 <code>GOPATH</code> 中的模块 B 的版本编译。</li>
+</ul>
+</li>
+<li>如果 B 是在 子目录中创建了一个 <code>./v3</code> 目录，然后将 <code>go.mod</code> 文件放在 <code>./v3</code> 中<ul>
+<li>A 中使用 <code>import github.com/xxx/B/v3</code> 是没有问题的。</li>
+</ul>
+</li>
+</ol>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ol>
+<li><a href="https://github.com/golang/go/wiki/Modules" target="_blank" rel="noopener">Go Modules 官方文档</a></li>
+<li><a href="https://juejin.im/post/5d8ee2db6fb9a04e0b0d9c8b" target="_blank" rel="noopener">干货满满的 Go Modules 和 goproxy.cn</a></li>
+<li><a href="https://rainbowmango.gitbook.io/go/chapter12/3-foreword/3.7-module-incompatible" target="_blank" rel="noopener">Go 专家编程-incompatible</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/" class="post-title-link" itemprop="url">MySQL之索引</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-21 16:00:28 / 修改时间：16:08:53" itemprop="dateCreated datePublished" datetime="2020-06-21T16:00:28+08:00">2020-06-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="为什么需要索引"><a href="#为什么需要索引" class="headerlink" title="为什么需要索引"></a>为什么需要索引</h2><p>索引就像书籍的目录一样，可以更快的查找数据。</p>
+<h2 id="常见的索引模型"><a href="#常见的索引模型" class="headerlink" title="常见的索引模型"></a>常见的索引模型</h2><blockquote>
+<p>innodb 索引模型选用B+树是由MySQL的应用场景（等值区间查找、插入删除等操作频繁）及机械磁盘的特点（寻址耗时）决定的。像Redis等一些Nosql数据库，他们的索引模型就是哈希表、跳表等。</p>
+</blockquote>
+<ul>
+<li>数组<ul>
+<li>等值查询很快（数组有序排列的情况下，二分查找）</li>
+<li>区间查询很快</li>
+<li>数据的插入删除很慢</li>
+</ul>
+</li>
+<li>哈希表<ul>
+<li>等值查询极快</li>
+<li>插入删除极快</li>
+<li>区间查询很慢（只能一个个的查找）</li>
+</ul>
+</li>
+<li>搜索树（链表）<ul>
+<li>二叉搜索树<ul>
+<li>等值查询、区间查询很快，效率等于数组的二分查找</li>
+<li>插入删除效率logN，需要树的再平衡，再平衡的效率也是logN</li>
+</ul>
+</li>
+<li>多叉搜索树树<ul>
+<li>相比于二叉树，多叉树一次寻址能取出更多的数据，能大大减少寻址次数</li>
+<li>一个节点下面，叶子节点的个数取决于硬盘上数据块的大小</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>MySQL的应用场景中，等值查询和区间查询是很高频的场景，插入删除操作也十分频繁，因此综合考虑，搜索树最适合作为底层的存储引擎。又因为机械硬盘时代，磁盘寻址的时间成本很高，因此 innodb 底层的那存储引擎选用的索引模型是B+树。</p>
+<p>本文后续主要介绍innodb的索引。</p>
+<h2 id="Innodb中的索引"><a href="#Innodb中的索引" class="headerlink" title="Innodb中的索引"></a>Innodb中的索引</h2><h3 id="主键索引和非主键索引"><a href="#主键索引和非主键索引" class="headerlink" title="主键索引和非主键索引"></a>主键索引和非主键索引</h3><p><strong>主键索引：</strong> 主键索引的叶子结点（最后一层）存储的是数据库的行数据。</p>
+<p><strong>非主键索引：</strong> 非主键索引的叶子节点（最后一层）存储的是主键索引。</p>
+<p>对于一个查询操作，查询条件如果是主键索引，则直接返回结果；如果是非主键索引，则先返回主键，然后根据主键查询主键索引树，再返回结果。</p>
+<p><em>查询原则：尽量使用主键索引查询。</em></p>
+<h3 id="索引类别"><a href="#索引类别" class="headerlink" title="索引类别"></a>索引类别</h3><p>innodb中不同索引类别的特点如下：</p>
+<ul>
+<li>普通索引<ul>
+<li>没有任何限制</li>
+</ul>
+</li>
+<li>唯一索引<ul>
+<li>索引列的值唯一</li>
+<li>允许有空值</li>
+<li>组合索引，列值必须唯一</li>
+</ul>
+</li>
+<li>主键索引<ul>
+<li>只能作用于一个列上</li>
+<li>键值唯一</li>
+<li>不能为空</li>
+</ul>
+</li>
+</ul>
+<p>业务上，如果只有一个索引，并且是唯一索引，可以直接用该字段建立索引（<strong>尽量使用主键索引查询原则</strong>）</p>
+<h3 id="索引维护"><a href="#索引维护" class="headerlink" title="索引维护"></a>索引维护</h3><p>插入数据或者删除数据，都涉及到索引表的调整。</p>
+<p>插入数据的时候，有可能会导致叶子节点数据的挪动，也可能导致数据页的分裂。(对性能的影响需要结合B+树的增删改查操作)</p>
+<p>删除数据的时候，一般只是对数据标记下删除，并不会立即调整索引树，除非索引树中被删除的数据过多，浪费了大量的空间，则需要重建索引树。</p>
+<p><strong>自增主键的优势</strong></p>
+<ul>
+<li>主键自增，索引树不需要维护主键的有序性</li>
+<li>自增ID占空间较小，非主键索引树占用的空间更小</li>
+</ul>
+<p>索引从性能和存储上考虑，自增ID都是更好的选择。</p>
+<blockquote>
+<p>想象以下，一个用户信息表，如果索引选择身份证号码，那每次新增一条数据，为了保证索引有序，都有可能导致一个数据块上数据重新排列，也能导致一个数据块分裂，显然更耗时。</p>
+<p>如果这个用户信息表还有其它非主键索引树，那它的叶子节点存储的都是18位的身份证号码，显然消耗的空间相较于自增ID要更多</p>
+</blockquote>
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><blockquote>
+<p>覆盖索引只是一种场景，或者一种现象，构造出这种现象有利于提高查询性能。</p>
+</blockquote>
+<p>先看一个查询的例子。如果我们有如下的一张表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table T (</span><br><span class="line">ID int primary key,</span><br><span class="line">k int NOT NULL DEFAULT 0, </span><br><span class="line">s varchar(16) NOT NULL DEFAULT &#39;&#39;,</span><br><span class="line">index k(k))</span><br><span class="line">engine&#x3D;InnoDB;</span><br><span class="line"></span><br><span class="line">insert into T values(100,1, &#39;aa&#39;),(200,2,&#39;bb&#39;),(300,3,&#39;cc&#39;),(500,5,&#39;ee&#39;),(600,6,&#39;ff&#39;),(700,7,&#39;gg&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>如果执行如下语句，需要查询几次？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from T where k between 3 and 5;</span><br></pre></td></tr></table></figure>
+<p>答：查询非主键索引树3次，回表2次。</p>
+<p>同样如果执行下面的语句，需要查询几次？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from T where k between 3 and 5;</span><br></pre></td></tr></table></figure>
+<p>答：查询非主键索引树3次，不需要回表。</p>
+<p>如果索引树的查询结果已经包含了我们需要的结果，不需要回表，这种情况就称为覆盖索引。<strong>覆盖索引</strong>是常用的一种性能优手段。</p>
+<h3 id="联合索引和最左前缀原则"><a href="#联合索引和最左前缀原则" class="headerlink" title="联合索引和最左前缀原则"></a>联合索引和最左前缀原则</h3><p>联合索引和最左前缀原则并没有什么必然的联系，这里放在一起讨论是因为联合索引的查找过程会应用到最左前缀原则。</p>
+<h4 id="最左前缀原则"><a href="#最左前缀原则" class="headerlink" title="最左前缀原则"></a>最左前缀原则</h4><blockquote>
+<p>B+ 树这种索引结构，可以利用索引的“最左前缀”，来定位记录。</p>
+</blockquote>
+<p>查询的时候，如果查询条件是索引的最左N个字段，或者最左N个字符，都能用上索引，加快查询速度。</p>
+<h4 id="如何安排联合索引的顺序"><a href="#如何安排联合索引的顺序" class="headerlink" title="如何安排联合索引的顺序"></a>如何安排联合索引的顺序</h4><p>联合索引是按照索引项的顺序建立索引的，如（A，B），建立索引的时候，是先按A排序，然后对同一个A，再按B排序，检索的顺序也是如此，先检索A，再检索B。所以建立联合索引的时候，一定要考虑索引的复用 程度。复用程度越高，越要放前面。</p>
+<p>显然如果建立了联合索引（A，B），索引A是不需要单独建立索引的。</p>
+<p>回到之前的覆盖索引，如果有个高频的需求是根据用户的身份证查询姓名，那有必要建立身份证号和姓名的联合索引吗？答案是不考虑索引维护的成本下是有必要的。</p>
+<p>建立了身份证和姓名的联合索引之后，只需要查询联合索引树，就能直接返回查询结果而不需要回表，大大提高查询性能。</p>
+<p>当然，索引的维护是有代价的。因此建立冗余的索引来实现覆盖索引就需要权衡考虑了。</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p><strong>题目</strong>：对于如下表，由于历史原因，联合索引（a, b）是必须的，那这里面有不必要的索引吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;geek&#96; (</span><br><span class="line">  &#96;a&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;b&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;c&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;d&#96; int(11) NOT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;a&#96;,&#96;b&#96;),</span><br><span class="line">  KEY &#96;c&#96; (&#96;c&#96;),</span><br><span class="line">  KEY &#96;ca&#96; (&#96;c&#96;,&#96;a&#96;),</span><br><span class="line">  KEY &#96;cb&#96; (&#96;c&#96;,&#96;b&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB;</span><br></pre></td></tr></table></figure>
+
+<p><strong>答</strong>：ca是不必要的索引。</p>
+<p>对于联合索引（a，b），其内部的组织是先根据a排序，再根据b排序，因此索引树c的内容其实是cab，即先根据c排序，再根据a排序，再根据b排序的一个B+数据。索引树（c，a）的叶子节点实际上是b，树的内容也是cab，和索引树c是一致的，因此ca索引树是不必要的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/mysql%E4%B9%8B%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tjjsjwhj">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tjjsjwhj的个人空间~">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/31/mysql%E4%B9%8B%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/" class="post-title-link" itemprop="url">MySQL之事务的隔离性</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-31 23:22:43" itemprop="dateCreated datePublished" datetime="2020-05-31T23:22:43+08:00">2020-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-21 16:08:45" itemprop="dateModified" datetime="2020-06-21T16:08:45+08:00">2020-06-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一提到事务，我们就会想到事务的4个特性ACID（Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性和持久性）。本篇文章，主要讲的就是隔离性。</p>
+<p>mysql里面并不是所有的存储引擎都支持事务，因此本文中针对事务的讨论都是基于存储引擎innodb。</p>
+<h2 id="一、隔离级别"><a href="#一、隔离级别" class="headerlink" title="一、隔离级别"></a>一、隔离级别</h2><h3 id="1-1-“隔离级别”的概念"><a href="#1-1-“隔离级别”的概念" class="headerlink" title="1.1 “隔离级别”的概念"></a>1.1 “隔离级别”的概念</h3><blockquote>
+<p>脏读（dirty read）: A 事务可以读到B事务未提交的数据，就叫脏读。<br>不可重复读（no-repeatable read）: 事务A开始时只能看到其它事务已经提交的修改。换句话说，事务A的两次查询可能看到不同的结果。（其它事务中途提交修改）。不可重复读针对的是单条记录。<br>幻读（phantom read）:当某个事务在读取某个范围内的记录时，另外一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围的记录时，会产生幻行（Phantom Row）。</p>
+</blockquote>
+<p>当数据库上有多个事务 <strong>并行执行</strong> 的时候，会出现脏读（dirty read）、不可重复读（no-repeatable read）、幻读（phanton read)的问题，为了解决这些问题，就出现了”隔离级别”的概念。</p>
+<h3 id="1-2-不同的隔离级别"><a href="#1-2-不同的隔离级别" class="headerlink" title="1.2 不同的隔离级别"></a>1.2 不同的隔离级别</h3><p>在谈隔离级别之前，我们首先要直到，你隔离的越严实，效率就会越低。因此很多时候，我们需要在二者之间寻找一个平衡点。</p>
+<p>标准的事务隔离级别有以下几种：</p>
+<ol>
+<li><strong>读未提交</strong>（read uncommited）: 一个事务还没提交时，它做的变更就能被别的事务看到。</li>
+<li><strong>读提交</strong>（read commited）: 一个事务提交之后，它做的变更才会被其他事务看到。</li>
+<li><strong>可重复读</strong>（repeatable read）: 一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的。</li>
+<li><strong>串行化</strong>（sirializable）: 对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行。</li>
+</ol>
+<h3 id="1-3-隔离级别的修改"><a href="#1-3-隔离级别的修改" class="headerlink" title="1.3 隔离级别的修改"></a>1.3 隔离级别的修改</h3><p><strong>隔离级别的查看</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;%transaction_isolation%&quot;;</span><br><span class="line">+-----------------------+-----------------+</span><br><span class="line">| Variable_name         | Value           |</span><br><span class="line">+-----------------------+-----------------+</span><br><span class="line">| transaction_isolation | REPEATABLE-READ |</span><br><span class="line">+-----------------------+-----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p><strong>隔离级别的修改</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set [ global | session ] transaction isolation level [ Read uncommitted  | Read committed | Repeatable read | Serializable ];</span><br></pre></td></tr></table></figure>
+<p>注：<code>[]</code> 表示可选。</p>
+<h3 id="1-4-可重复读隔离级别的演示"><a href="#1-4-可重复读隔离级别的演示" class="headerlink" title="1.4 可重复读隔离级别的演示"></a>1.4 可重复读隔离级别的演示</h3><p>由于mysql默认的隔离级别是可重复读，因此这里就以可重复读为例进行演示，其它情况可通过修改隔离级别模拟。</p>
+<p>步骤1：创建测试表，插入测试数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table T(c int) engine&#x3D;InnoDB;</span><br><span class="line">insert into T(c) values(1);</span><br></pre></td></tr></table></figure>
+
+<p>步骤2：起2个事务模仿并发的情况，以下是两个事务中不同操作的执行顺序。</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/repeatable%20read.png" alt="可重复读"></p>
+<p>从图中可以看到，右边的事务无论是执行 update 操作，还是提交事务，左边的事务都是看不到的。当左边的事务提交之后，再次查询，才能看到更新之后的数据。完美契合可重复读的定义：事务执行期间看到数据可事务开启时看到的数据一致。</p>
+<p>其它隔离级别读者可自行实验。</p>
+<p><strong>提示</strong> </p>
+<ul>
+<li>如果是读未提交，那在上图第5步的时候，会发现数据发生变化</li>
+<li>如果是读提交，那在上图第7步的时候，会发现数据发生变化</li>
+<li>如果是串行化，那在执行第4步的时候，会失败，必须等左边的事务提交，右边的事务才能继续执行。</li>
+</ul>
+<h3 id="1-5-事务隔离的实现"><a href="#1-5-事务隔离的实现" class="headerlink" title="1.5 事务隔离的实现"></a>1.5 事务隔离的实现</h3><p>实现上，数据库会创建一个视图，访问的时候以视图的逻辑结果为准（<strong><em>注：此视图实为一致性读视图 consistend read view，不是MySQL中特指查询结果的那个视图</em></strong>）。不同时刻启动的事务，会有不同的视图，这意味着不同视图里面的同一条数据会有不同的版本，这就是数据库多版本并发控制（MVCC）。</p>
+<p>“读未提交”隔离级别下，直接读取的最新数据，没有视图的概念；”读提交”隔离级别下，事务中每次执行查询语句前，都会新建一个视图；”可重复读”隔离级别下，事务启动的时候，会创建一个视图，整个事务执行期间都用这个视图；”串行化”隔离级别下，直接用加锁的方式来避免并行访问。</p>
+<p><strong>以可重复读为例:</strong></p>
+<p>在可重复读隔离级别下，不同事务在启动的时候，就拍了不同的”快照”: 一个基于整个库的快照。我们先来看下这个快照是怎么实现的。</p>
+<p>Innodb中每个事务都有一个transaction id，这个id是在事务开始的时候向系统申请的，是按申请顺序严格递增的。</p>
+<p>数据库中的每行数据有多个版本，每一个版本都是和一个transaction id绑定的。比如分别有事务trx_id_1，trx_id_2，trx_id_3 对某行数据进行更新，更新过程中该行数据产生了3个版本v1，v2，v3，记录的时候就会这样记：（v1, trx_id_1），（v2, trx_id_2），（v3, trx_id_3）。实际存储的时候，数据库只会记录最新的记录（v3, trx_id_3）,之前的记录则是通过undo日志计算出来的。</p>
+<p>有了transaction id和多版本的概念，快照的实现方式可以这样描述：</p>
+<ol>
+<li>InnoDB 为每个事务构造了一个<strong>数组</strong>，用来保存这个事务启动瞬间，当前正在<strong>活跃</strong>的所有事务 ID。“活跃”指的就是，启动了但还没提交。</li>
+<li>数组里面事务 ID 的最小值记为低水位，当前系统里面已经创建过的事务 ID 的最大值加 1 记为高水位。(<strong>注意：这里的ID的最大值是已经创建过的所有事务ID的最大值</strong>)</li>
+</ol>
+<p>这个视图数组和高水位，就组成了当前事务的一致性视图（read-view）。</p>
+<p>数据版本的可见性规则，就是基于数据的 trx_id 和这个一致性视图的对比结果得到的。</p>
+<p>假设数据版本对应的事务id为trx_id，则可见性规则如下：</p>
+<ol>
+<li>如果trx_id小于低水位，则数据可见。</li>
+<li>如果trx_id大于高水位，则数据不可见</li>
+<li>如果trx_id在高低水位之间，有两种可能：<ol>
+<li>如果trx_id在数组里，则数据不可见</li>
+<li>如果trx_id不在数组里，则数据可见</li>
+</ol>
+</li>
+</ol>
+<p><strong>此外，如果是这个事务自己更新的数据，它自己还是要认的。</strong> </p>
+<p>假设事务A启动的时候，当前系统中活跃的事务ID为[trx_id_1, trx_id_2, trx_id_3]，最小事务ID为trx_id_1，系统里已经创建过的事务ID的最大值加1为trx_id_max，当前数据版本为（V4，trx_id_x4）。</p>
+<p>如果trx_id_x4 &gt; trx_id_max，就认为当前V4不可见，数据版本根据undolog回退到上一个版本（V3，trx_id_x3），如果trx_id_x3在高低水位之间，并且在数组里面，仍然认为V3不可见，在根据undolog回退到上一个版本(V2，trx_id_x2)，如果trx_id_x2小于低水位，认为数据可见。那么当前事务A在整个事务期间看到的这一行数据的版本都是V2。</p>
+<p>而读提交的逻辑和可重复读的逻辑类似，它们最主要的区别是：</p>
+<ul>
+<li>在可重复读隔离级别下，只需要在事务开始的时候创建一致性视图，之后事务里的其他查询都共用这个一致性视图；</li>
+<li>在读提交隔离级别下，每一个语句执行前都会重新算出一个新的视图。</li>
+</ul>
+<p>InnoDB 正是利用了“所有数据都有多个版本”的这个特性，实现了“秒级创建快照”的能力。</p>
+<h3 id="1-5-不同隔离级别的应用场景"><a href="#1-5-不同隔离级别的应用场景" class="headerlink" title="1.5 不同隔离级别的应用场景"></a>1.5 不同隔离级别的应用场景</h3><h2 id="二、事务到底是隔离的还是非隔离的"><a href="#二、事务到底是隔离的还是非隔离的" class="headerlink" title="二、事务到底是隔离的还是非隔离的"></a>二、事务到底是隔离的还是非隔离的</h2><p>上面介绍的不同的隔离级别下看到的数据版本针对的是当前事务的操作是纯读的情况，如果当前事务事务中存在更新操作，那会是什么情况呢？</p>
+<p>当然，串行化的隔离级别下，无论读写，都会加锁，并等待锁的释放，所以这种情况下和原来一样。其它三种级别下，事务执行过程中，如果出现update操作，就会应用这样一条规则：</p>
+<p><strong>更新数据都是先读后写的，而这个读，只能读当前最新版本的值，称为当前读（current read）</strong></p>
+<p>读未提交隔离级别下，一直都是读的最新版本值，所以这条规则实际影响的是 <strong>读提交</strong> 和 <strong>可重复读</strong>。</p>
+<p>在可重复读的事务过程中，如果出现了update操作，会等其它事务的update完成，释放行锁，然后读取当前值，在执行update语句。在这之后的select语句的执行结果都是更新后的值，因为1.5中：</p>
+<p><strong>此外，如果是这个事务自己更新的数据，它自己还是要认的。</strong> </p>
+<h2 id="三、尽量避免使用长事务"><a href="#三、尽量避免使用长事务" class="headerlink" title="三、尽量避免使用长事务"></a>三、尽量避免使用长事务</h2><p>事务的隔离中用到一致性视图，而一致性视图需要用到回滚日志undolog。那回滚日志什么时候删除呢？答案是，在不需要的时候才删除。也就是说，系统会判断，当没有事务再需要用到这些回滚日志时，回滚日志会被删除。</p>
+<p>什么时候才不需要了呢？就是当系统里没有比这个回滚日志更早的 read-view 的时候。</p>
+<p>长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这就会导致大量占用存储空间。除了对回滚段的影响，长事务还占用锁资源，也可能拖垮整个库。</p>
+<p>因此建议总是使用 set autocommit=1, 通过显式语句的方式来启动事务(<strong>这样之前挂起的事务会被隐式提交</strong>)。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/2020%E5%B9%B4%E5%BA%A6%E8%A7%84%E5%88%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -913,522 +1868,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/2019-review/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/04/2019-review/" class="post-title-link" itemprop="url">2019年个人总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-04 00:49:15" itemprop="dateCreated datePublished" datetime="2020-01-04T00:49:15+08:00">2020-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-26 01:04:47" itemprop="dateModified" datetime="2020-04-26T01:04:47+08:00">2020-04-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>2019年已经过去3天了，再不写个人总结，2020年怕是又要稀里糊涂的过去了。</p>
-<p>如果给过去的这一年打个分，自认为能打到70分，算是部分满意。此外，2019年也是我从学校到工作过渡的一年，我是年初1月23号拿的毕业证，直接入职，到年底正好工作一整年。这一年，无论是工作内还是工作外，都有太多值得记录的事情。</p>
-<h2 id="回顾2019年初的目标"><a href="#回顾2019年初的目标" class="headerlink" title="回顾2019年初的目标"></a>回顾2019年初的目标</h2><hr>
-<p>大方向上，主要有下面几个：</p>
-<ul>
-<li>给自己和家人配置保险</li>
-<li>开始自己的投资规划</li>
-<li>学英语（这算是一个执念吧）</li>
-<li>练字</li>
-<li>提高自己的专业技能</li>
-</ul>
-<h3 id="给自己和家人配置保险"><a href="#给自己和家人配置保险" class="headerlink" title="给自己和家人配置保险"></a>给自己和家人配置保险</h3><p>一直以来就对保险充满了好感，觉得没有保险的人生是没有安全感的。对保险有好感的原因比较多，首先，我这个人比较怕死。这么多年，无论是亲身经历的，还是从电视新闻上看到的一些和生死相关的事情，都让我对死亡充满了敬畏。很多时候，生命远比我们想象的要脆弱。而保险，能让生命在最脆弱的时候，保留一份基本的尊严；其次是刚买房，家里也没什么积蓄，爸妈年纪都大了，我才刚开始工作，整个家庭的风险承受能力很低。所以，刚工作不到两个月，我就开始不断的看保险相关的知识，比对不同的保险。看的焦头烂额的时候，正好实验室的一个师姐也在了解保险，她的一个高中同学就是大都会的保险代理人。这期间通过这个代理人，了解了医疗险和重疾险的区别，再结合自身的实际情况，配置了如下的保险：</p>
-<p><strong>自己</strong>：医疗险+重疾险+恶性肿瘤医疗险（全球版）<br><strong>媳妇</strong>：医疗险+重疾险<br><strong>父母</strong>：好医保-住院医疗险</p>
-<p>医疗险是现在比较火的百万医疗险，报销型，保额足够了。重疾险是一份终身10万保额叠加20年期40万保额，一共50万保额。由于实在是担心自己得癌症，自己又加了一份恶性肿瘤医疗险（全球版），两个人全年保费8000左右。父母因为已经到51周岁，年级大了，不适合买重疾险，就再支付宝上买了好医保-住院医疗险，两个人全年保费1500左右。大都会的保险相比其他家的是偏贵了，之所以还选择他们家，是因为保险附带的增值服务比较多。</p>
-<p>因为刚开始工作，也没什么积蓄，暂时就先配置这些年，短期内不再变动。等以后收入增加了，再把重疾险的额度配置上去。</p>
-<h3 id="开始自己的投资规划"><a href="#开始自己的投资规划" class="headerlink" title="开始自己的投资规划"></a>开始自己的投资规划</h3><p>年初的时候看了不少公众号文章，都在宣传躺着赚钱，财务自由这些让人心里痒痒的观点，再加上之前自己胡乱投资基金、p2p这些，狠狠的踩了几趟雷，决定系统的开始自己的投资之路，万一走着走着就自由了呢？</p>
-<p>我的投资学习路径是两部分：</p>
-<ul>
-<li><strong>理论学习</strong></li>
-<li><strong>投资实践</strong></li>
-</ul>
-<p><strong>理论学习</strong>方面，主要包括财富观的培养、投资基础知识的学习。这一年，完成了以下书籍：</p>
-<ul>
-<li>傻瓜式投资</li>
-<li>穷爸爸和富爸爸</li>
-<li>小狗钱钱</li>
-<li>指数基金投资指南</li>
-<li>解读基金：我的投资观与实践</li>
-<li>漫步华尔街</li>
-</ul>
-<p>未完成书籍：</p>
-<ul>
-<li>聪明的投资者</li>
-<li>共同基金常识</li>
-<li>逃不开的经济周期</li>
-</ul>
-<p>这几本书比较硬核，看的比较慢，2020年继续。</p>
-<p><strong>投资实践</strong>方面，从抄作业开始，跟投E大的长赢计划，中途配置了教育基金和自己的养老基金，主要定投沪深300和中证500这两个指数基金。</p>
-<p>2019年收益率16%左右，基本是抄作业的功劳，比较满意，所以已有部分继续跟投，同时继续完善理论知识，完成自己的投资体系的建立，然后实现躺尸的同时，躺赢，哈哈~~</p>
-<h3 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h3><p>这部分进行的一般。由于工作上的变动，从算法转到了开发，自然语言处理和机器学习的学习就彻底搁置了下来。后端开发能力上，跟着业务，狠狠的补了下基础知识。主要的能力提升是对后端开发有了一个整体的认识：后端开发围绕的是数据的存储和在业务逻辑上的处理。</p>
-<p>关于后端开发知识，主要的提升在对nginx的了解、redis的了解上，其它的一些提升比较零碎，不成体系。</p>
-<h3 id="学英语"><a href="#学英语" class="headerlink" title="学英语"></a>学英语</h3><p>学英语是一直以来的执念，也没有什么具体的目标，就是想学，但是每次都是半途而废。</p>
-<p>19年，在水滴上完成了《人性的弱点》和《人性的优点》两本英文原著的半精读，其它就没有了。</p>
-<p>20年需要好好梳理下学英语到底是为了什么，需要达到一个什么样的目标，然后再重新定个计划，好好执行。</p>
-<h3 id="练字"><a href="#练字" class="headerlink" title="练字"></a>练字</h3><p>想练一手好字。。。19年一直处于想的状态。20年需要定个轻松易行的计划，争取每年提高一些。</p>
-<p>以上是19年年初规划的完成情况，整体看，喜忧参半。家庭规划上的完成情况比较满意，但是技能提升相关的规划完成度较差，这部分需要重新梳理一遍，并且制定出一个松紧有度的20年年度计划，希望20年结束的时候，能够完美的交出一份对的起自己的答卷。</p>
-<h2 id="2019年感触比较深的几件事"><a href="#2019年感触比较深的几件事" class="headerlink" title="2019年感触比较深的几件事"></a>2019年感触比较深的几件事</h2><hr>
-<h3 id="人生大事"><a href="#人生大事" class="headerlink" title="人生大事"></a>人生大事</h3><p>人生大事方面，完成了买房和领证。</p>
-<h4 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h4><p>媳妇还在上学，之前研究生入学的时候，没有意识到户口的重要性，就没有把户口转到学校，幸好18年政策变化，除了入学那一次可以迁户口，每年秋季开学也可以迁户口了，就赶紧办理，到19年初户口就下来了。户口下来之后，迅速的把房子给买了。现在回想买房的过程，觉得有点太草率了，有必要记录一下买房的过程，让自己在以后做类似买房这种重大决定的时候，不要被情绪左右。</p>
-<p>决定买房之前，和媳妇讨论要买什么样的房子，为了能买到预算范围内最合适的房子，我们首先列出了一系列的考虑因素，最终决定重点看<code>交通</code>，<code>医疗资源</code>，<code>菜市场</code>，<code>公园</code>，<code>商业配套</code> 这几个因素，由于我们都还年轻，再加上预算只有200左右（主要原因），就没有考虑学区房。交通方面，主要是地铁，所以我们以地铁线为基准，列出地铁线上每一站附近的<code>医院</code>，<code>商业配套</code>，<code>公园</code>，<code>学校</code>以及附近<code>房价</code>等情况，并以此筛选出候选站点。我们花了2个星期左右的时间，统计了1、2、3、4、5、6、9这几条地铁线，标出了一些候选，并决定每周末考察两个地铁站。</p>
-<p>在4月初的一个周末，我们开始了考察。首先去的是1号线终点附近的几个站点，找了链家的一个中介，带着我们看了附近的几个小区，整体看下来，这一片都是居民区，小区质量一般，配套还行，生活气息浓厚，商业气息差了些，不太满意。晚上临走的时候中介推荐了5号线附近一个新开的楼盘，说是性价比很高，强烈建议我们去看看。我们其实是不太想去的，一是当时有点晚，二是本身也不着急，奈何中介极力推荐，就说第二天去看看。</p>
-<blockquote>
-<p>我们常常在小钱上斤斤计较，如买菜和买衣服，而在大钱上冲动无比，如买房</p>
-</blockquote>
-<p>第二天跟着中介到了售楼处，好家伙，里面人声鼎沸，导购介绍和签合同的场景到处都是。在经过了导购员的讲解之后，对楼盘有了个整体印象。一共是两个小区，一大一小，大的小区靠着一个正在建的永旺商场，小的隔的远了些，靠着一个正在建的市民广场。附近就是外环和高速入口，地铁站1公里左右。交通不错，商业配套和生活配套也不错，缺点是都在规划中。价格和预算一致。两个人都比较满意，这个时候导购一直在强调，最近三天搞活动，预付定金，给2个点优惠。两个人都没啥定力，被导购这么一说，再加上对房子确实很满意，都开始犹豫要不要先交定金。和家里商量了下（家里没意见，也都不懂，说只要我们觉得满意就行，唉。。。），又咨询了一个在德佑的亲戚的意见，觉得还行，两个人就在晕乎乎的情况下，交定金了。</p>
-<p>晚上回去后，两个人都觉得草率了，但是因为本身对房子比较满意，没有发现什么地方有问题，就商量着真正交首付的时候，一定要仔细的比对合同，同时问明白一些关键指标，如果有什么地方不行，哪怕定金要不回来也不能买。付首付的时候，果然还是出问题了。一是我们发现这个房子没有阳台。当时看房型的时候，都觉得房型很好，方方正正，南北通透，愣是把阳台给漏了。二是问了下公摊，这一问，才知道公摊高达35%，105的房子套内面积才70，瞬间不想定了。后来和在德佑的那个亲戚沟通，他说这个公摊确实是很高了，但是套内面积70的三居也还行，其实套内面积差个2平米根本就感觉不出来。他这么一说，再加上内心清楚，这个房子吸引我的地方有很大一部分原因是旁边正在规划的市民广场，市民广场的规划里面有图书馆，电影院等，这个实在太吸引我了。所以和媳妇商量了好一会，犹豫再三，最终还是付了首付。</p>
-<p>进入2020年，回过头来看，买的房子单价降了近2000，市民广场的规划发生变动，广场的一半改成商业配套。房价下降这件事情，4月份其实是有预期的，当时看了很多文章，都在说19年的政策是强调房住不炒，而且目前国家经济处于转型的过程中，经济形式不好，未来一段时间内房价肯定会下跌，所以买房不用着急，但是并没深入的去研究论据，自己只是表面相信，所以在售楼处导购员反复推销的时候，我是如此的不堪一击；另外有一个观点是如果是刚需，随时可以上车。因为4月份的房价相比18年的顶点是降了不少的。现在想来，刚需随时可以上车这句话是理解错了。对当时的自己而言，其实买房并不是刚需，媳妇21年夏天才毕业，我在北京工作，我们暂时是没有住房需求的。市民广场规划发生变化这件事，就是买期房的风险了，幸好规划变化还能接受，希望未来没有大的变动。</p>
-<h4 id="领证"><a href="#领证" class="headerlink" title="领证"></a>领证</h4><p>因为买房用的是媳妇的户口，还贷款是我，加上父母不可能同意只以媳妇的名义买房，所以两个人就需要在签贷款合同前领证。由于买房这个决策太突然，导致领证这件事也变的很赶。两个人匆匆忙忙的去拍了结婚照，又急急忙忙的去民政局领了证。</p>
-<p>领证的当天，早上8点多就到了民政局。时间比较早，有点冷清，交了材料后，等了一小会，就轮到我们了。填了些材料，不一会，鲜红的两个结婚证就出来了。两个人拿到结婚证后，坐在沙发上缓了好一会，都觉得有点不真实。但因为下午还要赶紧去办贷款，缓过来之后又急急忙忙的去了售楼处。领证的过程就这么匆忙的结束了，都没来的及吃顿饭庆祝一下。</p>
-<p>回想起和媳妇相处的这几年，除了最开始的一年里面摩擦较多，后来磨合的越来越好，也不知当初两个人怎么就互相认定了。随着时间的推移，越发能体会到媳妇的好，也越发为自己当时的眼光感到得意。</p>
-<p>希望接下来的日子里，两个人能走的越来越好，把我们的小日子过的有滋有味。</p>
-<h3 id="工作波折"><a href="#工作波折" class="headerlink" title="工作波折"></a>工作波折</h3><h4 id="部门变动和线上事故"><a href="#部门变动和线上事故" class="headerlink" title="部门变动和线上事故"></a>部门变动和线上事故</h4><p>18年底到19年中这段时间，从实习转成了正式。这段时间里面，先是最初的业务被停掉，换了新业务，之后是部门换掉，从大搜到了手百，再就是经理也换了。中间由于各种原因，指导人换了又换，我也从最初的算法转到了开发。</p>
-<p>换到新部门和新业务期间，指导人被重新指定。这段时间里，我刚接手的项目对当时的我来说，难度系数较高。开发的过程中，费了很大劲才能勉强跟上进度。中间有个任务，因为一些原因，需要迁移。由于开始没有能和指导人C有一个比较好的沟通，设计方案做的比较差，线上运行的时候，出了严重的事故。</p>
-<p>之后复盘过程中，C不断的指出方案上的不足，告诉我哪些地方需要多加注意，代码评审的时候，也是一行行的过代码，前后评审10多次。短短的几天内，我学到了很多，也很感激。</p>
-<p>后来C由于个人发展上的考虑，去了部门内的其他组。我的指导人也从C变成了组内的S。偶尔会想，如果开始的时候，C就能像最后那样，我是不是就不会经历后来的转正风波，当然也就不会迅速认识到工作和学校学习的不同和及时适应身份上的一个转变。凭良心说，C的业务能力很强，人品也没问题，可能是我的性格和他实在不搭，再加上初期的自己确实也有一些问题，导致两个人没能沟通好，这一点比较遗憾。</p>
-<h4 id="转正风波"><a href="#转正风波" class="headerlink" title="转正风波"></a>转正风波</h4><p>由于指导人C给的评价不好，给新经理留下一个很差的印象。试用期过了一大半的时候，新的指导人S通知我说我的转正比较危险，让我做好心里准备。当时听到这个，心里顿时一沉。指导人S说他也是第一次遇到这种事情，也不知道怎么处理，建议我做两手准备，而他接下来也会尽量把任务分给我一些，希望我能多一些产出。</p>
-<p>后来我主动找经理沟通了下我当前的状态，经理指出了我身上的一些不足，并且说给我一个月左右的观察期，同时指定了一些任务指标，希望我好好表现。这一个月里面，刚好业务上特别忙，又要准备那些任务指标，压力很大。天天晚上都是11点、12多才回去。工作日没有时间完成那些任务指标，只能周六日来弄。</p>
-<p>这期间十分感谢指导人S的尽心指导，使得我的业务能力有了很大的提高，从而顺利的通过了转正，以后有机会一定要好好的感谢他；也非常感谢媳妇，在这段时间里面没有给我任何压力，并且不断的鼓励我，让我没有其它的后顾之忧。</p>
-<p>转正风波这段期间，虽然说是压力很大，但是也仅此而已。首先是我和媳妇的感情很稳定，其次是虽然有房贷，但是两个人手上有一些钱足够支撑一年，经济上也没有太大压力，再次家里也很和谐。可以说这几个因素是我能顺利通过转正的坚实基础。</p>
-<p>工作上的这两件事给刚出学校我很大的冲击，让我迅速的认识到学校学习和社会工作的不同，及时调整自己，同时尽早开始思考自己的人生规划，为将来做准备。可以说是因祸得福。希望以后的自己能不断的提高，能自信的面对任何变化，让自己成为家人坚实的依靠。</p>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><hr>
-<p>2019年已经过去，这一年无论发生了什么，都变成了过去时，只有成长留了下来。人生短暂，希望接下来的日子里，能和时间做朋友，在未来，成为更好的自己！</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/07/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/07/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/" class="post-title-link" itemprop="url">证券投资的本质</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-07 23:30:07" itemprop="dateCreated datePublished" datetime="2019-07-07T23:30:07+08:00">2019-07-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-21 16:13:41" itemprop="dateModified" datetime="2020-06-21T16:13:41+08:00">2020-06-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="A股是赌场吗？"><a href="#A股是赌场吗？" class="headerlink" title="A股是赌场吗？"></a>A股是赌场吗？</h3><p>不同的想法和理念代入到交易中，就有不同的反馈。</p>
-<blockquote>
-<p>资本市场是一个高度复杂的生态系统，所以从不同的角度观察，就会有不同的看法</p>
-</blockquote>
-<h4 id="如果把A股看成赌场"><a href="#如果把A股看成赌场" class="headerlink" title="如果把A股看成赌场"></a>如果把A股看成赌场</h4><p>赌场有个显著的特点：总价值不变，有赢就有输。</p>
-<p>如果把A股看成赌场，双方博弈的对象就是股票的价格，看涨的买入，看跌的卖出。</p>
-<p>如果把A股看成赌场，A股有80%的公司都是没有价值的公司(牌本身没有价值，只有在比大小的时候才有相对价值。所以公司是没有价值的，猜股票的涨跌才是有价值的。当然还是有20%的公司无法忽略，他就是有价值的）</p>
-<p>不建议用赌场的观念看待A股：垃圾股的估值整体处在一个向下回归的过程中，这时候进行纯粹的博弈就不行了。</p>
-<h4 id="如果认为A股不是赌场"><a href="#如果认为A股不是赌场" class="headerlink" title="如果认为A股不是赌场"></a>如果认为A股不是赌场</h4><p>A股依然有很多公司在为投资者创造价值。那么可以通过分享上市公司的增长获得价值的增值。</p>
-<h3 id="格雷厄姆的看法"><a href="#格雷厄姆的看法" class="headerlink" title="格雷厄姆的看法"></a>格雷厄姆的看法</h3><p>投资是一种通过认真分析研究，有希望保本和获得满意收益的行为，不满足这些条件的行为就是投机。</p>
-<h4 id="内在价值"><a href="#内在价值" class="headerlink" title="内在价值"></a>内在价值</h4><p>要根据公司的内在价值来投资，而不是根据市场的波动来投资。股票应该是公司的部分所有权，而不应该是日常价格变动的证明。</p>
-<p>证券投资, 买的是企业所有权的一部分，买的是企业未来盈利的一部分。</p>
-<p>内在价值不能简单的看做是公司的资产总额减去负债总额，还包括这些资产未来所能产生的收益。</p>
-<h4 id="市场先生"><a href="#市场先生" class="headerlink" title="市场先生"></a>市场先生</h4><p>市场先生如果过于乐观，就会报出一个特别高的价格，如果过于悲观，就会报出一个特别低的价格。</p>
-<p>市场先生从不害怕无人理会，如果今天他的报价无人理会，那么明天，他就会报出一个更低的价格。相反，如果理会的人太多，那么第二天，他就会报出一个更高的价格。</p>
-<p>市场先生的情绪越是狂躁抑郁，对你越有利。如果你的情绪受到他的左右，那么后果不堪设想。</p>
-<p>对我们有用的，是市场先生口袋里的报价单，而不是他的智慧。如果你不能确定远比市场先生更了解而且更能估价你的企业，那么你就没有资格玩这个游戏。</p>
-<p><em>格雷厄姆的选股方法：三分之二市净率和低市盈率，倾向于找便宜的公司</em><br><em>需要注意这种方法的时代背景：1929年的大萧条，便宜的公司遍地都是</em></p>
-<h4 id="安全边际"><a href="#安全边际" class="headerlink" title="安全边际"></a>安全边际</h4><p>投资者应该在他愿意付出的价格和他估计出的股票价值之间保持一个较大的差价，这个差价就叫做安全边际。</p>
-<h3 id="巴菲特对格雷厄姆价值投资理论的发展"><a href="#巴菲特对格雷厄姆价值投资理论的发展" class="headerlink" title="巴菲特对格雷厄姆价值投资理论的发展"></a>巴菲特对格雷厄姆价值投资理论的发展</h3><h4 id="继承部分"><a href="#继承部分" class="headerlink" title="继承部分"></a>继承部分</h4><ul>
-<li>持有股票即持有公司</li>
-<li>投资和投机的定义和区别</li>
-<li>市场先生</li>
-<li>安全边际</li>
-<li>各种套利方法和捡烟蒂理论</li>
-</ul>
-<h4 id="抛弃部分"><a href="#抛弃部分" class="headerlink" title="抛弃部分"></a>抛弃部分</h4><ul>
-<li>55股债平衡理论</li>
-<li>用市净率和市盈率等简单指标去买一堆看似便宜的公司</li>
-<li>只依据财报看资产价值而不看未来价值</li>
-</ul>
-<h4 id="发展部分"><a href="#发展部分" class="headerlink" title="发展部分"></a>发展部分</h4><ul>
-<li>护城河、能力圈、管理层等结合概率思维预测公司前景的准确性</li>
-<li>好公司普通价格优于普通公司好价格</li>
-<li>按机会成本行事</li>
-<li>内在价值等于未来现金流折现</li>
-<li>伯克希尔模式，充分发挥资本的边际效应</li>
-<li>利用保险公司的低成本</li>
-</ul>
-<p><em>巴菲特的看法：价格公道的伟大企业要比价格低廉的普通企业要好得多</em></p>
-<h3 id="几种定义方式和理解"><a href="#几种定义方式和理解" class="headerlink" title="几种定义方式和理解"></a>几种定义方式和理解</h3><p>价格低于价值情况，所有的投资都应该叫做价值投资</p>
-<p>相对于成长股而言，买的公司要有相应的资产，利润，和现金流，而不是靠未来成长的可能性来支撑起价值。（更为现在的投资者所接受）</p>
-<p>价值投资是资产管理者的信仰，趋势交易等理念更多的是作为一种投资工具在使用。择时已经被成熟的市场所抛弃，大量产品禁止择时。</p>
-<p>在中国，价值投资的便签已经被滥用。有人股票被套了，就说自己是长期持有，价值投资；有人买了消费股，买了大蓝筹，大盘股，行业龙头，就说自己是价值投资；有人认为，只有买低市盈率、市净率的股票才是价值投资。</p>
-<p>一种观点：是不是价值投资，重点看投资回报的来源是哪？如果是企业的持续盈利增长，投资人去分享红利，这才是价值投资的方式，才是基于基本面的投资.</p>
-<h4 id="涉及到的一些概念"><a href="#涉及到的一些概念" class="headerlink" title="涉及到的一些概念"></a>涉及到的一些概念</h4><ul>
-<li>低估值、高回报<ul>
-<li>价值投资不等于长期持有，</li>
-</ul>
-</li>
-<li>短、中、长期的有趣定义<ul>
-<li>用时间划分长短没错，但是没有意义，持有期限是结果，不是目的，要根据操作内涵来理解</li>
-<li>短线就是尊重市场，顺势而为，重点是不亏损，盈利没有要求</li>
-<li>中线需要对基本面有很高的掌握，对价格估值系统有充分的认识，他的标的物是那些经营相对稳定，没有大起大落的企业，讲究的是低买高卖，预期盈利目标到20%才可入场，8%的止损位</li>
-<li>长线的要求最高，要求对企业有很深的认识，对自己有严格的控制，清楚把握企业未来发展的趋势，以投资的心态分享企业未来的成长。他的投资标的物是千里挑一，他对利润的要求是数以十倍计，在这样的机会面前，他不会惧怕任何亏损，不会设置除基本面以外的任何止损指标</li>
-</ul>
-</li>
-<li>看长做短<ul>
-<li>A股由于波动较大，常常3个月把三年的涨幅都涨完，这种情况就大大透支了企业的基本面，这种时候就需要及时兑现利润。适合A股的一种策略就是看长做短，但是这个短一定是作为结果，而不是作为目的。看长的意思是，你买入的行业或者板块，一定要有一年以上，偏中长期的投资逻辑，而不能是仅仅几个月的利好，持有计划应该是一年以上，做短是如果短期上涨太快，要注意止盈。</li>
-</ul>
-</li>
-</ul>
-<p><strong>仅以时间作为策略区分标准的一定会走入误区，决定策略的仅应该是股票本身的不同和投资者自身的素质</strong></p>
-<h3 id="理论基础的重要性"><a href="#理论基础的重要性" class="headerlink" title="理论基础的重要性"></a>理论基础的重要性</h3><pre><code>1. 价值投资：知和行的关系
-2. 胜者为王，宁可错过，不要做错
-3. 做好价值投资，保持健康</code></pre><p><strong>投资是艺术，不是科学</strong></p>
-<p><strong><a href="https://pc-shop.xiaoe-tech.com/appCRApuVG28915/video_details?id=v_5c4142617c5d9_e6jBxu1Y" target="_blank" rel="noopener">视频地址</a></strong> </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">https升级教程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-06-26 23:16:10" itemprop="dateCreated datePublished" datetime="2019-06-26T23:16:10+08:00">2019-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-13 00:34:50" itemprop="dateModified" datetime="2020-04-13T00:34:50+08:00">2020-04-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="升级前准备"><a href="#升级前准备" class="headerlink" title="升级前准备"></a>升级前准备</h2><p>上一章详细讲解了https的原理之后，本章节将以本博客为对象，实践https升级。</p>
-<p><strong>升级准备工作</strong></p>
-<ol>
-<li>CA 选择： <a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a></li>
-<li>安装工具选择：<a href="https://certbot.eff.org/" target="_blank" rel="noopener">certbot</a></li>
-<li>实践对象：本博客: <a href="www.tjjsjwhj.me">www.tjjsjwhj.me</a></li>
-<li>博客托管的vps配置：<ol>
-<li>OS：CentOs 6, x86_64</li>
-<li>RAM: 0.5G</li>
-</ol>
-</li>
-<li>确保有ssh权限，即能通过ssh远程访问你的web host</li>
-</ol>
-<p><strong><a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>是电子前哨基金会EFF为了推广https协议，提供的免费的、自动化的和开放的CA(Certificate Authority)。<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>的一个贡献是ACME协议，ACME协议旨在确保域名验证、发布和管理方法是完全自动化、一致、符合合规性和安全的。</strong></p>
-<p><strong>支持ACME协议的工具有很多(<a href="https://letsencrypt.org/docs/client-options/)，本文选择的推荐的[certbot](https://certbot.eff.org/)" target="_blank" rel="noopener">https://letsencrypt.org/docs/client-options/)，本文选择的推荐的[certbot](https://certbot.eff.org/)</a></strong>。</p>
-<h2 id="升级教程"><a href="#升级教程" class="headerlink" title="升级教程"></a>升级教程</h2><p><strong>首先，进入<a href="https://certbot.eff.org/" target="_blank" rel="noopener">certbot</a>网站，选择对应的web服务器软件（nginx，apache等）和操作系统版本（CentOs 6）,网站会给出对应的操作指令</strong></p>
-<p><strong>1. 获取cerbot执行脚本</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.eff.org/certbot-auto</span><br></pre></td></tr></table></figure>
-<p><code>certbot-auto</code> 实际上是一个shell执行脚本</p>
-<p><strong>2. 放到习惯的路径下</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mv certbot-auto /usr/<span class="built_in">local</span>/bin/certbot-auto</span><br></pre></td></tr></table></figure>
-
-<p><strong>3. 修改执行脚本的所有者</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root /usr/<span class="built_in">local</span>/bin/certbot-auto</span><br></pre></td></tr></table></figure>
-<p>由于certbot需要验证你就是改域名的持有者，所以3、4两步都需要在root权限下进行</p>
-<p><strong>4. 修改执行脚本的权限</strong><br><code>sudo chmod 0755 /usr/local/bin/certbot-auto</code></p>
-<p><strong>5. 自动获取证书，同时修改nginx配置文件</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/<span class="built_in">local</span>/bin/certbot --nginx --nginx-server-root=/usr/<span class="built_in">local</span>/nginx/conf</span><br></pre></td></tr></table></figure>
-
-<p>这里有个坑，网站给出的命令是 <code>sudo /usr/local/bin/certbot --nginx</code>，这条命令默认ngxin安装在/etc/nginx，所以有可能会报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx: [emerg] open() &quot;&#x2F;etc&#x2F;nginx&#x2F;nginx.conf&quot; failed (2: No such file or directory)</span><br><span class="line">nginx: configuration file &#x2F;etc&#x2F;nginx&#x2F;nginx.conf test failed</span><br></pre></td></tr></table></figure>
-<p>所以需要用 <code>--nginx-server-root</code> 指定nginx.conf的路径</p>
-<p>接下来的操作，按照提示操作即可。</p>
-<p><strong>6、添加定时任务</strong><br><a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>证书的有效期是90天，90天之后就需要重新更新证书，因此需要设置一个定时任务自动更新证书</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew"</span> | sudo tee -a /etc/crontab &gt; /dev/null</span><br></pre></td></tr></table></figure>
-<p>上面这行命令是网站提供的，意思是每天12点和0点自动更新证书。至于为什么需要time.sleep(random.random() * 3600)，猜测是为了让大家错开时间，降低证书请求的压力</p>
-<p><strong>相关配置文件</strong><br>新的配置文件目录, 同之前的nginx.conf目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/nginx/conf/vhost/</span><br></pre></td></tr></table></figure>
-<p>证书目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/letsencrypt/</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">HTTPS 升级指南</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/29507417" target="_blank" rel="noopener">Linux下使用acme.sh申请和管理Let’s Encrypt证书
-</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/https%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tjjsjwhj">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tjjsjwhj的个人空间~">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/06/05/https%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">https原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-06-05 22:54:10" itemprop="dateCreated datePublished" datetime="2019-06-05T22:54:10+08:00">2019-06-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-07 19:29:40" itemprop="dateModified" datetime="2020-01-07T19:29:40+08:00">2020-01-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1、为什么要有https？"><a href="#1、为什么要有https？" class="headerlink" title="1、为什么要有https？"></a>1、为什么要有https？</h3><p>http协议被用于客户端和服务端之间传递消息，但是这个传输过程是以明文的方式发送内容，http协议不提供任何方式的数据加密。如果有人获取了浏览器和服务器之间的传输保报文，就可以直接读取其中的信息。因此，http协议不适合传输一些个人敏感信息，比如：个人账户密码、支付信息等。</p>
-<p>由于http协议的安全缺陷，需要有一种协议来保证客户端和服务端通信的安全，于是就有了https。</p>
-<h3 id="2、https主要解决了什么问题？"><a href="#2、https主要解决了什么问题？" class="headerlink" title="2、https主要解决了什么问题？"></a>2、https主要解决了什么问题？</h3><p><strong>i. 确保你想访问的对象是你希望访问的对象</strong></p>
-<p>网络世界里，真正决定你地址的是IP。平时我们所访问的网址如 <code>www.baidu.com</code> 都需要由DNS（域名转换系统）服务商将网址翻译成对应的IP地址，也就是说我们要访问的对象实际上是一个IP地址。如果中间网址到域名的转换关系被恶意的修改（也就是DNS劫持），我们的访问请求就会打到修改之后的恶意IP上，</p>
-<p>https首先解决了身份认证的问题，即确保你要访问的对象就是你希望访问的对象。现实生活中，如果我们和某个人A交易，为了确保交易的安全性，首先需要确认A的身份。通常我们会检查A的身份证信息，资质信息等。确认了A的身份之后，我们才开始与对方交易。</p>
-<p>https的身份认证过程也是如此。Server端上线之初，会向权威的第三方的CA（Certificate Authority, 证书颁发机构）申请证书，然后第三方会通过线上线下核查的方式确认Server的信息，核查完之后，会给Server颁发一个证书，这个证书中记录了颁发机构的信息和Server的身份信息。</p>
-<p>初次请求https的时候，服务端首先会返回一个证书，这个证书中包含了访问对象的身份信息，客户端验证了证书之后发现，证书中的信息就是访问对象的信息，接下来就可以正常通信了。</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png" alt="认证过程"></p>
-<p>有的同学可能会有疑惑，如果我伪造一个证书，客户端怎么知道呢？比如我是A，但我非要在证书里写我是B，那你怎么知道呢，就像现实中伪造的各种证书一样？CA颁发的证书有个特性是不可修改。这个涉及到非对称加密的知识了，简单来说就是CA把公司的信息通过特定的摘要算法如MD5生成一段签名，再用私钥对签名进行加密。客户端拿到证书之后，根据证书中的摘要算法对证书中的信息计算出一个签名，然后用CA的公钥对密文进行解密，对比计算出的签名和解密出的签名，如果一致，就证明证书没有被修改过。</p>
-<p>下面是 <code>www.baidu.com</code>的证书信息（谷歌浏览器点地址栏的那个小锁）：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png" alt="百度的证书"></p>
-<p>从图中可以看到百度相关的信息，签发者相关的信息，签名算法（这里的签名算法是SHA-256）以及百度的公钥。</p>
-<p><strong>ii. 确保通过过程中的数据安全</strong></p>
-<p>解决了如何证明你就是你的问题之后，就需要解决如何保证通信过程中你们的通信内容不被窃取到。</p>
-<p>还是刚刚那个交易场景。你确认了和你交易的A的身份之后，你们开始放心的交易了。如果你们的交易内容是你想花大价钱从A受手里买一个产品的配方，有了这个配方之后，你就能财源滚滚，走上人生巅峰了，所以这个配方千万不能泄露出去。为了和网络通信的过程保持一致，我们假设你们不直接交易，而是需要一个传信的人帮你们传递这个配方。在原来http的协议下，这个配方就是明文传输的，如果有人劫持了这个信件就能获取到这个配方。所以就不能明文传递这个配方，得加密。那加密方式怎么选择呢？</p>
-<blockquote>
-<p>对称加密：对称加密指的的是采用单钥密码系统的加密方法，同一个密钥可以同时用作信息的加密和解密，这种加密方法称为对称加密，也称为单密钥加密<br>非对称加密：非对称加密算法是一种密钥的保密方法。 非对称加密算法需要两个密钥：公开密钥（publickey:简称公钥）和私有密钥（privatekey:简称私钥）。 公钥与私钥是一对，如果用公钥对数据进行加密，只有用对应的私钥才能解密。</p>
-</blockquote>
-<p>考虑到为了模拟真实的通信过程，你们是不能见面的，也就是说你不能通过耳语把你要用的密钥告诉A，所以你们否决了开始就用对称加密的方式，因为怎么把密钥传给对方是个问题。如果在传输密钥的过程中密钥泄露了，这就和明文传输配方没什么区别了。所以如何把密钥传给A？传输过程有以下几步：</p>
-<ol>
-<li>首先生成用于对称加密的密钥s</li>
-<li>利用证书中A传过来的公钥，对密钥s进行加密，传给A</li>
-<li>A利用自己的私钥，对传过来的密文进行解密，解密出密钥s</li>
-<li>接下来双方通过密钥s来加密通信内容，互相传输</li>
-</ol>
-<p>再回到https的通信过程中，具体流程如下图所示：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png" alt="https通信过程"></p>
-<p><strong>以上就是https原理的简介。至于如何从http升级到https，下一篇将以本博客为例，示范升级过程。</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1494,7 +1938,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1507,7 +1951,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1540,7 +1984,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
