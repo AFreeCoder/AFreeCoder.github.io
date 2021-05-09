@@ -1,1802 +1,643 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-
-<script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
-
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="996的码农，也能自由~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="码农的自由之路">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="码农的自由之路">
-<meta property="og:description" content="996的码农，也能自由~">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="AFreeCoder">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://yoursite.com/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome: true,
-    isPost: false
-  };
-</script>
-
+  <meta name="author" content="AFreeCoder">
+  <meta name="keywords" content="">
+  
   <title>码农的自由之路</title>
-  
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
 
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">码农的自由之路</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-</div>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
-<nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
+<link  rel="stylesheet" href="/css/main.css" />
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-  </ul>
-
-</nav>
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+<!-- 自定义样式保持在最底部 -->
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tjjsjwhj.me","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
-          <div class="content">
-            
 
-  <div class="posts-expand">
+<body>
+  <header style="height: 40vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/06/invest-pratice-7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/06/invest-pratice-7/" class="post-title-link" itemprop="url">财务自由实证#7——实证升级了！</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-06 00:33:05" itemprop="dateCreated datePublished" datetime="2021-05-06T00:33:05+08:00">2021-05-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这个系列的第零篇是 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/" target="_blank" rel="noopener">财务自由实证#0——自由能实现吗？</a>。</p>
-<p>追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。</p>
-<h2 id="准备换种方式来写实证"><a href="#准备换种方式来写实证" class="headerlink" title="准备换种方式来写实证"></a>准备换种方式来写实证</h2><p>五一假期已经过去一大半了，这个假期大家过的如何?</p>
-<p>又到了写实证的时候，发现没太多东西可写。如果实证仅仅是记录一个数字，感觉意义不是很大。正好昨天看到<em>知行小酒馆</em>把之前对也大的一次访谈记录置顶了，就又重温了一遍。</p>
-<p>这篇访谈中，也大强调了我们不应该被困在【<strong>等我自由了，我就如何如何</strong>】的假设里面，因为很多事情不需要等到自由，就可以开始行动。</p>
-<p><strong>如果现在不做，那凭什么认为自由之后还会做呢？</strong></p>
-<p>不是自由了才能怎样，而是做完了之后发现，自己离自由更近了一步。在追求自由的过程中，由于短期内市场的波动无法预测，财务计划的进展是不受控制的；但是为了追求自由所做的其它努力是可控，并且可以量化的。</p>
-<p>因此经过思考，打算将该实证从单纯的财务实证<em>升级</em>为个人成长实证。格式上，固化以下三个模块：</p>
-<p><strong>实证进展</strong></p>
-<ul>
-<li>虽然进展不可控，但是数字还是最直接的体现，所以这部分仍然保留。</li>
-</ul>
-<p><strong>本月回顾</strong></p>
-<ul>
-<li>该部分用于回顾本月计划完成情况。</li>
-</ul>
-<p><strong>下月计划</strong></p>
-<ul>
-<li>该部分用于规划下个月需要完成的任务。</li>
-</ul>
-<p>嗯，也好给年底的年终总结提供素材[\机智]</p>
-<h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>本月进展如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/16199486555411.jpg" alt="-w414"></p>
-<p>当前进展 2.46%，相比上个月增加了 0.2%，终于有了肉眼可变的变化了，喜极而泣~</p>
-<p>其实在春节附近，就曾经达到过这个数字，后来市场急剧向下，花了2个多月的时间才再次站上了这个高点。</p>
-<p>本月特殊操作：无。</p>
-<h2 id="合理的家庭资产配置"><a href="#合理的家庭资产配置" class="headerlink" title="合理的家庭资产配置"></a>合理的家庭资产配置</h2><p>这是一个老生常谈的话题，很多文章都写过如何对家庭资产进行一个合理的配置，在我之前的文章 <a href="https://tjjsjwhj.me/2020/10/10/invest-pratice-1/" target="_blank" rel="noopener">财务自由实证#1——如何开始？</a> 中也提到过。</p>
-<p>一般而言，一个合理的家庭资产配置方向大致如下：</p>
-<ul>
-<li>规划紧急备用金：活钱</li>
-<li>规划必要的保险：风险杠杆</li>
-<li>规划3年内要用的钱：短期存款、债券</li>
-<li>规划长期要用的钱：股票、基金等</li>
-</ul>
-<p>之所以再把这个话题拿出来说，是因为最近这个月的经历让我对这个<strong>看似普通</strong>的配置方案有了新的认识。</p>
-<p>3月底的时候，刚好有一个朋友因为买房，首付还差一点，借了一些；紧接着，4月底，摇号意外中签。</p>
-<p>借的那部分对应的是活钱，中签这个对应的是3年内要用的钱。短短一个月内，这两笔钱都派上了用场。</p>
-<blockquote>
-<p>有知有行的温度计：13℃，这意味着市场再次到达了一个黄金位置。</p>
-</blockquote>
-<p>如果最开始没有严格分配4笔钱，而是都放到长期组合中，现在就会十分被动，不得不<strong>忍痛割肉</strong>。</p>
-<p>之前对这个家庭资产配置方案的理解比较肤浅，这次的经历让我开始从另一个角度来理解这个方案。</p>
-<p>在之前的认知中，我认为4笔钱的地位是相等的，只是场景不同，实际上并不是。</p>
-<p>根据墨菲定律:</p>
-<blockquote>
-<p>如果坏事有可能发生，不管这种可能性有多小，它总会发生，并造成最大可能的破坏。</p>
-</blockquote>
-<p>前3笔钱的使用场景相对于4而言，就是<strong>坏事</strong>。一旦<strong>坏事</strong>发生，最大的破坏就是长期计划无法执行，功亏一篑。</p>
-<p>这个方案的目的不是为了应对平时零用，也不是为了应对可能的大病，更不是为了应对3年内的大额支出，而是为了实现资产的最终增值。也就是说，前3笔的配置都是为了确保第4笔钱在增值的过程中不受到任何干扰。</p>
-<h2 id="4月回顾"><a href="#4月回顾" class="headerlink" title="4月回顾"></a>4月回顾</h2><p><strong>写作</strong></p>
-<p>本月一共写了三篇文章，一篇 Go 的，两篇投资理财相关的。数量上严重不达标。。</p>
-<p>不过 <a href="https://tjjsjwhj.me/2021/05/06/定投的陷阱/" target="_blank" rel="noopener">定投的“陷阱” </a> 这一篇的数据很好看，阅读、点赞、在看分别是383、22、15，三个数据都是历史新高，说明花心思写还是有用的！</p>
-<p><strong>个人项目</strong></p>
-<p>4月份完成了公众号服务端Demo的开发以及服务的部署，项目地址见：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/AFreeCoder/wechat-official-account</span><br></pre></td></tr></table></figure>
-
-<p>现在还只是一个Demo，刚跑通了流程，效果如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/16201088646753.jpg" alt="-w414"></p>
-<p>有了这个作为基础，后面的基金入门知识的 QABot 可以提上日程了。</p>
-<h2 id="5月计划"><a href="#5月计划" class="headerlink" title="5月计划"></a>5月计划</h2><p><strong>写作</strong></p>
-<ul>
-<li>完成《Go 并发编程实战》channel 部分文章的输出，数量&gt;=4</li>
-<li>完成行业指数、国外主流指数相关文章的输出，同时开始温度计的调研，数量&gt;=4</li>
-</ul>
-<p><strong>个人项目</strong></p>
-<ul>
-<li>语料库存储方案调研，完成一篇调研</li>
-<li>根据历史文章，完成基金入门知识语料的整理，待整理文章6篇</li>
-</ul>
-<p>就这样，期待5月底的实证~~</p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/06/%E5%AE%9A%E6%8A%95%E7%9A%84%E9%99%B7%E9%98%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/06/%E5%AE%9A%E6%8A%95%E7%9A%84%E9%99%B7%E9%98%B1/" class="post-title-link" itemprop="url">定投的“陷阱”</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-06 00:31:24" itemprop="dateCreated datePublished" datetime="2021-05-06T00:31:24+08:00">2021-05-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>不知道从什么时候开始，每当基金行情火爆的时候，各种自媒体文章都开始贩卖理财焦虑，套路都是职场某不起眼的同事A，通过理财获得了远超工资的睡后收入，劝你不要在傻傻的挣死工资了！</p>
-<p>那同事A是怎么理财的呢？答案都是定投。</p>
-<p>接着，这些文章会用爱因斯坦的那句名言“复利是这个世界上的第八大奇迹”开头，然后假设每月定投500，年化利率20%，定投30年，你就会有1000多万啦。</p>
-<p>可是，定投真有这么神奇吗？</p>
-<h2 id="定投真的是“无所不能”的吗？"><a href="#定投真的是“无所不能”的吗？" class="headerlink" title="定投真的是“无所不能”的吗？"></a>定投真的是“无所不能”的吗？</h2><p>如果定投的威力真的有这么大，那我们所有人都进行定投，50年后，地球上的财富还够分吗？</p>
-<p>在知乎上搜索关键词：定投，会出来很多问题，除了一些说定投有多好的话题外，还有很多问题对定投充满了疑惑，比如下面这些问题：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">长期定投基金是骗局吗？</span><br><span class="line">基金定投一定赚钱吗？</span><br><span class="line">在支付宝买定投基金1年半了，越定投亏越多，怎么办？</span><br></pre></td></tr></table></figure>
-
-<p>显然，仍有很多人对定投充满了疑惑，觉得一个普普通通的定投怎么可能赚很多呢？</p>
-<p>这是因为很多文章在解释基金定投的时候，都会犯一个错误，就是将名义利率当成实际利率来计算，从而忽略了基金增长过程中的波动情况。</p>
-<p>举个例子，某基金的初始净值是1，25年后期末净值是32.9，倒推该基金的年化收益率是15%，但是如果你定投这个基金，能用15%来推算预期收益吗，显然不行。</p>
-<p>下面我用<strong>三种增长曲线假设</strong>来解释，不同的增长曲线下，收益差距是有多么夸张！</p>
-<h3 id="步步高升"><a href="#步步高升" class="headerlink" title="步步高升"></a>步步高升</h3><p>第一种假设我把它叫做<strong>步步高升</strong>，意思是基金的走势完美的符合复利增长的曲线，示意图如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/jie-ping20210404-142145.png" alt="截屏2021-04-04 14.21.45"></p>
-<p>如果定投增长曲线如图所示的基金，25年和30年的收益情况如下：</p>
-<table>
-<thead>
-<tr>
-<th>期限（年）</th>
-<th>净投入</th>
-<th>期末资产</th>
-<th>总收益率</th>
-<th>平均年化收益率</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>25</td>
-<td>300000</td>
-<td>3243529</td>
-<td>980%</td>
-<td>15%</td>
-</tr>
-</tbody></table>
-<p>显然，标准走势下，如果我们定投该基金，是能获得期望的收益的。</p>
-<h3 id="出道即巅峰"><a href="#出道即巅峰" class="headerlink" title="出道即巅峰"></a>出道即巅峰</h3><p>第二种假设我把它叫做<strong>出道即巅峰</strong>。意思是基金一发行就遇到了大牛市，净值一飞冲天，之后的多年都没有什么变化，它的增长曲线示例如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/jie-ping20210404-143529.png" alt="截屏2021-04-04 14.35.29"></p>
-<p>如果定投增长曲线如图所示的基金，收益情况如下表所示：</p>
-<table>
-<thead>
-<tr>
-<th>期限（年）</th>
-<th>净投入</th>
-<th>期末资产</th>
-<th>总收益率</th>
-<th>平均年化收益率</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>25</td>
-<td>300000</td>
-<td>331900</td>
-<td>10.63%</td>
-<td>0.8%</td>
-</tr>
-</tbody></table>
-<p>出道即巅峰这种走势下，平均年化收益率才0.8%，还不如货币基金的年化收益率，收益情况远远不达预期。</p>
-<h3 id="大器晚成"><a href="#大器晚成" class="headerlink" title="大器晚成"></a>大器晚成</h3><p>第三种假设我把它叫做<strong>大器晚成</strong>。意思是基金发行之后一直是熊市，直到25年期末才忽然暴涨，它的增长曲线示例如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/jie-ping20210404-144103.png" alt="截屏2021-04-04 14.41.03"></p>
-<p>如果定投增长曲线如图所示的基金，收益情况如下表所示：</p>
-<table>
-<thead>
-<tr>
-<th>期限（年）</th>
-<th>净投入</th>
-<th>期末资产</th>
-<th>总收益率</th>
-<th>平均年化收益率</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>25</td>
-<td>300000</td>
-<td>9870000</td>
-<td>3190%</td>
-<td>22.86%</td>
-</tr>
-</tbody></table>
-<p>大器晚成这种走势下，总收益率达到了3190%，平均年化收益率达到了22.86%，远远超过了预期！</p>
-<h2 id="真实市场回测"><a href="#真实市场回测" class="headerlink" title="真实市场回测"></a>真实市场回测</h2><p>真实的基金走势并不会像上面三种假设那样极端，但是通过这三种极端假设，我们仍然能得出一个结论：简单的定投并不一定能让我们获得预期的收益，还是得看真实的基金走势如何。</p>
-<p>更何况，基金的真实波动远比这三种假设复杂很多，也更难预测的多。</p>
-<p>回到真实环境中，我们可以用沪深300做一个简单的回测。沪深300的指数基日是2004年12月31日，基点1000，截止2021年4月2号，收盘指数值是5161.56，对应的平均年化收益率是10.53%</p>
-<p>如果采取每月定投1000的方式定投沪深300ETF，最终收益如下：</p>
-<table>
-<thead>
-<tr>
-<th>期限（年）</th>
-<th>净投入</th>
-<th>期末资产</th>
-<th>总收益率</th>
-<th>平均年化收益率</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>16年零5个月</td>
-<td>197000</td>
-<td>408,658</td>
-<td>107.44%</td>
-<td>8.41%</td>
-</tr>
-</tbody></table>
-<p>定投的实际年化收益率是8.41%，比指数的年化收益率低一些，不过也还不错了。</p>
-<h2 id="定投还有必要吗？"><a href="#定投还有必要吗？" class="headerlink" title="定投还有必要吗？"></a>定投还有必要吗？</h2><p>上面啰啰嗦嗦说了那么多，其实就想说明一件事，定投的收益不能简简单单的用平均年化收益率来衡量。</p>
-<p>那定投的意义是什么呢？我认为主要三点，分别是：</p>
-<ul>
-<li>强制储蓄</li>
-<li>降低风险</li>
-<li>帮助投资者完成投资理财入门教育</li>
-</ul>
-<p><strong>强制储蓄</strong></p>
-<p>定投这个概念最初源于美国，后经过不断发展，最终催生了401K退休计划。对应到国内，就是我们的社保（养老金）。我们每个月交的养老金其实就相当于定投，只是决定投资标的的是国家社保基金。</p>
-<p>上班族最大的特点就是本金不多，但是有源源不断的收入作为现金流。故而通过定投这种方式能够实现强制储蓄的效果，同时还能分享部分经济发展的红利。</p>
-<p><em>注：401K计划是美国养老保险的一部分：企业年金部分。按该计划，企业为员工设立专门的401K账户，员工每月从其工资中拿出一定比例的资金存入养老金账户（企业也会投入一定比例），企业向员工提供3到4种不同的证券组合投资计划。员工可任选一种进行投资。员工退休时，可以选择一次性领取、分期领取和转为存款等方式使用。</em></p>
-<p><strong>降低风险</strong></p>
-<p>虽然定投是因为没有多少本金而选择的无奈之举，但是这也避免了集中投资下风险过大的问题。</p>
-<p>从一个较长的时间跨度来看，只要坚持定投，哪怕开始投资的时候是牛市顶点，也能通过后续的投入不断摊低成本，从而提高盈利的概率。</p>
-<p><strong>帮助投资者完成投资理财入门教育</strong></p>
-<p>证券市场不是取款机，股市七亏二平一赚也不是什么调侃，能盈利的始终是少数。很多投资者在没有完成基本的理论学习和实践之前，就拿着多年积蓄，一股脑的冲进去，最终亏了个精光。</p>
-<p>定投是定期定额投入，即使出现亏损，一是亏不了多少，二是不会影响日常生活，反而能让投资者静下心来研究基本理论，找到适合自己的策略，同时养成良好的投资心态。</p>
-<p>从以上这三点来看，尽管定投并没有许多自媒体吹嘘的那么强，但确实是普通投资者尤其是上班族入门投资的比较好的一种方式。</p>
-<h2 id="我有一个想法"><a href="#我有一个想法" class="headerlink" title="我有一个想法"></a>我有一个想法</h2><p>说点其它的。</p>
-<p>看过这个系列第一篇 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/" target="_blank" rel="noopener">《财务自由实证#0——自由能实现吗？》</a> 的读者们都知道，我对这个实证计划的预期年化收益率是15%。这是一个相对乐观但还算合理的目标。</p>
-<p>现阶段我实现这个目标的方式是跟投知名的组合，虽然我个人比较喜欢这种方式，但是这种方式也有两个缺点：</p>
-<p><strong>1. 组合的生命周期无法保证。</strong></p>
-<p>组合的存在与否很大程度上由主理人主观决定，跟投者只能被动接受。我信任长赢计划，然而谁能保证它还有下一轮呢？</p>
-<p><strong>2. 策略不透明。</strong></p>
-<p>虽然每个组合都有其投资策略的介绍，但是策略的细节仍然是不透明的；而且具体到每一次的操作上，我们也无法判断主理人是否完美的执行了该策略。</p>
-<p>本着“自主可控”的原则，打算捡起去年的想法，开发一些简单但有效的投资策略，构建属于自己的投资组合，在实践中加快自己投资体系的建立。</p>
-<p>由于深知“闭门造车”的弊端，所以借这篇文章推广一下：</p>
-<p>如果你也对构建自己的投资策略也感兴趣，欢迎私信（公众号回复【搞事情】），一起搞事情！</p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/30/invest-pratice-6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/30/invest-pratice-6/" class="post-title-link" itemprop="url">财务自由实证#6——你的预期年化收益率是多少？</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-30 01:53:36" itemprop="dateCreated datePublished" datetime="2021-03-30T01:53:36+08:00">2021-03-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:35:22" itemprop="dateModified" datetime="2021-05-06T01:35:22+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这个系列的第零篇是 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/" target="_blank" rel="noopener">财务自由实证#0——自由能实现吗？</a>。</p>
-<p>追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。</p>
-<h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>本月进展如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16170307690332.jpg" alt=""></p>
-<p>当前进展 2.26%，相比上个月，增加 0%。较真的话，其实是有增加的，增加了不到400，聊胜于无。毛估了下，从春节到现在，回撤大概10%。</p>
-<p>不过这才是真实的市场，不是吗？</p>
-<h2 id="春节之后"><a href="#春节之后" class="headerlink" title="春节之后"></a>春节之后</h2><p>随着A股市场近一个多月的断崖式下跌，公募基金募集日光的现象暂时偃旗息鼓，多只基金的募集都发出了延期的公告。</p>
-<p>由于有些基金跌的太厉害，还出现了基金经理回怼投资人的情况：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16169274119020.jpg" alt="-w717"></p>
-<p>这一个多月的时间里面，相关公司的基本面没有发生重大变化，基金经理的投资理念和投资风格也没有发生变化，变的只有我们的心态。</p>
-<p>正好借着这波震荡的行情，来聊一聊股票的预期年化收益率应该是多少这个话题。</p>
-<h2 id="你的预期年化收益率是多少？"><a href="#你的预期年化收益率是多少？" class="headerlink" title="你的预期年化收益率是多少？"></a>你的预期年化收益率是多少？</h2><p>聊这个话题之前，先弄个投票，看下大家的年化收益率的预期都是多少。</p>
-<ul>
-<li>没有预期收益率</li>
-<li>5%以下</li>
-<li>10%左右</li>
-<li>15%左右</li>
-<li>20%以上</li>
-<li>50%以上</li>
-</ul>
-<p>为什么要问这个问题，是因为平时偶尔的聊天中，发现好多人对预期收益率这件事情没有概念，你问他的预期年化收益率是多少，他也说不上来，就觉得越高越好。</p>
-<p>预期年化收益率其实就是投资目标。没有目标的投资，投资行为很容易变形。而且，有了合理的预期之后，我们面对暴涨暴跌，也会从容许多，因为那超出预期的，必然会回落；而那低于预期的，必然会反弹。</p>
-<p>那么，重点来了，合理的预期年化收益率是多少？我们应该如何估计呢？</p>
-<h2 id="股票合理的预期收益率应该是多少？"><a href="#股票合理的预期收益率应该是多少？" class="headerlink" title="股票合理的预期收益率应该是多少？"></a>股票合理的预期收益率应该是多少？</h2><p>在之前的文章《为什么要坚持长期投资？》中贴过一张图：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16169417733213.jpg" alt=""></p>
-<p>这张图是1802年到2008年这207年间，不同的统计周期下，年回报率的均值和标准差的对应情况。</p>
-<p>以一年为统计周期，207年的平均收益率是6.5%，标准差是18.3%，也就是说，大约2/3的时间里，年回报率在-11.3%~25.3% 之间波动。实际上，一年的回报率最高能到66.6%，最低只有-38.6%。</p>
-<p>统计周期拉长后，年回报率的标准差迅速减小，但是均值却没有什么变化，这说明，无论短期收益率波动如何剧烈，长期下来，收益率都会回归到某个值附近，这才是我们更有可能获得的真实收益率。</p>
-<p><em>注：上图中的回报率是指剔除通货膨胀率之后收益率，加上通货膨胀率之后的名义收益率是10%左右。</em></p>
-<p>很多人可能会说，美股的资本市场历史较长，制度比较完善，不能直接在A股上套用这个统计规律。</p>
-<p>确实是这样。</p>
-<p>之前看有知有行的文章《股票的预期收益率应该是多少？》，里面给出了一个自上而下的推导过程。</p>
-<p>这个推导过程的依据是：<strong>GDP的增长率 &lt; 全体上市公司的增长率 &lt; 优质上市公司的增长率。</strong></p>
-<p>GDP我们都知道，国民生产总值，也可以理解成所有大大小小的企业的生产总值。因此GDP的增速就是全部企业增长速度的均值。在过去的几十年里，中国的GDP经历了一个高速增长的阶段，但是随着经济体量的增大、人口红利的减少以及科技水平的制约，新常态下的GDP的增速肯定不可能有以前那么高，但是5%~6%的增长水平还是可以预期的。</p>
-<p>当我们投资股票或者股票基金的时候，实际上投资的是这个国家规模比较大、盈利能力比较强的一些企业。毕竟无论是主板还是创业板、科创板块上市，都是需要满足一定的筛选条件的。基于这个事实，全体上市公司的增长率比GDP的增长率高3到4个百分点是比较合理的，因此如果我们投资全体上市公司，8%~10%的长期年化收益率是可以预期的。</p>
-<p>尽管全体上市公司代表着国内比较优秀的一批公司，但是这一堆公司里面，也有许多平庸的公司，如果我们能从中挑选出一批更加优质的公司，我们的预期收益率还能再提高2到3个百分点。基于这个事实，10%~12%的长期年化收益率也是可以预期的。</p>
-<p>除此之外，A股还有个所有人都体会深刻的特性：巨大的波动性。从人性的角度看，绝大部分人都是厌恶波动，喜欢确定性。但是投资的角度看，波动如果利用的好，是可以提升收益率的。</p>
-<p>有知有行做过一个测算，如果在市场情绪较低的情况下买入，持有三年平均累计收益率可以达到130%，相反，如果是在高估的情况下买入，同样持有三年，平均亏损幅度高达46%。因此如果依据估值进行低买高卖，就有可能把长期收益率拉高到12%~15%的水平。</p>
-<p>所以，对于普通投资者而言，12%~15%是一个比较合理且偏乐观的预期年化收益率。</p>
-<h2 id="我有一个想法"><a href="#我有一个想法" class="headerlink" title="我有一个想法"></a>我有一个想法</h2><p>说点其它的。</p>
-<p>看过这个系列第一篇 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/" target="_blank" rel="noopener">《财务自由实证#0——自由能实现吗？》</a> 的读者们都知道，我对这个实证计划的预期年化收益率是15%。这是一个相对乐观但还算合理的目标。</p>
-<p>现阶段我实现这个目标的方式是跟投知名的组合，虽然我个人比较喜欢这种方式，但是这种方式也有两个缺点：</p>
-<ol>
-<li>组合的生命周期无法保证。</li>
-</ol>
-<p>组合的存在与否很大程度上由主理人主观决定，跟投者只能被动接受。我信任长赢计划，然而谁能保证它还有下一轮呢？</p>
-<ol start="2">
-<li>策略不透明。</li>
-</ol>
-<p>虽然每个组合都有其投资策略的介绍，但是策略的细节仍然是不透明的；而且具体到每一次的操作上，我们也无法判断主理人是否完美的执行了该策略。</p>
-<p>本着“自主可控”的原则，打算捡起去年的想法，开发一些简单但有效的投资策略，构建属于自己的投资组合，在实践中加快自己投资体系的建立。</p>
-<p>由于深知“闭门造车”的弊端，所以借这篇文章推广一下：</p>
-<p>如果你也对构建自己的投资策略也感兴趣，欢迎私信，一起搞事情！</p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/27/invest-pratice-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/27/invest-pratice-5/" class="post-title-link" itemprop="url">财务自由实证#5——我迁移了投资记账软件</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-27 01:53:36" itemprop="dateCreated datePublished" datetime="2021-02-27T01:53:36+08:00">2021-02-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:35:16" itemprop="dateModified" datetime="2021-05-06T01:35:16+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这个系列的第零篇是 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/" target="_blank" rel="noopener">财务自由实证#0</a>。</p>
-<p>追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。</p>
-<h2 id="拖更太久了"><a href="#拖更太久了" class="headerlink" title="拖更太久了"></a>拖更太久了</h2><p>看了下上次写的那理财相关的文章，2月9号，到今天已经过去了大半个月。</p>
-<p>反思了下，主要有两个原因：</p>
-<p>一是春节。从初二开始，天天串亲戚，要么中午，要么下午，要么全天，天天串，天天吃，完全没有学习时间写文章。。</p>
-<p>说好的疫情期间不串门呢？</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/wo-neng-you-shen-me-ban-fa.gif" alt="我能有什么办法"></p>
-<p>二是投资理财部分没想好要怎么展开。这一部分能写的点太多，却又都不深刻，无法形成系统的文章。</p>
-<p>不过这个问题最近已经想的差不多了，所以接下来奋力码字~</p>
-<h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>不再多说废话，上图：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16143531861520.jpg" alt=""></p>
-<p>本月进展2.26%，相比上个月增加0.1%，缓慢而顽强的朝着目标前进。。。</p>
-<p>特殊操作，除了之前跟投的组合外，新增两个组合的跟投：积极进取和全球精选。</p>
-<p>感觉每个月的跟投额度有渐渐不受控制的倾向😂，不过积极进取和全球精选侧重资产配置，定期会有平衡操作，所有后续即使不跟投，问题也不大。</p>
-<p>这个星期，出了个新词，不少小伙伴应该都看到了：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/wechatimg8649.jpeg" alt="WechatIMG8649"></p>
-<p>过于真实。</p>
-<p>看了下明星基金【易方达蓝筹精选】最近一段时间的走势：</p>
-<p>年前净值创新高，过年之后一直在跌，一共跌了15%，堪比小型股灾。</p>
-<p>没忍住去看了下支付宝【易方达蓝筹精选】的评论区，不少基民已经开始质疑张坤会不会炒股，为啥不减仓，，哈哈哈~</p>
-<p>​下回再看支付宝的基金讨论区，算我输。</p>
-<p>多说一句，买基金这事，既然选择了信任，不妨先坚持个几年试试，反正是闲钱，没必要着急。</p>
-<h2 id="为什么要迁移记账软件？"><a href="#为什么要迁移记账软件？" class="headerlink" title="为什么要迁移记账软件？"></a>为什么要迁移记账软件？</h2><p>有看过之前实证记录的小伙伴，细心一点会发现，投资记账的软件换掉了。</p>
-<p>是的，从这个月开始，所有的投资记录都从【且慢小账本】迁移到【有行记账】了。</p>
-<p>为什么要迁移呢？</p>
-<p>最主要的原因是【且慢小账本】已经停止维护，说不定什么时候就不能用了。其次就是相比与【且慢小账本】，【有行记账】还是一个有温度的工具。</p>
-<p>【且慢小账本】原本是孟岩在且慢主导的一个记账软件，但是由于产品定位不清晰，过于工具化，有些用户除了它来记账，还会用它来记录彩票的收益率，或者是零花钱的流水，并且使用起来毫不违和。</p>
-<p>然而这种使用方式和产品的初衷完全背离。【有行记账】的产品认为：</p>
-<blockquote>
-<p>记账的目的是为了投资，投资的目的是为了挣钱，挣钱的目的是为了生活。</p>
-</blockquote>
-<p>【有行记账】就是希望成为体现这种理念、关注投资本质，能帮大家走到投资大道上去的记账工具。</p>
-<p>更具体的特征，大家不妨自己下载来体验一下~~</p>
-<h2 id="迁移过程中的意外收获"><a href="#迁移过程中的意外收获" class="headerlink" title="迁移过程中的意外收获"></a>迁移过程中的意外收获</h2><p>由于【且慢小账本】不支持数据导出，而且我在它上面记录的数据也不全面，就想着干脆将这两年全部的投资记录全部都翻出来，重新都记录一遍。</p>
-<p>为了防止之后再更换投资账本，以及更方便的进行数据导入导出分析，我使用了如下的步骤来进行数据迁移：</p>
-<ol>
-<li>在记账软件 MoneyWiz 上新建一个投资账户，记录完整的投入和转出。</li>
-<li>将历史投资记录按月记录到有行账本中。</li>
-<li>根据且慢小账本的记录，更新有行账本上部分历史时间节点的总资产。</li>
-</ol>
-<p>迁移的过程中，正好利用 MoneyWiz 的统计功能，把投入数据导出成 Excel，生成了下面这张表格：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/shi-zheng-ji-hua-tou-ru-ji-lu.png" alt="实证计划投入记录"></p>
-<p>图虽然简单，却真实反应了我这两年来的投资历程。</p>
-<p>2019年1月，出于纯粹的跑赢通胀的目的，首次投入【长赢指数计划】。由于当时市场低迷，组合中大部分基金的持仓成本都低于E大，运气好。</p>
-<p>2019年2月到7月的这段时间，偶尔的跟调，但是读了（听了）不少书，算是完成了一个基本入门教育。</p>
-<p>2019年7月之后，由于对基金有了进一步的认识，开始买入一些投资组合，从这之后，每月的净投入上了一个新台阶。</p>
-<p>2020年2月份之后，疫情导致市场大跌，这期间加大了投入的额度。</p>
-<p>2020年9月份之后，逐渐保持了一个稳定的投入额度。</p>
-<p>现在回顾整个过程，比较可惜的就是3月份那次机会，毕竟像疫情这种非系统性的风险引起市场大幅下跌的机会，很难再遇到第二次了。</p>
-<p>不过投资就是这样，你不可能抓住所有的机会，唯一能做的就是不断提升自己，静静的等待下一次的机会。</p>
-<h2 id="再唠叨几句"><a href="#再唠叨几句" class="headerlink" title="再唠叨几句"></a>再唠叨几句</h2><p>春节之后的行情，想必大家都很不爽。我也是，毕竟累计收益的第一个数字直接减了1。</p>
-<p>但是这才是正常情况，不是吗？从一开始我们就知道，市场是剧烈波动的，唯有有效的策略，正确的认知，再加上一个长长的期限，才能有所收获。</p>
-<p>多年之后再回过头来看，这些波动不过就是几朵浪花而已，不值一提。</p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%9D%9A%E6%8C%81%E9%95%BF%E6%9C%9F%E6%8A%95%E8%B5%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%9D%9A%E6%8C%81%E9%95%BF%E6%9C%9F%E6%8A%95%E8%B5%84/" class="post-title-link" itemprop="url">为什么要坚持长期投资？</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-09 15:28:09" itemprop="dateCreated datePublished" datetime="2021-02-09T15:28:09+08:00">2021-02-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:38:26" itemprop="dateModified" datetime="2021-05-06T01:38:26+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="基金赚钱-≠-基民赚钱"><a href="#基金赚钱-≠-基民赚钱" class="headerlink" title="基金赚钱 ≠ 基民赚钱"></a>基金赚钱 ≠ 基民赚钱</h2><p>前几天，E大微博放出了一张中欧基金统计的客户收益和基金收益的对比图，十分震撼：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/7d46c32ba4fa44f4921f65242b46853d.png" alt="7D46C32B-A4FA-44F4-921F-65242B46853D"></p>
-<p>图中蓝色柱状图是客户的累计收益，橙色柱状图是基金成立以来的收益。<strong>权益类基金的客户收益仅有基金累计收益的零头</strong>！</p>
-<p>另外，中欧旗下的财务管理平台钱滚滚数据表示，2020年90%的基民实现了正收益，43%的基民平均投资收益超过了10%，但是反过来想就是<strong>近60%的基民收益不到10%</strong>。要知道2020年可是权益基金的大年。</p>
-<p>这说明绝大部分的基金投资者都是短期投资者。</p>
-<h2 id="为什么要坚持长期投资？"><a href="#为什么要坚持长期投资？" class="headerlink" title="为什么要坚持长期投资？"></a>为什么要坚持长期投资？</h2><blockquote>
-<p>我对预测股市的短期波动一无所长，我对未来六个月、未来一年或未来两年内的股票市场的走势一无所知。—— 巴菲特</p>
-</blockquote>
-<p>商品价格受供求关系影响，围绕价值上下波动。而股票是股份公司发行的所有权凭证（股权凭证），股票的价值对应着公司的价值。虽然股票不能算完全意义的商品，但是其价格仍然符合价值规律的表现形式。</p>
-<p>短期来看，公司的价值不可能发生巨大的变化，这个时候股票价格就会受到供求关系的影响。又因为股票不是完全意义的商品，没有使用价值，所以影响供求关系的其实是市场参与者对股票价格未来的期望。期望是一种心里预期，所以巴菲特才说他对未来一两年的股票市场走势一无所知。</p>
-<p>长期来看，公司不断进行创新（技术创新、组织创新、模式创新），不断提高生产力，公司的价值也在不断提高，相应的，股票的价值也不断提高。这才是我们应该去争取获得的利润的来源。</p>
-<h3 id="股票的长期收益"><a href="#股票的长期收益" class="headerlink" title="股票的长期收益"></a>股票的长期收益</h3><p>如果坚持长期投资，能获得多少收益呢？这里引用《共同基金十周年纪念版》中的数据（美股）：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16128407901664.jpg" alt=""></p>
-<p>表格数据补充说明：</p>
-<ol>
-<li>三个阶段：a)1802-1870年，美国从农业经济转为工业经济；b)1871-1925年，美国成为全球重要的经济和政治大国；c) 1926至今，现代股票市场时代。</li>
-<li>1997和2008分别对应《共同基金常识》第一版和十周年纪念版的初版时间。</li>
-<li>阴影部分数据是十周年再版时更新的数据。</li>
-<li>消费者价格指数（CPI）指通货膨胀率。</li>
-<li>90年代美股走强，2008年金融危机，所以1998-2008年间，实际回报率为负值。</li>
-</ol>
-<p>从这张图里能看到，从19世纪到20世纪，通货膨胀率急剧上升（二战后金本位解体），股市的名义回报率也大幅上升，但是实际总回报率（名义回报率减去通货膨胀率）仍然在7%左右。</p>
-<h3 id="波动巨大的年回报率"><a href="#波动巨大的年回报率" class="headerlink" title="波动巨大的年回报率"></a>波动巨大的年回报率</h3><p>虽然股市长期回报率趋于稳定，但绝不能认为股市每年的实际收益率都是7%左右（很多投资者有一个错误的认知，长期回报率7%就是每年7%）。实际上，以一年为单位，股票的收益率存在巨大的波动。</p>
-<p>下图是1802年到2008年期间，股票逐年波动率的情况：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16128408642617.jpg" alt=""></p>
-<p>表格中的数据不少，其实只要看1802-2008年这一行，这207年间，回报率的均值是7%，标准差是18.3%，也就是说，大约2/3的时间里，实际回报率在-11.3%~25.3%之间波动。实际上，这一段时期内，回报率最高能到66.6%，最低只有-38.6%。</p>
-<p>显然，割裂的看每一年的回报率，存在巨大的不确定性。</p>
-<h3 id="不同周期下年回报率的波动范围"><a href="#不同周期下年回报率的波动范围" class="headerlink" title="不同周期下年回报率的波动范围"></a>不同周期下年回报率的波动范围</h3><p>虽然具体到每一年，回报率波动十分剧烈，但是这个波动的剧烈程度，随着时间跨度的增加会迅速下降。</p>
-<p>如下图所示：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16128410086854.jpg" alt=""></p>
-<p>在这张图里面，横坐标标识持有股票的时间，以年为单位；纵坐标显示的是年化回报率；而柱状图的高度代表了在相应的年限里，最高与最低的回报率范围。需要注意的是，这个波动范围是是根据标准差计算出来的一个范围，实际波动高于这个估计。</p>
-<p>从图里我们可以看到，随着持有年限的增加，标准差迅速从18.3%下降到1.0%，前期下降远远快于后期下降。这说明我们持有的时间越长，获得一个稳定收益的概率越高。</p>
-<h2 id="长期投资的风险"><a href="#长期投资的风险" class="headerlink" title="长期投资的风险"></a>长期投资的风险</h2><p>上面的数据<strong>仅仅证明了长期投资远远优于短期投资</strong>，但这并不意味着长期投资就没有风险。</p>
-<blockquote>
-<p>长期投资风险不是短期的波动，因为长期投资者可以忽略短期波动。而且，并不存在任何预定的回报率，而仅仅可能是一个无法实现的期望回报率，风险是这样一种可能性。在长期，股票的回报可能很差。</p>
-</blockquote>
-<p>上面是福特基金会财务官劳伦斯·西格尔关于长期历史回报率的忠告，长期下来，股票的回报可能不及预期。因为长期的终点，很可能正好是市场的寒冬。但是寒冬终会过去，只要继续等待，就一定能等到收货的季节。所以投资界还有一句名言：</p>
-<blockquote>
-<p>当闪电劈下来的时候，你要在场。</p>
-</blockquote>
-<p>需要说明的是，上面的回报率的计算不是基于某个股票，而是基于一堆股票，也就是说这个回报率是市场的平均水平。这就是为什么巴菲特推荐普通投资者购买推荐指数基金的原因：</p>
-<blockquote>
-<p>一个投资者虽然不了解具体企业的经济状况，但又想成为 美国产业的长期拥有者，应当定期地投资于指数基金。以这种方式，一无所知的投资者就能够超越大多数投资专家。但悖谬的是，当迟钝的投资者承认其局限时，他就再不迟钝了。长期 投资者就像寓言里步履蹒跚的乌龟，最终赢得了与投机者的竞赛，而投机者就像那只跑跑停停的兔子。</p>
-</blockquote>
-<p>再强调一下，<strong>关注长期远优于短期</strong>。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>文中表格数据均来自《共同基金常识》十周年纪念版，所以最后再次推荐下这本书。<br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/jie-ping20210125-013013.png" alt="截屏2021-01-25 01.30.13"></p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/30/invest-pratice-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/30/invest-pratice-4/" class="post-title-link" itemprop="url">财务自由实证#4——基金组合和 FOF</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-30 01:53:36" itemprop="dateCreated datePublished" datetime="2021-01-30T01:53:36+08:00">2021-01-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:35:10" itemprop="dateModified" datetime="2021-05-06T01:35:10+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这个系列的第零篇是 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/" target="_blank" rel="noopener">财务自由实证#0</a>。</p>
-<p>追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更”美好“的事物上。</p>
-<h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>本月进展如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16120621994964.jpg" alt="-w414"></p>
-<p>当前进度：2.16%，相比上个月，增加0.16%。本月无特殊操作，按时定投，按比例跟投，其它时间老老实实学习，工作，写公众号。</p>
-<h2 id="目前跟投的基金组合"><a href="#目前跟投的基金组合" class="headerlink" title="目前跟投的基金组合"></a>目前跟投的基金组合</h2><p>附一下当前实证计划中主要的组合：</p>
-<table>
-<thead>
-<tr>
-<th>组合名称</th>
-<th>平台</th>
-<th>主理人</th>
-<th>特点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>长赢指数投资计划-150份</td>
-<td>且慢APP</td>
-<td>ETF拯救世界</td>
-<td>一次性投入</td>
-</tr>
-<tr>
-<td>长赢指数投资计划-S定投</td>
-<td>且慢APP</td>
-<td>ETF拯救世界</td>
-<td>按比例跟投</td>
-</tr>
-<tr>
-<td>云长进取</td>
-<td>且慢APP</td>
-<td>刘备教授</td>
-<td>按比例跟投 + 定投</td>
-</tr>
-<tr>
-<td>日积月累</td>
-<td>蛋卷基金</td>
-<td>Alex价值发现者</td>
-<td>按比例跟投</td>
-</tr>
-</tbody></table>
-<p>强调一下，实证中的这些组合服务于长期投资组合，能承受的风险等级较高，因此仅供参考。</p>
-<h3 id="什么是基金组合"><a href="#什么是基金组合" class="headerlink" title="什么是基金组合"></a>什么是基金组合</h3><p>基金组合是这两年兴起的一种比较流行的投资方式。这些基金组合是组合的主理人（管这个组合的人）根据一定的投资策略，购买的一篮子基金。</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/ji-jin-zu-he.jpg" alt="基金组合"></p>
-<p>有没有发现基金组合的概念十分类似类似 FOF（超链接：什么是FOF）？其实本质都一样，只不过 FOF是正规的基金，受监管部门监管，而普通的基金组合则是由一些知名的大V管理，相对更灵活一些。</p>
-<h3 id="为什么推荐基金组合"><a href="#为什么推荐基金组合" class="headerlink" title="为什么推荐基金组合"></a>为什么推荐基金组合</h3><p>推荐基金组合的原因如下：</p>
-<ol>
-<li>风险相对较低，收益相对稳定</li>
-<li>主理人对外沟通频繁</li>
-<li>主理人真金白银的投资自己的组合</li>
-<li>操作便捷</li>
-</ol>
-<p>第1点，风险相对较低，收益相对稳定。基金本身就是一篮子同类资产，风险相对低一些；基金组合再通过不同类型的基金搭配，进行风险对冲，相对会更稳健一些。</p>
-<p>第2点，<strong>主理人对外沟通频繁</strong>，这是我推荐基金组合的最大原因。普通基金，一般一个季度、甚至半年才会公布一次持仓情况以及调仓理由，其它时间你对这个基金内部的变动一无所知。</p>
-<p>很多人都说要相信基金经理，要长期持有基金，但是关于基金经理的公开资料太少，又不能直接和基金经理沟通，甚至连基金经理买不买自己的基金都不知道，这让投资者怎么始终如一的信任基金经理？靠一腔热血吗？</p>
-<p>主理人就不一样了。大部分基金组合的主理人都有自己偏爱的自媒体渠道，比如前面的<em>ETF拯救世界</em>，尤其喜欢发微博，天天在苦口婆心跟你讲市场怎么样，为什么这么做，要保持什么样的心态等等。</p>
-<p>说的多了，你就能判断出来，这个主理人的投资行为是不是和他的理念一致。只要你认同这种理念，并且对他有了一定的信任，坚持就变成了一件水到渠成的事情。</p>
-<p>第3点，主理人真金白银的投资自己的组合，这个很好理解，因为这样更能获得投资者的信任。</p>
-<p>第4点操作便捷也是我推荐基金组合的原因。这些基金组合一般都依托于较大的第三方基金销售平台（支付宝、且慢、蛋卷等），当主理人对基金组合进行调仓时，平台通过短信或者公众号等方式通知，收到通知后，按比例一键买入即可。</p>
-<p>这里以蛋卷基金上的日积月累组合为例：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/gen-tou-bu-zhou001.jpeg" alt="跟投步骤.001"></p>
-<p>第一步，下载蛋卷APP，搜索日积月累组合，左下角点关注。<br>第二步，微信关注蛋卷基金服务号，登录。然后等通知。<br>第三、四步，根据调仓通知，选择适合自己的比例跟投。</p>
-<p>需要强调的是，这里说的基金组合只是一个名义上的组合，<em>你并不会和主理人发生任何交易</em>，实际直接交易的还是相应的基金公司，跟投仅仅是复制了主理人的操作而已。</p>
-<h3 id="为什么不推荐-FOF"><a href="#为什么不推荐-FOF" class="headerlink" title="为什么不推荐 FOF"></a>为什么不推荐 FOF</h3><p>一方面，FOF基金 作为国内17年新出现的基金品种，还没有广为人知。目前国内公募基金10000多只，FOF 基金只有174只，占比很小，业绩历史较短。</p>
-<p>另一方面，FOF作为正统的基金，受到各种监管限制。比如，最新版的《基金中基金(FOF)审核指引》有如下规定：</p>
-<p>1）FOF中单只基金的市值，不得高于FOF基金资产净值的20%。<br>2）投资于货币市场基金的比例不得超过基金资产的15%。<br>3）某一类型的FOF（如股票型FOF），其80%以上的资产需要投资于股票基金</p>
-<p>其中第2点，最开始 FOF 投资货币基金的资产占比限制时不能超过5%。也就是说如果市场股票和债券都向下的情况下，基金经理却没法大量购买货币基金来避险。这个比例直到19年6月才上调为15%。</p>
-<p>由于 FOF 相比于其它类别的基金，还是新品种（仅就国内而言），所以监管政策还在完善中，FOF 的发展也还在完善中。</p>
-<p>最后还有一个双重收费问题。FOF投资非自家基金公司的基金时，需要支付常规的基金费用项目，而投资者申购FOF也需要支付一定的申购费、管理费等。</p>
-<p>所以目前阶段，我更推荐跟投基金组合的方式（<strong>主理人对外的频繁沟通是巨大的优势</strong>）。</p>
-<h2 id="基金组合的缺点"><a href="#基金组合的缺点" class="headerlink" title="基金组合的缺点"></a>基金组合的缺点</h2><p>上面说了那么多，并不是说基金组合就没有缺点了。</p>
-<p>比如，基金组合其实是主理人的个人组合，每个人都能建立组合。所以这个市场也会越来越鱼龙混杂，</p>
-<p>还有就是主理人虽然会投资自己的组合，但是他不会公布该组合占了他全副身家的多少比例。很多时候你会发现主理人的钱无穷无尽，而你很快就没钱了，最终你的收益也不如主理人。</p>
-<p>另外有些主理人管理的组合很多，并且有越来越多的趋势，很难让人不怀疑他在每个组合上到底能花多少精力。</p>
-<p>不过，仅就 <strong>主理人对外沟通频繁</strong> 这一个理由，我会推荐初学者从跟投基金组合开始，并在这个跟投的过程中完善自己。</p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/30/invest-pratice-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/30/invest-pratice-3/" class="post-title-link" itemprop="url">财务自由实证#3——2020年回顾</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-30 01:53:36" itemprop="dateCreated datePublished" datetime="2020-12-30T01:53:36+08:00">2020-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:35:07" itemprop="dateModified" datetime="2021-05-06T01:35:07+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这个系列的第零篇是 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/" target="_blank" rel="noopener">财务自由实证#0</a>。</p>
-<p>追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更”美好“的事物上。</p>
-<h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>12月份进展如下：<br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2020/12/31/16094299697597.jpg" alt="-w414"></p>
-<p>当前进度：2%。相比上个月增加0.12%。这个月前面都没涨，就这两天涨的。。</p>
-<p>特殊操作方面，值得一提的就是正在逐渐把自己定投的那部分资金卖出，改成跟投其它组合，预计年前能调整完毕。</p>
-<h2 id="2020回顾"><a href="#2020回顾" class="headerlink" title="2020回顾"></a>2020回顾</h2><p>2020年还有几天就要过去了，正好回顾一下这一年的投资理财历程。且慢没有按时间点展示投资及收益的功能，所以投资收益部分只能大概回忆一下，如果记错了，反正也没人知道。</p>
-<p>1月份的时候，也就是春节前，本金2、3万，收益5000+，当时自我感觉良好，觉得自己有抄作业的天赋。</p>
-<p>2月份，疫情发酵。3号，沪深300下跌7.88%。市场吓崩了，我也吓坏了，第一次见指数这么跌。虽然吓的不轻，但操作上啥也没做。之后指数迅速回升到年前水平。</p>
-<p>3月份，疫情的影响持续扩大，从3月5号到3月23号，沪深300累计下跌16%。且慢上19年的收益基本跌没了，累计收益记得只剩200左右。不过因为收益始终是正的，所以心态上还好。</p>
-<p>3月份，9号，12号，16号，18号，美股连续熔断4次，巴菲特天天在说见证历史，大家已经麻木了。</p>
-<p>从3月底到6月底，各国积极应对疫情，尤其是中国，控制的非常好，日常活动已经和平时没有太大差别。资本市场发现被吓过头之后，开始自行修复。不过3长达个月的修复，也才达到了年前的水平。</p>
-<p>这期间，上证指数最低是2680左右，那个时候想着指数每跌50就加一些，哪知道之后再也没有跌到2700以下。不过这个期间也陆陆续续的买了不少。现在回想起来，当时的行情是值得投入绝大部分资产，奋力一博的，可惜了。</p>
-<p>到七月份，市场忽然就火了，可能是大家被憋的太久了，短短几天，沪深300涨了18%，市场情绪被全面点燃：</p>
-<ul>
-<li>部分机构喊出了“全面牛”的口号</li>
-<li>A股的交易量天天破万亿</li>
-<li>新股民开户过于热情导致多家券商平台崩溃</li>
-</ul>
-<p>7月初的这两周，眼见且慢上的收益从5000到10000，又迅速到了15000。这两天深刻认识到了A股暴涨暴跌的特性。（媳妇那个时候已经嚷嚷着要从她的小金库里掏出一部分来买基金了~）</p>
-<p>7月下旬到年底，A股进入了横盘震荡的模式，涨跌比较随性。也正是这段时间的训练，现在每天如果跌个2000、3000，内心毫无波澜。</p>
-<h2 id="一些感悟"><a href="#一些感悟" class="headerlink" title="一些感悟"></a>一些感悟</h2><p>2020年不管对谁，都是难忘且难过的一年。</p>
-<p>从投资角度看，2020年，见证了美股历史上5次熔断中的4次；见证了A股的低迷，也见证了A股的爆发。原本3-5年甚至7年才能遇到市场的各种极端情况，这一年都遇到了。</p>
-<p>经历了魔幻的2020年之后，关于市场和投资，有几个感悟特别强烈：</p>
-<ol>
-<li>不要对市场的顶部和底部设限。它能跌的让你怀疑人生，也能涨的让你怀疑人生。</li>
-<li>不要去追求完美的最低点，模糊的低位区间，就已经值得加仓了。</li>
-<li>无论买什么，都要了解所买资产的底层逻辑，明确自己想要得到什么已经自己能承担失去什么。</li>
-<li>专业的事情交给专业的人做。</li>
-<li>好好学习，好好工作，天天向上，攒钱才是王道。</li>
-</ol>
-<p>希望接下来的市场不要那么快起来，好让我多囤点资产~~</p>
-<h2 id="说一说2020年理财上做的比较好的几点"><a href="#说一说2020年理财上做的比较好的几点" class="headerlink" title="说一说2020年理财上做的比较好的几点"></a>说一说2020年理财上做的比较好的几点</h2><h3 id="投资体系（框架）的知行合一"><a href="#投资体系（框架）的知行合一" class="headerlink" title="投资体系（框架）的知行合一"></a>投资体系（框架）的知行合一</h3><p><a href="https://tjjsjwhj.me/2020/10/10/invest-pratice-1/" target="_blank" rel="noopener">财务自由实证#1</a> 中介绍了我的一个比较粗糙的投资体系：</p>
-<ul>
-<li>彻底了解自己</li>
-<li>规划紧急备用金</li>
-<li>规划必要的保险</li>
-<li>规划3年内要用的钱</li>
-<li>建立长期投资组合</li>
-</ul>
-<p>其实这里面的一些步骤或多或少都在其它地方看过或者听过，但是真正相信并彻底执行却是在今年下半年。</p>
-<p>就是写 <a href="https://tjjsjwhj.me/2020/10/10/invest-pratice-1/" target="_blank" rel="noopener">财务自由实证#1</a> 之前，有个周末，坐下仔细的梳理了自己的财务状况，严格按照上面的步骤走了一遍。</p>
-<p>紧急备用金买了余额宝和互联网银行存款，保险基本配置完，3年内要用的钱买的债券基金组合中，长期投资组合的钱放在实证计划中的组合里。</p>
-<h3 id="家庭内部实现理财观念的统一"><a href="#家庭内部实现理财观念的统一" class="headerlink" title="家庭内部实现理财观念的统一"></a>家庭内部实现理财观念的统一</h3><p>还记得刚开始的时候，特别希望能和媳妇一起研究如何理财，怎奈媳妇一点兴趣都没有，各种APP都懒得下，还得我去她手机里安装。</p>
-<p>但是一个长达25年的理财规划，如果两个人的观念不能一致，是很难坚持下去的。比如如果市场一路下跌，但是你清楚的这个只是暂时的，撑过去就是海阔天空，但是你的另一半看到账户里天天都绿的发毛，要你赶紧取出来，怎么办？又或者是要买辆车了，但是行情不好，你要不要亏损取出来？</p>
-<p>一边是金钱，一边是家庭和谐，如何选择？当然是两手都要抓，两手都要硬！</p>
-<p>所以平时一有机会，我都会现学现卖，将我刚了解到东西讲给她听，跟她讲指数，讲基金，讲可转债，还有港股，也会把平时看到的比较好的公众号文章分享给她。</p>
-<p>此外，无论赚多少亏多少，我从不瞒着，都会及时告诉她。</p>
-<p>经过这些潜移默化的影响，媳妇现在已经完全认同我的观点，并且偶尔还会主动关心一下收益如何，或者主动和我讨论一下她看到的一些理财观点。</p>
-<p>感谢媳妇一路以来的支持和理解，希望能早点带媳妇实现各种画出去的大饼！</p>
-<h2 id="新年期望"><a href="#新年期望" class="headerlink" title="新年期望"></a>新年期望</h2><p>关于投资理财方面，期望主要有两个。</p>
-<p>一是希望能在投资理财的认知层面和操作层面有一个比较大的进步；二是实证的金额翻个倍？</p>
-<p>元旦快乐~~</p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/15/go-context/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/15/go-context/" class="post-title-link" itemprop="url">聊一聊 golang 中的 Context 的实现</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-15 01:00:42" itemprop="dateCreated datePublished" datetime="2020-12-15T01:00:42+08:00">2020-12-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:38:53" itemprop="dateModified" datetime="2021-05-06T01:38:53+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="编程语言中的-Context"><a href="#编程语言中的-Context" class="headerlink" title="编程语言中的 Context"></a>编程语言中的 Context</h2><p>Context 的直接翻译是上下文或环境。在编程语言中，翻译成运行环境更合适。</p>
-<p>比如一段程序，在执行之初，我们可以设定一个环境参数：最大运行时间，一旦超过这个时间，程序也应该随之终止。</p>
-<p>在 golang 中， Context 被用来在各个 goroutine 之间传递取消信号、超时时间、截止时间、key-value等环境参数。</p>
-<h2 id="golang-中的-Context-的实现"><a href="#golang-中的-Context-的实现" class="headerlink" title="golang 中的 Context 的实现"></a>golang 中的 Context 的实现</h2><p>golang中的Context包很小，除去注释，只有200多行，非常适合通过源码阅读来了解它的设计思路。</p>
-<p><strong><em>注：本文中的golang 均指 go 1.14</em></strong></p>
-<h3 id="接口-Context-的定义"><a href="#接口-Context-的定义" class="headerlink" title="接口 Context 的定义"></a>接口 Context 的定义</h3><p>golang 中 Context 是一个接口类型，具体定义如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Context <span class="keyword">interface</span> &#123;</span><br><span class="line">	Deadline() (deadline time.Time, ok <span class="keyword">bool</span>)</span><br><span class="line">	Done() &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">	Err() error</span><br><span class="line">	Value(key <span class="keyword">interface</span>&#123;&#125;) <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Deadline()</strong></p>
-<p>Deadline() 返回的是当前 Context 生命周期的截止时间。</p>
-<p><strong>Done()</strong></p>
-<p>Done() 返回的是一个只读的 channel，如果能从这个 channel 中读到任何值，则表明context的生命周期结束。</p>
-<p><strong>Err()</strong></p>
-<p>这个比较简单，就是返回异常。</p>
-<p><strong>Value(key interface{})</strong></p>
-<p>Value(key interface{}) 返回的是 Context 存储的 key 对应的 value。如果在当前的 Context 中没有找到，就会从父 Context 中寻找，一直寻找到最后一层。</p>
-<h3 id="4种基本的context类型"><a href="#4种基本的context类型" class="headerlink" title="4种基本的context类型"></a>4种基本的context类型</h3><table>
-<thead>
-<tr>
-<th align="left">类型</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">emptyCtx</td>
-<td align="left">一个没有任何功能的 Context 类型，常用做 root Context。</td>
-</tr>
-<tr>
-<td align="left">cancelCtx</td>
-<td align="left">一个 cancelCtx 是可以被取消的，同时由它派生出来的 Context 都会被取消。</td>
-</tr>
-<tr>
-<td align="left">timerCtx</td>
-<td align="left">一个 timeCtx 携带了一个timer(定时器)和截止时间，同时内嵌了一个 cancelCtx。当 timer 到期时，由 cancelCtx 来实现取消功能。</td>
-</tr>
-<tr>
-<td align="left">valueCtx</td>
-<td align="left">一个 valueCtx 携带了一个 key-value 对，其它的 key-value 对由它的父 Context 携带。</td>
-</tr>
-</tbody></table>
-<h3 id="emptyCtx-定义及实现"><a href="#emptyCtx-定义及实现" class="headerlink" title="emptyCtx 定义及实现"></a>emptyCtx 定义及实现</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> emptyCtx <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Deadline</span><span class="params">()</span> <span class="params">(deadline time.Time, ok <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Done</span><span class="params">()</span> &lt;-<span class="title">chan</span> <span class="title">struct</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Err</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Value</span><span class="params">(key <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">interface</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>看 emptyCtx 很轻松，因为它什么都没做，仅仅是实现了 Context 这个接口。在 context 包中，有一个全局变量 background，值为 new(emptyCtx)，它的作用就是做个跟 Context。其它类型的 Context 都是在 background 的基础上扩展功能。</p>
-<h3 id="cancelCtx-定义及实现"><a href="#cancelCtx-定义及实现" class="headerlink" title="cancelCtx 定义及实现"></a>cancelCtx 定义及实现</h3><p>先看下 cancelCtx 的定义和创建。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义</span></span><br><span class="line"><span class="keyword">type</span> cancelCtx <span class="keyword">struct</span> &#123;</span><br><span class="line">	Context</span><br><span class="line"></span><br><span class="line">	mu       sync.Mutex            <span class="comment">// protects following fields</span></span><br><span class="line">	done     <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;         <span class="comment">// created lazily, closed by first cancel call</span></span><br><span class="line">	children <span class="keyword">map</span>[canceler]<span class="keyword">struct</span>&#123;&#125; <span class="comment">// set to nil by the first cancel call</span></span><br><span class="line">	err      error                 <span class="comment">// set to non-nil by the first cancel call</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithCancel</span><span class="params">(parent Context)</span> <span class="params">(ctx Context, cancel CancelFunc)</span></span> &#123;</span><br><span class="line">	c := newCancelCtx(parent)</span><br><span class="line">	propagateCancel(parent, &amp;c)</span><br><span class="line">	<span class="keyword">return</span> &amp;c, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; c.cancel(<span class="literal">true</span>, Canceled) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// newCancelCtx returns an initialized cancelCtx.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newCancelCtx</span><span class="params">(parent Context)</span> <span class="title">cancelCtx</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> cancelCtx&#123;Context: parent&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>总体来说，cancelCtx 的创建就是把父 Context 复制到 cancelCtx 的成员 Context 上，然后把父 Context 的一些信号广播到子 Context 上。最后返回了 cancelCtx 的引用，以及一个 cancelFunc。</p>
-<p>我们看一下 cancel 实现的细节：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *cancelCtx)</span> <span class="title">cancel</span><span class="params">(removeFromParent <span class="keyword">bool</span>, err error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">"context: internal error: missing cancel error"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	c.mu.Lock()</span><br><span class="line">	<span class="keyword">if</span> c.err != <span class="literal">nil</span> &#123;</span><br><span class="line">		c.mu.Unlock()</span><br><span class="line">		<span class="keyword">return</span> <span class="comment">// already canceled</span></span><br><span class="line">	&#125;</span><br><span class="line">	c.err = err</span><br><span class="line">	<span class="keyword">if</span> c.done == <span class="literal">nil</span> &#123;</span><br><span class="line">		c.done = closedchan</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="built_in">close</span>(c.done)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> child := <span class="keyword">range</span> c.children &#123;</span><br><span class="line">		<span class="comment">// <span class="doctag">NOTE:</span> acquiring the child's lock while holding parent's lock.</span></span><br><span class="line">		child.cancel(<span class="literal">false</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	c.children = <span class="literal">nil</span></span><br><span class="line">	c.mu.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> removeFromParent &#123;</span><br><span class="line">		removeChild(c.Context, c)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>cancel 有两个参数，一个是 removeFromParent，表示当前的取消操作是否需要把自己从父 Context 中移除，第二个参数就是执行取消操作需要返回的错误提示。</p>
-<p>根据 cancel 的流程，如果 c.done 是 nil (父 Context 是 emptyCtx 的情况)，就赋值 closedchan。（ closedchan 是一个被关闭的channel）；如果不是nil，就直接关闭。然后递归关闭子 Context。</p>
-<p>这里注意一下，关闭子 Context 的时候，removeFromParent 参数传值是 false，这是因为当前 Context 在关闭的时候，把 child 置成了 nil，所以子 Context 就不用再执行一次从父 Context 移除自身的操作了。</p>
-<p>最后，我们重点说一说 <strong>propagateCancel</strong> 函数。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">propagateCancel</span><span class="params">(parent Context, child canceler)</span></span> &#123;</span><br><span class="line">	done := parent.Done()</span><br><span class="line">	<span class="keyword">if</span> done == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="comment">// parent is never canceled</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> &lt;-done:</span><br><span class="line">		<span class="comment">// parent is already canceled</span></span><br><span class="line">		child.cancel(<span class="literal">false</span>, parent.Err())</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> p, ok := parentCancelCtx(parent); ok &#123;</span><br><span class="line">		p.mu.Lock()</span><br><span class="line">		<span class="keyword">if</span> p.err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// parent has already been canceled</span></span><br><span class="line">			child.cancel(<span class="literal">false</span>, p.err)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> p.children == <span class="literal">nil</span> &#123;</span><br><span class="line">				p.children = <span class="built_in">make</span>(<span class="keyword">map</span>[canceler]<span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">			&#125;</span><br><span class="line">			p.children[child] = <span class="keyword">struct</span>&#123;&#125;&#123;&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		p.mu.Unlock()</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		atomic.AddInt32(&amp;goroutines, +<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-parent.Done():</span><br><span class="line">				child.cancel(<span class="literal">false</span>, parent.Err())</span><br><span class="line">			<span class="keyword">case</span> &lt;-child.Done():</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>从函数名 propagateCancel 大概能看出看出来这个函数的功能，即 “传播取消（信号）”。回想一下，父 Context 是如何判断有没有收到取消信号的？是根据它的私有成员 ctx.done 来判断的。那子 Context 如何能接收到这个信号呢？这就是函数 propagateCancel 干的事情，把 ctx.done 赋值给子 Context 的私有成员 done，子 Context 就可以获取到取消的信号。</p>
-<p>propagateCancel 的实际处理要更为复杂一些。首先是判断判断父 Context 有没有被 cancel 掉？如果已经 cancel 掉，那么直接 cancel 掉当前的子 Context；如果没有的话，就会<strong>断言父 Context 是否是emptyCtx 类型</strong>，如果是，就通过父 Context 的成员 children 把子 Context 挂在父 Context 下面；如果不是，就启一个协程监听父 Context 信号。</p>
-<p>解释一下为什么会 <strong>断言父 Context 是否是emptyCtx 类型</strong> ？想象一下，如果是你来写这段逻辑，会怎么写？最简单的方法就是每个子 Context 启一个协程，监听取消信号。这种方式能确实能实现取消信号广播的功能，但缺点就是如果子 Context 过多，协程就会很多，一直占用系统资源；而如果父 Context 的类型是 cancelCtx，那么它就能通过成员 children 递归的取消子 Context。一边是 n 个协程监听取消信号，一遍是一个协程就能递归取消所有子 Context，哪种方式消耗资源少，一目了然。</p>
-<h3 id="timerCtx-定义及实现"><a href="#timerCtx-定义及实现" class="headerlink" title="timerCtx 定义及实现"></a>timerCtx 定义及实现</h3><p>先看以下 timerCtx 的定义和创建：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> timerCtx <span class="keyword">struct</span> &#123;</span><br><span class="line">	cancelCtx</span><br><span class="line">	timer *time.Timer <span class="comment">// Under cancelCtx.mu.</span></span><br><span class="line"></span><br><span class="line">	deadline time.Time</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithDeadline</span><span class="params">(parent Context, d time.Time)</span> <span class="params">(Context, CancelFunc)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> cur, ok := parent.Deadline(); ok &amp;&amp; cur.Before(d) &#123;</span><br><span class="line">		<span class="comment">// The current deadline is already sooner than the new one.</span></span><br><span class="line">		<span class="keyword">return</span> WithCancel(parent)</span><br><span class="line">	&#125;</span><br><span class="line">	c := &amp;timerCtx&#123;</span><br><span class="line">		cancelCtx: newCancelCtx(parent),</span><br><span class="line">		deadline:  d,</span><br><span class="line">	&#125;</span><br><span class="line">	propagateCancel(parent, c)</span><br><span class="line">	dur := time.Until(d)</span><br><span class="line">	<span class="keyword">if</span> dur &lt;= <span class="number">0</span> &#123;</span><br><span class="line">		c.cancel(<span class="literal">true</span>, DeadlineExceeded) <span class="comment">// deadline has already passed</span></span><br><span class="line">		<span class="keyword">return</span> c, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; c.cancel(<span class="literal">false</span>, Canceled) &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	c.mu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> c.mu.Unlock()</span><br><span class="line">	<span class="keyword">if</span> c.err == <span class="literal">nil</span> &#123;</span><br><span class="line">		c.timer = time.AfterFunc(dur, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			c.cancel(<span class="literal">true</span>, DeadlineExceeded)</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> c, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; c.cancel(<span class="literal">true</span>, Canceled) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithTimeout</span><span class="params">(parent Context, timeout time.Duration)</span> <span class="params">(Context, CancelFunc)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> WithDeadline(parent, time.Now().Add(timeout))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>有了前面的 cancelCtx 的基础后，看 timerCtx 会清晰很多。timerCtx 的结构简单一些。timeCtx 有三个成员，第一个是 cancelCtx，这意味这 timerCtx 的取消的操作其实是通过 cancelCtx 实现的；第二个成员是 timer，这是一个定时器，干的事情就是到 deadline 的时候，执行 cancel 操作；第三个成员就是 deadline。</p>
-<p>当然，除了等定时器到期自动执行 cancel 操作，也可以主动执行：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *timerCtx)</span> <span class="title">cancel</span><span class="params">(removeFromParent <span class="keyword">bool</span>, err error)</span></span> &#123;</span><br><span class="line">	c.cancelCtx.cancel(<span class="literal">false</span>, err)</span><br><span class="line">	<span class="keyword">if</span> removeFromParent &#123;</span><br><span class="line">		<span class="comment">// Remove this timerCtx from its parent cancelCtx's children.</span></span><br><span class="line">		removeChild(c.cancelCtx.Context, c)</span><br><span class="line">	&#125;</span><br><span class="line">	c.mu.Lock()</span><br><span class="line">	<span class="keyword">if</span> c.timer != <span class="literal">nil</span> &#123;</span><br><span class="line">		c.timer.Stop()</span><br><span class="line">		c.timer = <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	c.mu.Unlock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果主动执行 cancel 操作，除了会递归取消子 Context，还是终止定时器。</p>
-<h3 id="valueCtx-的定义和创建"><a href="#valueCtx-的定义和创建" class="headerlink" title="valueCtx 的定义和创建"></a>valueCtx 的定义和创建</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> valueCtx <span class="keyword">struct</span> &#123;</span><br><span class="line">	Context</span><br><span class="line">	key, val <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithValue</span><span class="params">(parent Context, key, val <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">Context</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> key == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">"nil key"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> !reflectlite.TypeOf(key).Comparable() &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">"key is not comparable"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> &amp;valueCtx&#123;parent, key, val&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *valueCtx)</span> <span class="title">Value</span><span class="params">(key <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">interface</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">if</span> c.key == key &#123;</span><br><span class="line">		<span class="keyword">return</span> c.val</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> c.Context.Value(key)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>valueCtx 也很简单，一个 Context 类型的成员，还有两个都是 interface{} 类型的成员 key，value。</p>
-<p>从 valueCtx 的创建能看到，如果想给 Context 存储一个键值对，只能通过 WithValue 函数创建，且每个 Context 只能存储一对。取值的方式是递归寻找父 Context 存储的键值对，所以一个 Context 相当于存储了全部父节点的键值对。</p>
-<p>另外可以看到，valueCtx 的成员是 Context 类型，不是 cancelCtx 类型，这一点需要注意。所以不同的业务场景需要选择不同的 Context。</p>
-<h2 id="golang-中-Context-的使用"><a href="#golang-中-Context-的使用" class="headerlink" title="golang 中 Context 的使用"></a>golang 中 Context 的使用</h2><p>golang 中 Context 的使用套路是在最开始的时候，创建一个 root Context，这个 root Context 就是 emptyCtx 的一个实例。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	background = <span class="built_in">new</span>(emptyCtx)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Background</span><span class="params">()</span> <span class="title">Context</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> background</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>接着是根据各个场景，创建不同类型的 Context。</p>
-<p>此外，官方博客也给出了 Context 使用的一些建议：</p>
-<ol>
-<li>不能在其它类型的结构下放 Context 类型的成员。</li>
-<li>Context 类型应该作为函数的第一个参数使用，简写是 ctx</li>
-<li>不要用 nil 来代替本该传入的 Context，实在不行可以先传 context.Todo() (和 background 类似)。</li>
-<li>不要把函数内部的参数添加到 ctx 中。ctx 中应该存一些贯穿始终的数据。</li>
-<li>Context 是并发安全的，所以不用担心多个线程同时使用。</li>
-</ol>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>golang 的 Context 就讲到这里，由于篇幅原因，总觉得还有不少地方没有讲清楚，下回有机会结合业务场景讲一下 Context 的具体使用。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><a href="https://zhuanlan.zhihu.com/p/68792989" target="_blank" rel="noopener">深度解密Go语言之context</a></li>
-<li><a href="https://blog.csdn.net/u011957758/article/details/82948750?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160788294719726891176947%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=160788294719726891176947&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-10-82948750.nonecase&utm_term=golang%E4%B8%AD%E7%9A%84context&spm=1018.2118.3001.4449" target="_blank" rel="noopener">由浅入深聊聊Golang的context</a></li>
-</ol>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/06/go-benchmark-pprof/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/06/go-benchmark-pprof/" class="post-title-link" itemprop="url">go 性能优化之 benchmark + pprof</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-06 18:44:15" itemprop="dateCreated datePublished" datetime="2020-12-06T18:44:15+08:00">2020-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:38:46" itemprop="dateModified" datetime="2021-05-06T01:38:46+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>testing 是go自带的一个轻量级的测试框架，主要有三个用途：单元测试(Test)，基准测试(Benchmark)以及示例测试(Example)。</p>
-</blockquote>
-<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>写go也有几个月了，一直没太关注类似 <code>benchmark</code> 之类的性能分析工具，只知道埋头写业务代码。直到前几天，工作上的一个项目遇到了性能瓶颈，需要分析一下原因，就用到了 <code>benchmark</code>。一顿分析，终于发现了程序中的”性能消耗大户“，颇有成就感。</p>
-<h2 id="测试case准备"><a href="#测试case准备" class="headerlink" title="测试case准备"></a>测试case准备</h2><p>平时写代码的过程中，会经常写一些 <code>print</code> 或者 <code>debug</code> 函数，谁又能想到，这些 <code>print</code> 偷偷摸摸的消耗了多少 <code>CPU</code> 和 内存资源呢？</p>
-<p>AES对称加密是业务代码中经常会用到的一种加密方式，但是编码习惯如果不好，或者测试代码忘了删，就会导致加密性能急剧下降。</p>
-<p><strong>大师兄写的AES加密函数</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncryptA</span><span class="params">(aesKey, IV, origin []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	block, err := aes.NewCipher(aesKey)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	blocksize := block.BlockSize()</span><br><span class="line">	blockMode := cipher.NewCBCEncrypter(block, IV)</span><br><span class="line">	originData := PKCS5Pading(origin, blocksize)</span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(originData))</span><br><span class="line">	blockMode.CryptBlocks(crypted, originData)</span><br><span class="line">	<span class="keyword">return</span> crypted</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>二师兄写的AES加密函数</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncryptB</span><span class="params">(aesKey, IV, origin []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">	block, err := aes.NewCipher(aesKey)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	blocksize := block.BlockSize()</span><br><span class="line">	blockMode := cipher.NewCBCEncrypter(block, IV)</span><br><span class="line">	originData := PKCS5Pading(origin, blocksize)</span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(originData))</span><br><span class="line">	blockMode.CryptBlocks(crypted, originData)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 把加密结果打印到日志看看</span></span><br><span class="line">	f, _ := os.Create(<span class="string">"temp.log"</span>)</span><br><span class="line">	<span class="keyword">defer</span> f.Close()</span><br><span class="line">	log.SetOutput(f)</span><br><span class="line">	log.Println(fmt.Sprintf(<span class="string">"encrypt res is %s"</span>, base64.StdEncoding.EncodeToString(crypted)))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> crypted</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>乍一看，大师兄和二师兄写的差不多，只是二师兄多了一个把加密结果写到日志中的操作。</p>
-<p><strong><em>就这么一点点的区别，性能能差多少呢?让我们把悬念留到最后。</em></strong></p>
-<h2 id="benchmark-实施"><a href="#benchmark-实施" class="headerlink" title="benchmark 实施"></a>benchmark 实施</h2><p>假设当前项目中的代码就是二师兄写的，我们就来分析一下，当前的性能瓶颈到底在什么地方。</p>
-<h3 id="benchmark编写"><a href="#benchmark编写" class="headerlink" title="benchmark编写"></a>benchmark编写</h3><p><strong>写benchmark几个注意点</strong>：</p>
-<ul>
-<li>文件名以 <code>_test.go</code> 结尾，如 <code>practice_test.go</code></li>
-<li>函数名统一以 <code>Benchmark</code> 开头，参数是 <code>*testing.B</code></li>
-<li>对于要测试的函数，函数外面套上一个 for 循环，for 循环次数的上限是 <code>b.N</code></li>
-<li>为了排除其它流程的干扰，一般会在 for 循环前加上 <code>b.ResetTimer</code></li>
-</ul>
-<p><strong>对二师兄的加密函数写个基准测试</strong></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkAesEncryptB</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	aesKey := []<span class="keyword">byte</span>(<span class="string">"1234567890abcdef"</span>)</span><br><span class="line">	IV := []<span class="keyword">byte</span>(<span class="string">"7878676756564545"</span>)</span><br><span class="line"></span><br><span class="line">	originData := bytes.Repeat([]<span class="keyword">byte</span>&#123;<span class="number">28</span>&#125;, <span class="number">1</span>&lt;&lt;<span class="number">29</span>)</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; b.N; i++ &#123;</span><br><span class="line">		AesEncryptB(aesKey, IV, originData)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>为了更加明显的对比，这里我们测试的加密数据的大小是512MB（即 1&lt;&lt; 29）</p>
-<h3 id="执行benchmark命令"><a href="#执行benchmark命令" class="headerlink" title="执行benchmark命令"></a>执行benchmark命令</h3><blockquote>
-<p>testing 框架下的基准测试依赖 <code>go test</code> 工具</p>
-</blockquote>
-<p><strong>benchmark 命令示例</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">test</span> -bench BenchmarkAesEncryptB -run none -benchmem -cpuprofile cpuprofile.out -memprofile memprofile.out</span><br></pre></td></tr></table></figure>
-
-<p>这个命令中的参数比较多，我们一个个的解释。</p>
-<ul>
-<li><code>-bench</code> 表示执行哪些基准测试函数，后面可以加需要执行的基准测试函数名称，也可以加 <code>.</code>，表示执行全部的基准测试函数。（其实 <code>-bench</code> 后面可以加正则表达式）</li>
-<li><code>-run</code> 表示执行哪些单元测试和示例测试函数，一般会加none，表示都不执行</li>
-<li><code>-benchmen</code> 表示打印函数执行过程中的内存分配</li>
-<li><code>-cpuprofile</code> 表示将全过程的 <code>CPU</code> 的一些概要数据写到文件 <code>cpuprofile.out</code> 中</li>
-<li><code>memprofile</code> 表示将全过程的内存的一些概要数据写到文件 <code>memprofile.out</code> 中</li>
-</ul>
-<p><strong>执行结果分析</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">goos: darwin</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: go_practice/benchmart_example</span><br><span class="line">BenchmarkAesEncryptB-8                 1        8570217455 ns/op        6218811264 B/op       55 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok      go_practice/benchmart_example   9.985s</span><br></pre></td></tr></table></figure>
-
-<p>从执行结果中能看到，for 循环每执行一次，耗时 8570217455 纳秒，同时会有55次内存分配操作，每次操作 6218811264 字节。</p>
-<p>到这里，我们其实已经完成了基准测试的一个基本流程，也对二师兄的加密函数的性能和内存使用状况有了一个初步的认识。</p>
-<p><strong>但是，我们还是不知道性能瓶颈在哪！！</strong></p>
-<h2 id="终极杀器：benchmark-pprof"><a href="#终极杀器：benchmark-pprof" class="headerlink" title="终极杀器：benchmark + pprof"></a>终极杀器：benchmark + pprof</h2><blockquote>
-<p>pprof 是 go 自带的 <code>CPU</code> 分析器，常用来分析性能瓶颈。</p>
-</blockquote>
-<p>在前面的基准测试中，我们生成了 <code>CPU</code> 概要文件 <code>cpuprofile.out</code> 以及内存概要文件 <code>memprofile.out</code>，现在可以派上大用场了。</p>
-<p>pprof 既可以通过命令行交互的方式查看CPU（内存）的概要数据，也可以通过web的方式查看直观的图形化展示。这里我们主要通过web的方式来展示。</p>
-<p><strong><em>当然，使用pprof工具前，你需要先安装 <code>graphviz</code>，如果是mac，执行 <code>brew install graphviz</code> 就行。</em></strong></p>
-<h3 id="pprof-分析-CPU"><a href="#pprof-分析-CPU" class="headerlink" title="pprof 分析 CPU"></a>pprof 分析 CPU</h3><p><strong>执行命令</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go tool pprof -http=<span class="string">":8081"</span> cpuprofile.out</span><br></pre></td></tr></table></figure>
-
-<p>通过地址 <code>http://localhost:8081/ui/</code> 能看到</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/go-benchmark-pprof/cpuprofile.png" alt="cpuprofile.png"></p>
-<p>从这个截图中，我们很容易看到，加密部分总共耗时5.11s，完全用在加密上的耗时才0.76s，其它时间都是用在日志打印上和字符串转化上，</p>
-<h3 id="pprof-分析内存"><a href="#pprof-分析内存" class="headerlink" title="pprof 分析内存"></a>pprof 分析内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go tool pprof -http=<span class="string">":8081"</span> memprofile.out</span><br></pre></td></tr></table></figure>
-
-<p>通过地址 <code>http://localhost:8081/ui/</code> 能看到</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/go-benchmark-pprof/memprofile.png" alt="memprofile.png"></p>
-<p>从这个截图图中，我们很容易看到，5930.71MB的内存使用，真正用在加密上的才512MB以及对原始字符串padding操作的640MB，其它内存都耗费在字符串转化和各种 <code>print</code> 操作上。</p>
-<p>很直观的，我们就知道了二师兄的代码问题就在那一段日志打印的操作上。</p>
-<h3 id="优化二师兄的代码"><a href="#优化二师兄的代码" class="headerlink" title="优化二师兄的代码"></a>优化二师兄的代码</h3><p>根据上面的分析，我们需要优化的就是日志打印的那部分代码。二师兄的代码优化后其实就是大师兄的代码。</p>
-<p>我们把大师兄和二师兄的代码放一起跑一遍基准测试：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">test</span> -bench . -run none -benchmem -cpuprofile cpuprofile.out -memprofile memprofile.out</span><br></pre></td></tr></table></figure>
-
-<p><strong>得到</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">goos: darwin</span><br><span class="line">goarch: amd64</span><br><span class="line">pkg: go_practice/benchmart_example</span><br><span class="line">BenchmarkAesEncryptA-8                 1        1174023307 ns/op        1207968624 B/op       13 allocs/op</span><br><span class="line">BenchmarkAesEncryptB-8                 1        7496300203 ns/op        6218810296 B/op       50 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok      go_practice/benchmart_example   9.508s</span><br></pre></td></tr></table></figure>
-
-<p>从 <code>CPU</code> 耗时上看，大师兄的代码耗时只有二师兄的 1/7，单次内存消耗只有二师兄的 1/5，并且内存分配次数也只有二师兄的 1/4 左右。</p>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>二师兄在追赶大师兄的道路上，又前进了一大步，可喜可贺~~</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://my.oschina.net/solate/blog/3034188" target="_blank" rel="noopener">go benchmark 性能测试</a></p>
-<p>[2] <a href="https://golang.org/cmd/go/#hdr-Testing_flags" target="_blank" rel="noopener">go testing</a></p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/02/go-file-lock/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/02/go-file-lock/" class="post-title-link" itemprop="url">golang下文件锁的使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-02 03:26:00" itemprop="dateCreated datePublished" datetime="2020-12-02T03:26:00+08:00">2020-12-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:38:57" itemprop="dateModified" datetime="2021-05-06T01:38:57+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>题目是golang下文件锁的使用，但本文的目的其实是通过golang下的文件锁的使用方法，来一窥文件锁背后的机制。</p>
-<h2 id="为什么需要文件锁"><a href="#为什么需要文件锁" class="headerlink" title="为什么需要文件锁"></a>为什么需要文件锁</h2><blockquote>
-<p>只有多线程/多进程这种并发场景下读写文件，才需要加锁，</p>
-</blockquote>
-<p><strong>场景1-读写并发</strong></p>
-<p>读写并发场景下，如果不加锁，就会出现读到脏数据的情况。想象一下，读文件的进程，读到第500字节，有其它进程以覆盖写的方式向文件中写入1000字节，那读进程读到的后500字节就是脏数据。</p>
-<p><strong>场景2-写写并发</strong></p>
-<p>写写并发场景下，如果不加锁，假设A进程先写0-1000字节，B进程写0-900字节，以此类推，最后一个进程写0-100字节，那最终的文件内容就是每个进程前100个字节拼接起来的错乱的内容了。</p>
-<h2 id="文件锁的几个概念"><a href="#文件锁的几个概念" class="headerlink" title="文件锁的几个概念"></a>文件锁的几个概念</h2><p><strong>共享锁</strong></p>
-<p>共享锁，也叫读锁。某个进程首次获取共享锁后，会生成一个锁类型的变量L，类型标记为共享锁。其它进程获取读锁的时候，L中的计数器加1，表示又有一个进程获取到了共享锁。这个时候如果有进程来获取排它锁，会获取失败。</p>
-<p><strong>排它锁</strong></p>
-<p>排它锁，也叫写锁。某个进程首次获取排他锁后，会生成一个锁类型的变量L，类型标记为排他锁。其它进程获取任何类型的锁的时候，都会获取失败。</p>
-<p><strong>阻塞</strong></p>
-<p>阻塞的意思是说，新的进程发现当前的文件（数据）被加锁后，会一直处于等待状态，直到锁被释放，才会继续下一步的行为。</p>
-<p><strong>非阻塞</strong></p>
-<p>非阻塞的意思是说，新的进程发现当前的文件（数据）被加锁后，立即返回异常。业务上需要根据具体的业务场景对该异常进行处理。</p>
-<p>阻塞和非阻塞其实是进程遇到锁的时候的两种处理模式。</p>
-<h2 id="golang下如何使用文件锁"><a href="#golang下如何使用文件锁" class="headerlink" title="golang下如何使用文件锁"></a>golang下如何使用文件锁</h2><h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"log"</span></span><br><span class="line">    <span class="string">"os"</span></span><br><span class="line">    <span class="string">"syscall"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    f, err := os.Create(<span class="string">"example.txt"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Println(<span class="string">"create file example.txt failed"</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> f.Close()</span><br><span class="line">    <span class="comment">// 非阻塞模式下，加共享锁</span></span><br><span class="line">    <span class="keyword">if</span> err := syscall.Flock(<span class="keyword">int</span>(f.Fd()), syscall.LOCK_SH|syscall.LOCK_NB); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Println(<span class="string">"add share lock in no block failed"</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这里进行业务逻辑</span></span><br><span class="line">    <span class="comment">// TODO</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解锁</span></span><br><span class="line">    <span class="keyword">if</span> err := syscall.Flock(<span class="keyword">int</span>(f.Fd()), syscall.LOCK_UN); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Println(<span class="string">"unlock share lock failed"</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>示例中 <code>LOCK_SH</code> 表示当前获取的是共享锁，如果是 <code>LOCK_EX</code>，则表示获取的是排他锁。而 <code>LOCK_NB</code> 表示当前获取锁的模式是非阻塞模式，如果需要阻塞模式，不加这个参数即可。<code>LOCK_UN</code> 则表示解锁，即释放锁。</p>
-<p>golang 下这种文件锁的使用方式其实是Linux下的系统级调用，使用的是Linux的原生的文件锁的相关能力。</p>
-<h3 id="使用flock的几个注意点"><a href="#使用flock的几个注意点" class="headerlink" title="使用flock的几个注意点"></a>使用flock的几个注意点</h3><p>1、只要fd指向的是同一个文件指针，那么加锁解锁的行为都是继承和覆盖的（这个可以看最后的解释）。</p>
-<p>2、flock这种方式加的是建议性锁，也就是说新的进程一上来不管三七二十一，不去通过flock获取锁，就对文件各种操作，也是可以正常生效的。</p>
-<h2 id="说一说Linux下面的flock和fcntl"><a href="#说一说Linux下面的flock和fcntl" class="headerlink" title="说一说Linux下面的flock和fcntl"></a>说一说Linux下面的flock和fcntl</h2><p>和flock一样，fcntl也是系统级调用，但是在具体的使用上却有很大不用，并且两种锁互不干扰，用flock加锁，fcntl无法感知，反之也一样。</p>
-<h3 id="建议性锁和强制锁"><a href="#建议性锁和强制锁" class="headerlink" title="建议性锁和强制锁"></a>建议性锁和强制锁</h3><p>flock加的是建议性锁，而fcntl加的是强制性锁。</p>
-<p>建议性锁，本质是一种协议，约定读写操作前都去检查一下该文件是否有被其它进程加锁。如果不遵守该协议，一上来就对文件进行操作，不检查有没有锁，程序执行上是没有任何问题的，能执行成功。</p>
-<p>强制性锁，才更像真正意义上的锁。只要加了锁，其它进程是无法执行非允许的操作的。</p>
-<p>其实一些利用redis做的分布式锁，都是建议性锁。锁机的机制要生效，需要大家共同遵守这个约定才行。</p>
-<h3 id="全局锁和局部锁"><a href="#全局锁和局部锁" class="headerlink" title="全局锁和局部锁"></a>全局锁和局部锁</h3><p>对于一个文件，flock加锁的范围是整个文件内容，而fcntl能对文件的任意部分加锁。</p>
-<h3 id="锁的持有者问题"><a href="#锁的持有者问题" class="headerlink" title="锁的持有者问题"></a>锁的持有者问题</h3><p>flock认为，锁的持有者是文件表（可以理解为文件指针），所以对于fork和dup操作，他们都对应同一个文件指针，所有的操作都会作用到这个文件上。具体表现：</p>
-<ul>
-<li>A进程加锁，A的子进程进程可以解锁，新的操作会覆盖之前的操作</li>
-<li>A进程加锁，A进程复制fd，仍然是可以通过新的fd操作文件锁，新的操作会覆盖之前的操作</li>
-</ul>
-<p>fcntl 认为，锁的持有者是进程。加锁和解锁的行为都是跟着进程走，具体表现为：</p>
-<ul>
-<li>A进程加锁，B进程得等A进程消亡或者解锁才能加锁</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://zhuanlan.zhihu.com/p/25134841" target="_blank" rel="noopener">被遗忘的桃源——flock 文件锁</a></p>
-<p>[2] <a href="https://www.cnblogs.com/charlesblc/category/914733.html" target="_blank" rel="noopener">Linux文件锁学习-flock, lockf, fcntl</a></p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-  </div>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
       </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">AFreeCoder</p>
-  <div class="site-description" itemprop="description">996的码农，也能自由~</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">26</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/AFreeCoder" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AFreeCoder" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:tjjsjwhj@126.com" title="E-Mail → mailto:tjjsjwhj@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+  </div>
+</nav>
 
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="码农的自由之路">
+              
+            </span>
 
+            
+          </div>
+
+          
+        </div>
       </div>
-    </main>
+    </div>
+  </header>
 
-    <footer class="footer">
-      <div class="footer-inner">
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
         
+        <a href="/2021/05/06/invest-pratice-7/" target="_self">
+          财务自由实证#7——实证升级了！
+        </a>
+      </h1>
 
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">AFreeCoder</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
-  </div>
+      <p class="index-excerpt">
+        <a href="/2021/05/06/invest-pratice-7/" target="_self">
+          
+          
+            
+          
+          这个系列的第零篇是 财务自由实证#0——自由能实现吗？。
+追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。
+准备换种方式来写实证五一假期已经过去一大半了，这个假期大家过的如何?
+又到了写实证的时候，发现没太多东西可写。如果实证仅仅是记录一个数字，感觉意义不是很大。正好昨天看到知行小酒馆把之前对也大的一次访谈记录置顶了，就又重温了一
+        </a>
+      </p>
 
+      <div class="index-btm post-metas">
         
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-06 00:33" pubdate>
+              2021-05-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
       </div>
-    </footer>
+    </article>
   </div>
 
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/06/%E5%AE%9A%E6%8A%95%E7%9A%84%E9%99%B7%E9%98%B1/" target="_self">
+          定投的“陷阱”
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/06/%E5%AE%9A%E6%8A%95%E7%9A%84%E9%99%B7%E9%98%B1/" target="_self">
+          
+          
+            
+          
+          不知道从什么时候开始，每当基金行情火爆的时候，各种自媒体文章都开始贩卖理财焦虑，套路都是职场某不起眼的同事A，通过理财获得了远超工资的睡后收入，劝你不要在傻傻的挣死工资了！
+那同事A是怎么理财的呢？答案都是定投。
+接着，这些文章会用爱因斯坦的那句名言“复利是这个世界上的第八大奇迹”开头，然后假设每月定投500，年化利率20%，定投30年，你就会有1000多万啦。
+可是，定投真有这么神奇吗？
+定投真
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-06 00:31" pubdate>
+              2021-05-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AE%9A%E6%8A%95/">定投</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/30/invest-pratice-6/" target="_self">
+          财务自由实证#6——你的预期年化收益率是多少？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/30/invest-pratice-6/" target="_self">
+          
+          
+            
+          
+          这个系列的第零篇是 财务自由实证#0——自由能实现吗？。
+追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。
+实证进展本月进展如下：
+
+当前进展 2.26%，相比上个月，增加 0%。较真的话，其实是有增加的，增加了不到400，聊胜于无。毛估了下，从春节到现在，回撤大概10%。
+不过这才是真实的市场，不是吗？
+春节之后随着A股市场近一
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-30 01:53" pubdate>
+              2021-03-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/02/27/invest-pratice-5/" target="_self">
+          财务自由实证#5——我迁移了投资记账软件
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/27/invest-pratice-5/" target="_self">
+          
+          
+            
+          
+          这个系列的第零篇是 财务自由实证#0。
+追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。
+拖更太久了看了下上次写的那理财相关的文章，2月9号，到今天已经过去了大半个月。
+反思了下，主要有两个原因：
+一是春节。从初二开始，天天串亲戚，要么中午，要么下午，要么全天，天天串，天天吃，完全没有学习时间写文章。。
+说好的疫情期间不串门呢？
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-27 01:53" pubdate>
+              2021-02-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/02/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%9D%9A%E6%8C%81%E9%95%BF%E6%9C%9F%E6%8A%95%E8%B5%84/" target="_self">
+          为什么要坚持长期投资？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%9D%9A%E6%8C%81%E9%95%BF%E6%9C%9F%E6%8A%95%E8%B5%84/" target="_self">
+          
+          
+            
+          
+          基金赚钱 ≠ 基民赚钱前几天，E大微博放出了一张中欧基金统计的客户收益和基金收益的对比图，十分震撼：
+
+图中蓝色柱状图是客户的累计收益，橙色柱状图是基金成立以来的收益。权益类基金的客户收益仅有基金累计收益的零头！
+另外，中欧旗下的财务管理平台钱滚滚数据表示，2020年90%的基民实现了正收益，43%的基民平均投资收益超过了10%，但是反过来想就是**近60%的基民收益不到10%**。要知道2020
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-09 15:28" pubdate>
+              2021-02-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/01/30/invest-pratice-4/" target="_self">
+          财务自由实证#4——基金组合和 FOF
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/01/30/invest-pratice-4/" target="_self">
+          
+          
+            
+          
+          这个系列的第零篇是 财务自由实证#0。
+追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更”美好“的事物上。
+实证进展本月进展如下：
+
+当前进度：2.16%，相比上个月，增加0.16%。本月无特殊操作，按时定投，按比例跟投，其它时间老老实实学习，工作，写公众号。
+目前跟投的基金组合附一下当前实证计划中主要的组合：
+
+
+
+组合名称
+平台
+主理人
+特点
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-01-30 01:53" pubdate>
+              2021-01-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
 
   
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
   <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
   </script>
 
 
@@ -1813,9 +654,9 @@
 
 
 
-  
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
-  
 
 </body>
 </html>

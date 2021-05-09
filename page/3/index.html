@@ -1,1208 +1,643 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
-
-<script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
-
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="996的码农，也能自由~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="码农的自由之路">
-<meta property="og:url" content="http://yoursite.com/page/3/index.html">
-<meta property="og:site_name" content="码农的自由之路">
-<meta property="og:description" content="996的码农，也能自由~">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="AFreeCoder">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://yoursite.com/page/3/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome: true,
-    isPost: false
-  };
-</script>
-
+  <meta name="author" content="AFreeCoder">
+  <meta name="keywords" content="">
+  
   <title>码农的自由之路</title>
-  
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
 
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">码农的自由之路</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-</div>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
-<nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
+<link  rel="stylesheet" href="/css/main.css" />
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
-  </ul>
-
-</nav>
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+<!-- 自定义样式保持在最底部 -->
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tjjsjwhj.me","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
-          <div class="content">
-            
 
-  <div class="posts-expand">
+<body>
+  <header style="height: 40vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/06/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E7%9A%84%E5%85%B3%E9%94%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/06/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E7%9A%84%E5%85%B3%E9%94%AE/" class="post-title-link" itemprop="url">价值投资的关键</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-06 02:13:22" itemprop="dateCreated datePublished" datetime="2020-01-06T02:13:22+08:00">2020-01-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:38:18" itemprop="dateModified" datetime="2021-05-06T01:38:18+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="投资中最重要的事"><a href="#投资中最重要的事" class="headerlink" title="投资中最重要的事"></a>投资中最重要的事</h2><p><strong>认知和格局</strong></p>
-<p>你能看到多么大的趋势，就能看到多少机会。你接触的人和信息，决定你有着怎样的视野，以及你看到的是怎样的一个世界。</p>
-<p><strong>逻辑驱动买入，逻辑驱动卖出</strong></p>
-<p>不要有偏见，一切以数据、和数据推演出的逻辑为准。以前涨不涨和以后涨不涨没关系，关注涨跌背后的逻辑，不要被个股波动的表象所影响。</p>
-<h2 id="能力圈原则"><a href="#能力圈原则" class="headerlink" title="能力圈原则"></a>能力圈原则</h2><p><strong>清楚自己的能力圈</strong></p>
-<p>围绕真正了解的企业画一个圈，排除不合格的企业。</p>
-<p><strong>能力圈在精不在多</strong></p>
-<p>对自己的能力圈拉爱说，最重要的不是能力圈的范围大小，而是你如何能够确定能力圈的便捷所在。</p>
-<p><strong>坚守能力圈</strong></p>
-<p>明白自己到底不知道什么，固收于自己相信和了解的公司。</p>
-<p><strong>如何践行能力圈原则</strong></p>
-<ol>
-<li>清楚自己的状态</li>
-<li>把自己变成行业专家</li>
-<li>识别哪些是自己看得懂的机会（时长有时候是疯狂的，但不代表我们看不懂的东西都是疯狂的）</li>
-</ol>
-<p>具体而言，即：</p>
-<ol>
-<li>清楚自己能圈而行业知识和周期（均值回归，在股票市场上的应用，就是股价长期围绕价值中暑波动，涨多了跌，跌多了涨）</li>
-<li>坚持一种风格</li>
-<li>左做减法（三五个行业，十几家公司）</li>
-<li>坚持自己的交易准则</li>
-</ol>
-<h2 id="完美的投资体系"><a href="#完美的投资体系" class="headerlink" title="完美的投资体系"></a>完美的投资体系</h2><ol>
-<li>正确的方向和理念</li>
-<li>寻找和听取能力圈公司的各种负面问题（好的公司、以及诚实的管理层非常稀缺，对于重仓持有的公司，我们尤其要挺别人的犀利观点，尤其是那些不看好的、负面的）</li>
-</ol>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/05/two-sum(%E4%B8%80)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/05/two-sum(%E4%B8%80)/" class="post-title-link" itemprop="url">two sum问题(-)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-05 14:20:54" itemprop="dateCreated datePublished" datetime="2020-01-05T14:20:54+08:00">2020-01-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-06 01:47:26" itemprop="dateModified" datetime="2020-05-06T01:47:26+08:00">2020-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>两数之和问题，简而言之就是从数组中找到两个数的和等于某个特定的值，考察的主要思想是空间换时间。同时它还有许多变种，如三数之和、四数之和问题。</p>
-</blockquote>
-<h2 id="题目集合"><a href="#题目集合" class="headerlink" title="题目集合"></a>题目集合</h2><p><strong>two sum及其变种如下</strong>：</p>
-<table>
-<thead>
-<tr>
-<th align="center">题目</th>
-<th align="center">难度等级</th>
-<th align="center">备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">two sum</a></td>
-<td align="center">easy</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center"><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank" rel="noopener">Two Sum II - Input array is sorted</a></td>
-<td align="center">easy</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center"><a href="https://leetcode.com/problems/two-sum-iii-data-structure-design/" target="_blank" rel="noopener">Two Sum III - Data structure design</a></td>
-<td align="center">easy</td>
-<td align="center">要订阅，暂时放弃。。。</td>
-</tr>
-<tr>
-<td align="center"><a href="https://leetcode.com/problems/subarray-sum-equals-k/" target="_blank" rel="noopener">Subarray Sum Equals K</a></td>
-<td align="center">medium</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center"><a href="https://leetcode.com/problems/two-sum-iv-input-is-a-bst/" target="_blank" rel="noopener">Two Sum IV - Input is a BST</a></td>
-<td align="center">easy</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center"><a href="https://leetcode.com/problems/two-sum-less-than-k/" target="_blank" rel="noopener">Two Sum Less Than K</a></td>
-<td align="center">easy</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<h3 id="1、经典原题-two-sum"><a href="#1、经典原题-two-sum" class="headerlink" title="1、经典原题: two sum"></a>1、经典原题: two sum</h3><blockquote>
-<p>Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
-<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
-</blockquote>
-<p><strong>Example</strong></p>
-<blockquote>
-<p>Given nums = [2, 7, 11, 15], target = 9,</p>
-<p>Because nums[0] + nums[1] = 2 + 7 = 9,<br>return [0, 1].</p>
-</blockquote>
-<h4 id="解法一：暴力破解"><a href="#解法一：暴力破解" class="headerlink" title="解法一：暴力破解"></a>解法一：暴力破解</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">twoSum</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(nums); i++ &#123;</span><br><span class="line">        <span class="keyword">for</span> j := i + <span class="number">1</span>; j &lt; <span class="built_in">len</span>(nums); j++ &#123;</span><br><span class="line">            <span class="keyword">if</span> nums[i]+nums[j] == target &#123;</span><br><span class="line">                <span class="keyword">return</span> []<span class="keyword">int</span>&#123;i, j&#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>runtime distribution</strong></p>
-<blockquote>
-<p>Runtime: 36 ms, faster than <strong>31.90%</strong> of Go online submissions for Two Sum.</p>
-</blockquote>
-<p><strong>memory distribution</strong></p>
-<blockquote>
-<p>Memory Usage: 3 MB, less than <strong>100.00%</strong> of Go online submissions for Two Sum.</p>
-</blockquote>
-<p><strong>思考</strong></p>
-<blockquote>
-<p>暴力破解是最容易想到的方法，它的时间复杂度是O(n^2)。虽然很多时候我们都对暴力解法嗤之以鼻，但是从上面的时间分布和内存分布看，优点还是很明显的，即内存消耗很小。</p>
-<p>在计算机里面，增加内存的成本远远小于提高计算能力的成本，所以我们需要考虑如何通过空间来换时间。</p>
-</blockquote>
-<h4 id="解法二：哈希表法"><a href="#解法二：哈希表法" class="headerlink" title="解法二：哈希表法"></a>解法二：哈希表法</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">twoSum</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> numsMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(nums); i++ &#123;</span><br><span class="line">        numsMap[nums[i]] = i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(nums); i++ &#123;</span><br><span class="line">        j, ok := numsMap[target - nums[i]]</span><br><span class="line">        <span class="keyword">if</span> ok &amp;&amp; j != i &#123;</span><br><span class="line">            <span class="keyword">return</span> []<span class="keyword">int</span>&#123;i, j&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>runtime distribution</strong></p>
-<blockquote>
-<p>Runtime: 4 ms, faster than <strong>95.00%</strong> of Go online submissions for Two Sum.</p>
-</blockquote>
-<p><strong>memory distribution</strong></p>
-<blockquote>
-<p>Memory Usage: 3.8 MB, less than <strong>11.54%</strong> of Go online submissions for Two Sum.</p>
-</blockquote>
-<p>如果把代码中numsMap的定义改成：</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numsMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>, <span class="built_in">len</span>(nums))</span><br></pre></td></tr></table></figure>
-
-<p><strong>memory distribution</strong></p>
-<blockquote>
-<p>Memory Usage: 3.4 MB, less than <strong>42.31%</strong> of Go online submissions for Two Sum.</p>
-</blockquote>
-<p><strong>思考</strong></p>
-<blockquote>
-<p>暴力解法中，比较耗时的操作是第二个for循环，第二个for循环的作用是判断第二个数加第一个数是不是等于目标值，这是一个凑数的过程。如果我们反过来想，在已知第一个数的情况下，判断我们需要找的数是不是在剩下的数的集合里面，时间复杂度就变成了O(1)。</p>
-<p>从时间分布看，超过了95%的人(说明还能继续优化)；从内存分布看，只超过了11.54%的人。但是如果在初始化numsMap的时候指定了长度，消耗的内存就会少0.4M，由此可见，Go中map类型数据指定长度初始化是有必要的。</p>
-<p>这里面需要注意的是，如果数组中有两个元素一致，那哈西表中存的索引就是第二个元素的索引值。但是因为我们是从前往后遍历的，所以结果不影响。至于有三个及以上的元素相同的情况是不用考虑的，因为题目说只有唯一解。</p>
-</blockquote>
-<h4 id="解法三：哈希表法升级版"><a href="#解法三：哈希表法升级版" class="headerlink" title="解法三：哈希表法升级版"></a>解法三：哈希表法升级版</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">twoSum</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    numsMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>, <span class="built_in">len</span>(nums))</span><br><span class="line">    <span class="keyword">for</span> i, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        <span class="keyword">if</span> pre, ok := numsMap[target - v]; ok &#123;</span><br><span class="line">            <span class="keyword">return</span> []<span class="keyword">int</span>&#123;pre, i&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        numsMap[v] = i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>runtime distribution</strong></p>
-<blockquote>
-<p>Runtime: 4 ms, faster than <strong>95.00%</strong> of Go online submissions for Two Sum.</p>
-</blockquote>
-<p><strong>memory distribution</strong></p>
-<blockquote>
-<p>Memory Usage: 3.4 MB, less than <strong>48.08%</strong> of Go online submissions for Two Sum.</p>
-</blockquote>
-<p><strong>思考</strong></p>
-<blockquote>
-<p>解法二中，出现了两个遍历，一次是numsMap赋值的时候，一次是查找的时候。但实际上这两次是可以合并的，即一边赋值，一边查找。</p>
-<p>至于为什么runtime排名还是小于<strong>95%</strong>，应该是网站的bug，时间最少的那个人的耗时是0ms，显然不可能。测试发现，如果重复提交多次，有可能出现这种情况。</p>
-</blockquote>
-<h3 id="2、变种一：Two-Sum-II-Input-array-is-sorted"><a href="#2、变种一：Two-Sum-II-Input-array-is-sorted" class="headerlink" title="2、变种一：Two Sum II - Input array is sorted"></a>2、变种一：Two Sum II - Input array is sorted</h3><blockquote>
-<p>Given an array of integers that is already sorted in ascending order, find two numbers such that they add up to a specific target number.</p>
-<p>The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2.</p>
-</blockquote>
-<p><strong>Note:</strong></p>
-<blockquote>
-<p>Your returned answers (both index1 and index2) are not zero-based.</p>
-<p>You may assume that each input would have exactly one solution and you may not use the same element twice.</p>
-</blockquote>
-<p><strong>Examples</strong></p>
-<blockquote>
-<p><strong>Input:</strong> numbers = [2,7,11,15], target = 9<br><strong>Output:</strong> [1,2]<br><strong>Explanation:</strong> The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.</p>
-</blockquote>
-<h4 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">twoSum</span><span class="params">(numbers []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">    i := <span class="number">0</span></span><br><span class="line">    j := <span class="built_in">len</span>(numbers) - <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i &lt; j &#123;</span><br><span class="line">        <span class="keyword">if</span> numbers[i] + numbers[j] == target &#123;</span><br><span class="line">            <span class="keyword">return</span> []<span class="keyword">int</span>&#123;i+<span class="number">1</span>, j+<span class="number">1</span>&#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> numbers[i] + numbers[j] &gt; target &#123;</span><br><span class="line">            j--</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>思考</strong></p>
-<blockquote>
-<p>这个变种比较简单，数据按升序排好，只需要使用双指针，向中间靠拢即可</p>
-</blockquote>
-<h3 id="变种二：Two-Sum-IV-Input-is-a-BST"><a href="#变种二：Two-Sum-IV-Input-is-a-BST" class="headerlink" title="变种二：Two Sum IV - Input is a BST"></a>变种二：Two Sum IV - Input is a BST</h3><blockquote>
-<p>Given a Binary Search Tree and a target number, return true if there exist two elements in the BST such that their sum is equal to the given target.</p>
-</blockquote>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Input: </span><br><span class="line">    5</span><br><span class="line">   &#x2F; \</span><br><span class="line">  3   6</span><br><span class="line"> &#x2F; \   \</span><br><span class="line">2   4   7</span><br><span class="line"></span><br><span class="line">Target &#x3D; 9</span><br><span class="line"></span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure>
-
-<h4 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * type TreeNode struct &#123;</span></span><br><span class="line"><span class="comment"> *     Val int</span></span><br><span class="line"><span class="comment"> *     Left *TreeNode</span></span><br><span class="line"><span class="comment"> *     Right *TreeNode</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findTarget</span><span class="params">(root *TreeNode, k <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	list := printTree(root)</span><br><span class="line">	hashSet := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(list); i++ &#123;</span><br><span class="line">		except := k - list[i]</span><br><span class="line">		<span class="keyword">if</span> hashSet[except] == <span class="number">1</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">        hashSet[list[i]] = <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 层序遍历</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printTree</span><span class="params">(root *TreeNode)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	queue := <span class="built_in">make</span>([]*TreeNode, <span class="number">0</span>)</span><br><span class="line">	queue = <span class="built_in">append</span>(queue, root)</span><br><span class="line">	list := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">for</span> <span class="built_in">len</span>(queue) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		list = <span class="built_in">append</span>(list, queue[<span class="number">0</span>].Val)</span><br><span class="line">		left := queue[<span class="number">0</span>].Left</span><br><span class="line">		right := queue[<span class="number">0</span>].Right</span><br><span class="line">		<span class="keyword">if</span> left != <span class="literal">nil</span> &#123;</span><br><span class="line">			queue = <span class="built_in">append</span>(queue, left)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> right != <span class="literal">nil</span> &#123;</span><br><span class="line">			queue = <span class="built_in">append</span>(queue, right)</span><br><span class="line">		&#125;</span><br><span class="line">		queue = queue[<span class="number">1</span>:]</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Runtime distribution</strong></p>
-<blockquote>
-<p>Runtime: 24 ms, faster than 86.52% of Go online submissions for Two Sum IV - Input is a BST.</p>
-</blockquote>
-<p><strong>memory distribution</strong></p>
-<blockquote>
-<p>Memory Usage: 7.6 MB, less than 50.00% of Go online submissions for Two Sum IV - Input is a BST.</p>
-</blockquote>
-<p><strong>思考</strong></p>
-<blockquote>
-<p>通过层序遍历，将二叉搜索树转成数组，然后再通过哈希表法判断是否存在两个数的和等于目标值</p>
-</blockquote>
-<h4 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/2019-review/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/04/2019-review/" class="post-title-link" itemprop="url">2019年个人总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-04 00:49:15" itemprop="dateCreated datePublished" datetime="2020-01-04T00:49:15+08:00">2020-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:38:07" itemprop="dateModified" datetime="2021-05-06T01:38:07+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>2019年已经过去3天了，再不写个人总结，2020年怕是又要稀里糊涂的过去了。</p>
-<p>如果给过去的这一年打个分，自认为能打到70分，算是部分满意。此外，2019年也是我从学校到工作过渡的一年，我是年初1月23号拿的毕业证，直接入职，到年底正好工作一整年。这一年，无论是工作内还是工作外，都有太多值得记录的事情。</p>
-<h2 id="回顾2019年初的目标"><a href="#回顾2019年初的目标" class="headerlink" title="回顾2019年初的目标"></a>回顾2019年初的目标</h2><hr>
-<p>大方向上，主要有下面几个：</p>
-<ul>
-<li>给自己和家人配置保险</li>
-<li>开始自己的投资规划</li>
-<li>学英语（这算是一个执念吧）</li>
-<li>练字</li>
-<li>提高自己的专业技能</li>
-</ul>
-<h3 id="给自己和家人配置保险"><a href="#给自己和家人配置保险" class="headerlink" title="给自己和家人配置保险"></a>给自己和家人配置保险</h3><p>一直以来就对保险充满了好感，觉得没有保险的人生是没有安全感的。对保险有好感的原因比较多，首先，我这个人比较怕死。这么多年，无论是亲身经历的，还是从电视新闻上看到的一些和生死相关的事情，都让我对死亡充满了敬畏。很多时候，生命远比我们想象的要脆弱。而保险，能让生命在最脆弱的时候，保留一份基本的尊严；其次是刚买房，家里也没什么积蓄，爸妈年纪都大了，我才刚开始工作，整个家庭的风险承受能力很低。所以，刚工作不到两个月，我就开始不断的看保险相关的知识，比对不同的保险。看的焦头烂额的时候，正好实验室的一个师姐也在了解保险，她的一个高中同学就是大都会的保险代理人。这期间通过这个代理人，了解了医疗险和重疾险的区别，再结合自身的实际情况，配置了如下的保险：</p>
-<p><strong>自己</strong>：医疗险+重疾险+恶性肿瘤医疗险（全球版）<br><strong>媳妇</strong>：医疗险+重疾险<br><strong>父母</strong>：好医保-住院医疗险</p>
-<p>医疗险是现在比较火的百万医疗险，报销型，保额足够了。重疾险是一份终身10万保额叠加20年期40万保额，一共50万保额。由于实在是担心自己得癌症，自己又加了一份恶性肿瘤医疗险（全球版），两个人全年保费8000左右。父母因为已经到51周岁，年级大了，不适合买重疾险，就再支付宝上买了好医保-住院医疗险，两个人全年保费1500左右。大都会的保险相比其他家的是偏贵了，之所以还选择他们家，是因为保险附带的增值服务比较多。</p>
-<p>因为刚开始工作，也没什么积蓄，暂时就先配置这些年，短期内不再变动。等以后收入增加了，再把重疾险的额度配置上去。</p>
-<h3 id="开始自己的投资规划"><a href="#开始自己的投资规划" class="headerlink" title="开始自己的投资规划"></a>开始自己的投资规划</h3><p>年初的时候看了不少公众号文章，都在宣传躺着赚钱，财务自由这些让人心里痒痒的观点，再加上之前自己胡乱投资基金、p2p这些，狠狠的踩了几趟雷，决定系统的开始自己的投资之路，万一走着走着就自由了呢？</p>
-<p>我的投资学习路径是两部分：</p>
-<ul>
-<li><strong>理论学习</strong></li>
-<li><strong>投资实践</strong></li>
-</ul>
-<p><strong>理论学习</strong>方面，主要包括财富观的培养、投资基础知识的学习。这一年，完成了以下书籍：</p>
-<ul>
-<li>傻瓜式投资</li>
-<li>穷爸爸和富爸爸</li>
-<li>小狗钱钱</li>
-<li>指数基金投资指南</li>
-<li>解读基金：我的投资观与实践</li>
-<li>漫步华尔街</li>
-</ul>
-<p>未完成书籍：</p>
-<ul>
-<li>聪明的投资者</li>
-<li>共同基金常识</li>
-<li>逃不开的经济周期</li>
-</ul>
-<p>这几本书比较硬核，看的比较慢，2020年继续。</p>
-<p><strong>投资实践</strong>方面，从抄作业开始，跟投E大的长赢计划，中途配置了教育基金和自己的养老基金，主要定投沪深300和中证500这两个指数基金。</p>
-<p>2019年收益率16%左右，基本是抄作业的功劳，比较满意，所以已有部分继续跟投，同时继续完善理论知识，完成自己的投资体系的建立，然后实现躺尸的同时，躺赢，哈哈~~</p>
-<h3 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h3><p>这部分进行的一般。由于工作上的变动，从算法转到了开发，自然语言处理和机器学习的学习就彻底搁置了下来。后端开发能力上，跟着业务，狠狠的补了下基础知识。主要的能力提升是对后端开发有了一个整体的认识：后端开发围绕的是数据的存储和在业务逻辑上的处理。</p>
-<p>关于后端开发知识，主要的提升在对nginx的了解、redis的了解上，其它的一些提升比较零碎，不成体系。</p>
-<h3 id="学英语"><a href="#学英语" class="headerlink" title="学英语"></a>学英语</h3><p>学英语是一直以来的执念，也没有什么具体的目标，就是想学，但是每次都是半途而废。</p>
-<p>19年，在水滴上完成了《人性的弱点》和《人性的优点》两本英文原著的半精读，其它就没有了。</p>
-<p>20年需要好好梳理下学英语到底是为了什么，需要达到一个什么样的目标，然后再重新定个计划，好好执行。</p>
-<h3 id="练字"><a href="#练字" class="headerlink" title="练字"></a>练字</h3><p>想练一手好字。。。19年一直处于想的状态。20年需要定个轻松易行的计划，争取每年提高一些。</p>
-<p>以上是19年年初规划的完成情况，整体看，喜忧参半。家庭规划上的完成情况比较满意，但是技能提升相关的规划完成度较差，这部分需要重新梳理一遍，并且制定出一个松紧有度的20年年度计划，希望20年结束的时候，能够完美的交出一份对的起自己的答卷。</p>
-<h2 id="2019年感触比较深的几件事"><a href="#2019年感触比较深的几件事" class="headerlink" title="2019年感触比较深的几件事"></a>2019年感触比较深的几件事</h2><hr>
-<h3 id="人生大事"><a href="#人生大事" class="headerlink" title="人生大事"></a>人生大事</h3><p>人生大事方面，完成了买房和领证。</p>
-<h4 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h4><p>媳妇还在上学，之前研究生入学的时候，没有意识到户口的重要性，就没有把户口转到学校，幸好18年政策变化，除了入学那一次可以迁户口，每年秋季开学也可以迁户口了，就赶紧办理，到19年初户口就下来了。户口下来之后，迅速的把房子给买了。现在回想买房的过程，觉得有点太草率了，有必要记录一下买房的过程，让自己在以后做类似买房这种重大决定的时候，不要被情绪左右。</p>
-<p>决定买房之前，和媳妇讨论要买什么样的房子，为了能买到预算范围内最合适的房子，我们首先列出了一系列的考虑因素，最终决定重点看<code>交通</code>，<code>医疗资源</code>，<code>菜市场</code>，<code>公园</code>，<code>商业配套</code> 这几个因素，由于我们都还年轻，再加上预算只有200左右（主要原因），就没有考虑学区房。交通方面，主要是地铁，所以我们以地铁线为基准，列出地铁线上每一站附近的<code>医院</code>，<code>商业配套</code>，<code>公园</code>，<code>学校</code>以及附近<code>房价</code>等情况，并以此筛选出候选站点。我们花了2个星期左右的时间，统计了1、2、3、4、5、6、9这几条地铁线，标出了一些候选，并决定每周末考察两个地铁站。</p>
-<p>在4月初的一个周末，我们开始了考察。首先去的是1号线终点附近的几个站点，找了链家的一个中介，带着我们看了附近的几个小区，整体看下来，这一片都是居民区，小区质量一般，配套还行，生活气息浓厚，商业气息差了些，不太满意。晚上临走的时候中介推荐了5号线附近一个新开的楼盘，说是性价比很高，强烈建议我们去看看。我们其实是不太想去的，一是当时有点晚，二是本身也不着急，奈何中介极力推荐，就说第二天去看看。</p>
-<blockquote>
-<p>我们常常在小钱上斤斤计较，如买菜和买衣服，而在大钱上冲动无比，如买房</p>
-</blockquote>
-<p>第二天跟着中介到了售楼处，好家伙，里面人声鼎沸，导购介绍和签合同的场景到处都是。在经过了导购员的讲解之后，对楼盘有了个整体印象。一共是两个小区，一大一小，大的小区靠着一个正在建的永旺商场，小的隔的远了些，靠着一个正在建的市民广场。附近就是外环和高速入口，地铁站1公里左右。交通不错，商业配套和生活配套也不错，缺点是都在规划中。价格和预算一致。两个人都比较满意，这个时候导购一直在强调，最近三天搞活动，预付定金，给2个点优惠。两个人都没啥定力，被导购这么一说，再加上对房子确实很满意，都开始犹豫要不要先交定金。和家里商量了下（家里没意见，也都不懂，说只要我们觉得满意就行，唉。。。），又咨询了一个在德佑的亲戚的意见，觉得还行，两个人就在晕乎乎的情况下，交定金了。</p>
-<p>晚上回去后，两个人都觉得草率了，但是因为本身对房子比较满意，没有发现什么地方有问题，就商量着真正交首付的时候，一定要仔细的比对合同，同时问明白一些关键指标，如果有什么地方不行，哪怕定金要不回来也不能买。付首付的时候，果然还是出问题了。一是我们发现这个房子没有阳台。当时看房型的时候，都觉得房型很好，方方正正，南北通透，愣是把阳台给漏了。二是问了下公摊，这一问，才知道公摊高达35%，105的房子套内面积才70，瞬间不想定了。后来和在德佑的那个亲戚沟通，他说这个公摊确实是很高了，但是套内面积70的三居也还行，其实套内面积差个2平米根本就感觉不出来。他这么一说，再加上内心清楚，这个房子吸引我的地方有很大一部分原因是旁边正在规划的市民广场，市民广场的规划里面有图书馆，电影院等，这个实在太吸引我了。所以和媳妇商量了好一会，犹豫再三，最终还是付了首付。</p>
-<p>进入2020年，回过头来看，买的房子单价降了近2000，市民广场的规划发生变动，广场的一半改成商业配套。房价下降这件事情，4月份其实是有预期的，当时看了很多文章，都在说19年的政策是强调房住不炒，而且目前国家经济处于转型的过程中，经济形式不好，未来一段时间内房价肯定会下跌，所以买房不用着急，但是并没深入的去研究论据，自己只是表面相信，所以在售楼处导购员反复推销的时候，我是如此的不堪一击；另外有一个观点是如果是刚需，随时可以上车。因为4月份的房价相比18年的顶点是降了不少的。现在想来，刚需随时可以上车这句话是理解错了。对当时的自己而言，其实买房并不是刚需，媳妇21年夏天才毕业，我在北京工作，我们暂时是没有住房需求的。市民广场规划发生变化这件事，就是买期房的风险了，幸好规划变化还能接受，希望未来没有大的变动。</p>
-<h4 id="领证"><a href="#领证" class="headerlink" title="领证"></a>领证</h4><p>因为买房用的是媳妇的户口，还贷款是我，加上父母不可能同意只以媳妇的名义买房，所以两个人就需要在签贷款合同前领证。由于买房这个决策太突然，导致领证这件事也变的很赶。两个人匆匆忙忙的去拍了结婚照，又急急忙忙的去民政局领了证。</p>
-<p>领证的当天，早上8点多就到了民政局。时间比较早，有点冷清，交了材料后，等了一小会，就轮到我们了。填了些材料，不一会，鲜红的两个结婚证就出来了。两个人拿到结婚证后，坐在沙发上缓了好一会，都觉得有点不真实。但因为下午还要赶紧去办贷款，缓过来之后又急急忙忙的去了售楼处。领证的过程就这么匆忙的结束了，都没来的及吃顿饭庆祝一下。</p>
-<p>回想起和媳妇相处的这几年，除了最开始的一年里面摩擦较多，后来磨合的越来越好，也不知当初两个人怎么就互相认定了。随着时间的推移，越发能体会到媳妇的好，也越发为自己当时的眼光感到得意。</p>
-<p>希望接下来的日子里，两个人能走的越来越好，把我们的小日子过的有滋有味。</p>
-<h3 id="工作波折"><a href="#工作波折" class="headerlink" title="工作波折"></a>工作波折</h3><h4 id="部门变动和线上事故"><a href="#部门变动和线上事故" class="headerlink" title="部门变动和线上事故"></a>部门变动和线上事故</h4><p>18年底到19年中这段时间，从实习转成了正式。这段时间里面，先是最初的业务被停掉，换了新业务，之后是部门换掉，从大搜到了手百，再就是经理也换了。中间由于各种原因，指导人换了又换，我也从最初的算法转到了开发。</p>
-<p>换到新部门和新业务期间，指导人被重新指定。这段时间里，我刚接手的项目对当时的我来说，难度系数较高。开发的过程中，费了很大劲才能勉强跟上进度。中间有个任务，因为一些原因，需要迁移。由于开始没有能和指导人C有一个比较好的沟通，设计方案做的比较差，线上运行的时候，出了严重的事故。</p>
-<p>之后复盘过程中，C不断的指出方案上的不足，告诉我哪些地方需要多加注意，代码评审的时候，也是一行行的过代码，前后评审10多次。短短的几天内，我学到了很多，也很感激。</p>
-<p>后来C由于个人发展上的考虑，去了部门内的其他组。我的指导人也从C变成了组内的S。偶尔会想，如果开始的时候，C就能像最后那样，我是不是就不会经历后来的转正风波，当然也就不会迅速认识到工作和学校学习的不同和及时适应身份上的一个转变。凭良心说，C的业务能力很强，人品也没问题，可能是我的性格和他实在不搭，再加上初期的自己确实也有一些问题，导致两个人没能沟通好，这一点比较遗憾。</p>
-<h4 id="转正风波"><a href="#转正风波" class="headerlink" title="转正风波"></a>转正风波</h4><p>由于指导人C给的评价不好，给新经理留下一个很差的印象。试用期过了一大半的时候，新的指导人S通知我说我的转正比较危险，让我做好心里准备。当时听到这个，心里顿时一沉。指导人S说他也是第一次遇到这种事情，也不知道怎么处理，建议我做两手准备，而他接下来也会尽量把任务分给我一些，希望我能多一些产出。</p>
-<p>后来我主动找经理沟通了下我当前的状态，经理指出了我身上的一些不足，并且说给我一个月左右的观察期，同时指定了一些任务指标，希望我好好表现。这一个月里面，刚好业务上特别忙，又要准备那些任务指标，压力很大。天天晚上都是11点、12多才回去。工作日没有时间完成那些任务指标，只能周六日来弄。</p>
-<p>这期间十分感谢指导人S的尽心指导，使得我的业务能力有了很大的提高，从而顺利的通过了转正，以后有机会一定要好好的感谢他；也非常感谢媳妇，在这段时间里面没有给我任何压力，并且不断的鼓励我，让我没有其它的后顾之忧。</p>
-<p>转正风波这段期间，虽然说是压力很大，但是也仅此而已。首先是我和媳妇的感情很稳定，其次是虽然有房贷，但是两个人手上有一些钱足够支撑一年，经济上也没有太大压力，再次家里也很和谐。可以说这几个因素是我能顺利通过转正的坚实基础。</p>
-<p>工作上的这两件事给刚出学校我很大的冲击，让我迅速的认识到学校学习和社会工作的不同，及时调整自己，同时尽早开始思考自己的人生规划，为将来做准备。可以说是因祸得福。希望以后的自己能不断的提高，能自信的面对任何变化，让自己成为家人坚实的依靠。</p>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><hr>
-<p>2019年已经过去，这一年无论发生了什么，都变成了过去时，只有成长留了下来。人生短暂，希望接下来的日子里，能和时间做朋友，在未来，成为更好的自己！</p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/07/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/07/07/%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E7%9A%84%E6%9C%AC%E8%B4%A8/" class="post-title-link" itemprop="url">证券投资的本质</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-07 23:30:07" itemprop="dateCreated datePublished" datetime="2019-07-07T23:30:07+08:00">2019-07-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:38:32" itemprop="dateModified" datetime="2021-05-06T01:38:32+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">投资理财</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="A股是赌场吗？"><a href="#A股是赌场吗？" class="headerlink" title="A股是赌场吗？"></a>A股是赌场吗？</h3><p>不同的想法和理念代入到交易中，就有不同的反馈。</p>
-<blockquote>
-<p>资本市场是一个高度复杂的生态系统，所以从不同的角度观察，就会有不同的看法</p>
-</blockquote>
-<h4 id="如果把A股看成赌场"><a href="#如果把A股看成赌场" class="headerlink" title="如果把A股看成赌场"></a>如果把A股看成赌场</h4><p>赌场有个显著的特点：总价值不变，有赢就有输。</p>
-<p>如果把A股看成赌场，双方博弈的对象就是股票的价格，看涨的买入，看跌的卖出。</p>
-<p>如果把A股看成赌场，A股有80%的公司都是没有价值的公司(牌本身没有价值，只有在比大小的时候才有相对价值。所以公司是没有价值的，猜股票的涨跌才是有价值的。当然还是有20%的公司无法忽略，他就是有价值的）</p>
-<p>不建议用赌场的观念看待A股：垃圾股的估值整体处在一个向下回归的过程中，这时候进行纯粹的博弈就不行了。</p>
-<h4 id="如果认为A股不是赌场"><a href="#如果认为A股不是赌场" class="headerlink" title="如果认为A股不是赌场"></a>如果认为A股不是赌场</h4><p>A股依然有很多公司在为投资者创造价值。那么可以通过分享上市公司的增长获得价值的增值。</p>
-<h3 id="格雷厄姆的看法"><a href="#格雷厄姆的看法" class="headerlink" title="格雷厄姆的看法"></a>格雷厄姆的看法</h3><p>投资是一种通过认真分析研究，有希望保本和获得满意收益的行为，不满足这些条件的行为就是投机。</p>
-<h4 id="内在价值"><a href="#内在价值" class="headerlink" title="内在价值"></a>内在价值</h4><p>要根据公司的内在价值来投资，而不是根据市场的波动来投资。股票应该是公司的部分所有权，而不应该是日常价格变动的证明。</p>
-<p>证券投资, 买的是企业所有权的一部分，买的是企业未来盈利的一部分。</p>
-<p>内在价值不能简单的看做是公司的资产总额减去负债总额，还包括这些资产未来所能产生的收益。</p>
-<h4 id="市场先生"><a href="#市场先生" class="headerlink" title="市场先生"></a>市场先生</h4><p>市场先生如果过于乐观，就会报出一个特别高的价格，如果过于悲观，就会报出一个特别低的价格。</p>
-<p>市场先生从不害怕无人理会，如果今天他的报价无人理会，那么明天，他就会报出一个更低的价格。相反，如果理会的人太多，那么第二天，他就会报出一个更高的价格。</p>
-<p>市场先生的情绪越是狂躁抑郁，对你越有利。如果你的情绪受到他的左右，那么后果不堪设想。</p>
-<p>对我们有用的，是市场先生口袋里的报价单，而不是他的智慧。如果你不能确定远比市场先生更了解而且更能估价你的企业，那么你就没有资格玩这个游戏。</p>
-<p><em>格雷厄姆的选股方法：三分之二市净率和低市盈率，倾向于找便宜的公司</em><br><em>需要注意这种方法的时代背景：1929年的大萧条，便宜的公司遍地都是</em></p>
-<h4 id="安全边际"><a href="#安全边际" class="headerlink" title="安全边际"></a>安全边际</h4><p>投资者应该在他愿意付出的价格和他估计出的股票价值之间保持一个较大的差价，这个差价就叫做安全边际。</p>
-<h3 id="巴菲特对格雷厄姆价值投资理论的发展"><a href="#巴菲特对格雷厄姆价值投资理论的发展" class="headerlink" title="巴菲特对格雷厄姆价值投资理论的发展"></a>巴菲特对格雷厄姆价值投资理论的发展</h3><h4 id="继承部分"><a href="#继承部分" class="headerlink" title="继承部分"></a>继承部分</h4><ul>
-<li>持有股票即持有公司</li>
-<li>投资和投机的定义和区别</li>
-<li>市场先生</li>
-<li>安全边际</li>
-<li>各种套利方法和捡烟蒂理论</li>
-</ul>
-<h4 id="抛弃部分"><a href="#抛弃部分" class="headerlink" title="抛弃部分"></a>抛弃部分</h4><ul>
-<li>55股债平衡理论</li>
-<li>用市净率和市盈率等简单指标去买一堆看似便宜的公司</li>
-<li>只依据财报看资产价值而不看未来价值</li>
-</ul>
-<h4 id="发展部分"><a href="#发展部分" class="headerlink" title="发展部分"></a>发展部分</h4><ul>
-<li>护城河、能力圈、管理层等结合概率思维预测公司前景的准确性</li>
-<li>好公司普通价格优于普通公司好价格</li>
-<li>按机会成本行事</li>
-<li>内在价值等于未来现金流折现</li>
-<li>伯克希尔模式，充分发挥资本的边际效应</li>
-<li>利用保险公司的低成本</li>
-</ul>
-<p><em>巴菲特的看法：价格公道的伟大企业要比价格低廉的普通企业要好得多</em></p>
-<h3 id="几种定义方式和理解"><a href="#几种定义方式和理解" class="headerlink" title="几种定义方式和理解"></a>几种定义方式和理解</h3><p>价格低于价值情况，所有的投资都应该叫做价值投资</p>
-<p>相对于成长股而言，买的公司要有相应的资产，利润，和现金流，而不是靠未来成长的可能性来支撑起价值。（更为现在的投资者所接受）</p>
-<p>价值投资是资产管理者的信仰，趋势交易等理念更多的是作为一种投资工具在使用。择时已经被成熟的市场所抛弃，大量产品禁止择时。</p>
-<p>在中国，价值投资的便签已经被滥用。有人股票被套了，就说自己是长期持有，价值投资；有人买了消费股，买了大蓝筹，大盘股，行业龙头，就说自己是价值投资；有人认为，只有买低市盈率、市净率的股票才是价值投资。</p>
-<p>一种观点：是不是价值投资，重点看投资回报的来源是哪？如果是企业的持续盈利增长，投资人去分享红利，这才是价值投资的方式，才是基于基本面的投资.</p>
-<h4 id="涉及到的一些概念"><a href="#涉及到的一些概念" class="headerlink" title="涉及到的一些概念"></a>涉及到的一些概念</h4><ul>
-<li>低估值、高回报<ul>
-<li>价值投资不等于长期持有，</li>
-</ul>
-</li>
-<li>短、中、长期的有趣定义<ul>
-<li>用时间划分长短没错，但是没有意义，持有期限是结果，不是目的，要根据操作内涵来理解</li>
-<li>短线就是尊重市场，顺势而为，重点是不亏损，盈利没有要求</li>
-<li>中线需要对基本面有很高的掌握，对价格估值系统有充分的认识，他的标的物是那些经营相对稳定，没有大起大落的企业，讲究的是低买高卖，预期盈利目标到20%才可入场，8%的止损位</li>
-<li>长线的要求最高，要求对企业有很深的认识，对自己有严格的控制，清楚把握企业未来发展的趋势，以投资的心态分享企业未来的成长。他的投资标的物是千里挑一，他对利润的要求是数以十倍计，在这样的机会面前，他不会惧怕任何亏损，不会设置除基本面以外的任何止损指标</li>
-</ul>
-</li>
-<li>看长做短<ul>
-<li>A股由于波动较大，常常3个月把三年的涨幅都涨完，这种情况就大大透支了企业的基本面，这种时候就需要及时兑现利润。适合A股的一种策略就是看长做短，但是这个短一定是作为结果，而不是作为目的。看长的意思是，你买入的行业或者板块，一定要有一年以上，偏中长期的投资逻辑，而不能是仅仅几个月的利好，持有计划应该是一年以上，做短是如果短期上涨太快，要注意止盈。</li>
-</ul>
-</li>
-</ul>
-<p><strong>仅以时间作为策略区分标准的一定会走入误区，决定策略的仅应该是股票本身的不同和投资者自身的素质</strong></p>
-<h3 id="理论基础的重要性"><a href="#理论基础的重要性" class="headerlink" title="理论基础的重要性"></a>理论基础的重要性</h3><pre><code>1. 价值投资：知和行的关系
-2. 胜者为王，宁可错过，不要做错
-3. 做好价值投资，保持健康</code></pre><p><strong>投资是艺术，不是科学</strong></p>
-<p><strong><a href="https://pc-shop.xiaoe-tech.com/appCRApuVG28915/video_details?id=v_5c4142617c5d9_e6jBxu1Y" target="_blank" rel="noopener">视频地址</a></strong> </p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">https升级教程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-06-26 23:16:10" itemprop="dateCreated datePublished" datetime="2019-06-26T23:16:10+08:00">2019-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:39:07" itemprop="dateModified" datetime="2021-05-06T01:39:07+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
-                  </a>
-                </span>
-            </span>
-
           
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="升级前准备"><a href="#升级前准备" class="headerlink" title="升级前准备"></a>升级前准备</h2><p>上一章详细讲解了https的原理之后，本章节将以本博客为对象，实践https升级。</p>
-<p><strong>升级准备工作</strong></p>
-<ol>
-<li>CA 选择： <a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a></li>
-<li>安装工具选择：<a href="https://certbot.eff.org/" target="_blank" rel="noopener">certbot</a></li>
-<li>实践对象：本博客: <a href="www.tjjsjwhj.me">www.tjjsjwhj.me</a></li>
-<li>博客托管的vps配置：<ol>
-<li>OS：CentOs 6, x86_64</li>
-<li>RAM: 0.5G</li>
-</ol>
-</li>
-<li>确保有ssh权限，即能通过ssh远程访问你的web host</li>
-</ol>
-<p><strong><a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>是电子前哨基金会EFF为了推广https协议，提供的免费的、自动化的和开放的CA(Certificate Authority)。<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>的一个贡献是ACME协议，ACME协议旨在确保域名验证、发布和管理方法是完全自动化、一致、符合合规性和安全的。</strong></p>
-<p><strong>支持ACME协议的工具有很多(<a href="https://letsencrypt.org/docs/client-options/)，本文选择的推荐的[certbot](https://certbot.eff.org/)" target="_blank" rel="noopener">https://letsencrypt.org/docs/client-options/)，本文选择的推荐的[certbot](https://certbot.eff.org/)</a></strong>。</p>
-<h2 id="升级教程"><a href="#升级教程" class="headerlink" title="升级教程"></a>升级教程</h2><p><strong>首先，进入<a href="https://certbot.eff.org/" target="_blank" rel="noopener">certbot</a>网站，选择对应的web服务器软件（nginx，apache等）和操作系统版本（CentOs 6）,网站会给出对应的操作指令</strong></p>
-<p><strong>1. 获取cerbot执行脚本</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.eff.org/certbot-auto</span><br></pre></td></tr></table></figure>
-<p><code>certbot-auto</code> 实际上是一个shell执行脚本</p>
-<p><strong>2. 放到习惯的路径下</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mv certbot-auto /usr/<span class="built_in">local</span>/bin/certbot-auto</span><br></pre></td></tr></table></figure>
-
-<p><strong>3. 修改执行脚本的所有者</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root /usr/<span class="built_in">local</span>/bin/certbot-auto</span><br></pre></td></tr></table></figure>
-<p>由于certbot需要验证你就是改域名的持有者，所以3、4两步都需要在root权限下进行</p>
-<p><strong>4. 修改执行脚本的权限</strong><br><code>sudo chmod 0755 /usr/local/bin/certbot-auto</code></p>
-<p><strong>5. 自动获取证书，同时修改nginx配置文件</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/<span class="built_in">local</span>/bin/certbot --nginx --nginx-server-root=/usr/<span class="built_in">local</span>/nginx/conf</span><br></pre></td></tr></table></figure>
-
-<p>这里有个坑，网站给出的命令是 <code>sudo /usr/local/bin/certbot --nginx</code>，这条命令默认ngxin安装在/etc/nginx，所以有可能会报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx: [emerg] open() &quot;&#x2F;etc&#x2F;nginx&#x2F;nginx.conf&quot; failed (2: No such file or directory)</span><br><span class="line">nginx: configuration file &#x2F;etc&#x2F;nginx&#x2F;nginx.conf test failed</span><br></pre></td></tr></table></figure>
-<p>所以需要用 <code>--nginx-server-root</code> 指定nginx.conf的路径</p>
-<p>接下来的操作，按照提示操作即可。</p>
-<p><strong>6、添加定时任务</strong><br><a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>证书的有效期是90天，90天之后就需要重新更新证书，因此需要设置一个定时任务自动更新证书</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew"</span> | sudo tee -a /etc/crontab &gt; /dev/null</span><br></pre></td></tr></table></figure>
-<p>上面这行命令是网站提供的，意思是每天12点和0点自动更新证书。至于为什么需要time.sleep(random.random() * 3600)，猜测是为了让大家错开时间，降低证书请求的压力</p>
-<p><strong>相关配置文件</strong><br>新的配置文件目录, 同之前的nginx.conf目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/nginx/conf/vhost/</span><br></pre></td></tr></table></figure>
-<p>证书目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/letsencrypt/</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">HTTPS 升级指南</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/29507417" target="_blank" rel="noopener">Linux下使用acme.sh申请和管理Let’s Encrypt证书
-</a></p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/https%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AFreeCoder">
-      <meta itemprop="description" content="996的码农，也能自由~">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="码农的自由之路">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/06/05/https%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">https原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-06-05 22:54:10" itemprop="dateCreated datePublished" datetime="2019-06-05T22:54:10+08:00">2019-06-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 01:39:14" itemprop="dateModified" datetime="2021-05-06T01:39:14+08:00">2021-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1、为什么要有https？"><a href="#1、为什么要有https？" class="headerlink" title="1、为什么要有https？"></a>1、为什么要有https？</h3><p>http协议被用于客户端和服务端之间传递消息，但是这个传输过程是以明文的方式发送内容，http协议不提供任何方式的数据加密。如果有人获取了浏览器和服务器之间的传输保报文，就可以直接读取其中的信息。因此，http协议不适合传输一些个人敏感信息，比如：个人账户密码、支付信息等。</p>
-<p>由于http协议的安全缺陷，需要有一种协议来保证客户端和服务端通信的安全，于是就有了https。</p>
-<h3 id="2、https主要解决了什么问题？"><a href="#2、https主要解决了什么问题？" class="headerlink" title="2、https主要解决了什么问题？"></a>2、https主要解决了什么问题？</h3><p><strong>i. 确保你想访问的对象是你希望访问的对象</strong></p>
-<p>网络世界里，真正决定你地址的是IP。平时我们所访问的网址如 <code>www.baidu.com</code> 都需要由DNS（域名转换系统）服务商将网址翻译成对应的IP地址，也就是说我们要访问的对象实际上是一个IP地址。如果中间网址到域名的转换关系被恶意的修改（也就是DNS劫持），我们的访问请求就会打到修改之后的恶意IP上，</p>
-<p>https首先解决了身份认证的问题，即确保你要访问的对象就是你希望访问的对象。现实生活中，如果我们和某个人A交易，为了确保交易的安全性，首先需要确认A的身份。通常我们会检查A的身份证信息，资质信息等。确认了A的身份之后，我们才开始与对方交易。</p>
-<p>https的身份认证过程也是如此。Server端上线之初，会向权威的第三方的CA（Certificate Authority, 证书颁发机构）申请证书，然后第三方会通过线上线下核查的方式确认Server的信息，核查完之后，会给Server颁发一个证书，这个证书中记录了颁发机构的信息和Server的身份信息。</p>
-<p>初次请求https的时候，服务端首先会返回一个证书，这个证书中包含了访问对象的身份信息，客户端验证了证书之后发现，证书中的信息就是访问对象的信息，接下来就可以正常通信了。</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B.png" alt="认证过程"></p>
-<p>有的同学可能会有疑惑，如果我伪造一个证书，客户端怎么知道呢？比如我是A，但我非要在证书里写我是B，那你怎么知道呢，就像现实中伪造的各种证书一样？CA颁发的证书有个特性是不可修改。这个涉及到非对称加密的知识了，简单来说就是CA把公司的信息通过特定的摘要算法如MD5生成一段签名，再用私钥对签名进行加密。客户端拿到证书之后，根据证书中的摘要算法对证书中的信息计算出一个签名，然后用CA的公钥对密文进行解密，对比计算出的签名和解密出的签名，如果一致，就证明证书没有被修改过。</p>
-<p>下面是 <code>www.baidu.com</code>的证书信息（谷歌浏览器点地址栏的那个小锁）：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/baidu_https_cert.png" alt="百度的证书"></p>
-<p>从图中可以看到百度相关的信息，签发者相关的信息，签名算法（这里的签名算法是SHA-256）以及百度的公钥。</p>
-<p><strong>ii. 确保通过过程中的数据安全</strong></p>
-<p>解决了如何证明你就是你的问题之后，就需要解决如何保证通信过程中你们的通信内容不被窃取到。</p>
-<p>还是刚刚那个交易场景。你确认了和你交易的A的身份之后，你们开始放心的交易了。如果你们的交易内容是你想花大价钱从A受手里买一个产品的配方，有了这个配方之后，你就能财源滚滚，走上人生巅峰了，所以这个配方千万不能泄露出去。为了和网络通信的过程保持一致，我们假设你们不直接交易，而是需要一个传信的人帮你们传递这个配方。在原来http的协议下，这个配方就是明文传输的，如果有人劫持了这个信件就能获取到这个配方。所以就不能明文传递这个配方，得加密。那加密方式怎么选择呢？</p>
-<blockquote>
-<p>对称加密：对称加密指的的是采用单钥密码系统的加密方法，同一个密钥可以同时用作信息的加密和解密，这种加密方法称为对称加密，也称为单密钥加密<br>非对称加密：非对称加密算法是一种密钥的保密方法。 非对称加密算法需要两个密钥：公开密钥（publickey:简称公钥）和私有密钥（privatekey:简称私钥）。 公钥与私钥是一对，如果用公钥对数据进行加密，只有用对应的私钥才能解密。</p>
-</blockquote>
-<p>考虑到为了模拟真实的通信过程，你们是不能见面的，也就是说你不能通过耳语把你要用的密钥告诉A，所以你们否决了开始就用对称加密的方式，因为怎么把密钥传给对方是个问题。如果在传输密钥的过程中密钥泄露了，这就和明文传输配方没什么区别了。所以如何把密钥传给A？传输过程有以下几步：</p>
-<ol>
-<li>首先生成用于对称加密的密钥s</li>
-<li>利用证书中A传过来的公钥，对密钥s进行加密，传给A</li>
-<li>A利用自己的私钥，对传过来的密文进行解密，解密出密钥s</li>
-<li>接下来双方通过密钥s来加密通信内容，互相传输</li>
-</ol>
-<p>再回到https的通信过程中，具体流程如下图所示：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/https_communication.png" alt="https通信过程"></p>
-<p><strong>以上就是https原理的简介。至于如何从http升级到https，下一篇将以本博客为例，示范升级过程。</strong></p>
-<hr>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" alt="gongzhonghaopic"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-  </div>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
       </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">AFreeCoder</p>
-  <div class="site-description" itemprop="description">996的码农，也能自由~</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">26</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/AFreeCoder" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;AFreeCoder" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:tjjsjwhj@126.com" title="E-Mail → mailto:tjjsjwhj@126.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+  </div>
+</nav>
 
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="码农的自由之路">
+              
+            </span>
 
+            
+          </div>
+
+          
+        </div>
       </div>
-    </main>
+    </div>
+  </header>
 
-    <footer class="footer">
-      <div class="footer-inner">
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
         
+        <a href="/2020/09/19/faq-bot-1/" target="_self">
+          FAQBot 实践系列#1 —— 从开源语料入手
+        </a>
+      </h1>
 
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">AFreeCoder</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
-  </div>
+      <p class="index-excerpt">
+        <a href="/2020/09/19/faq-bot-1/" target="_self">
+          
+          
+            
+          
+          语料FAQBot构建的基础是有一份高质量的问答语料。通过不断的搜索和查找，找到一份 保险行业 的问答语料：insuranceqa-corpus-zh
+语料背景该语料库包含从网站 Insurance Library 收集的问题和答案。以下是官方介绍：
 
+
+该语料库的内容由现实世界的用户提出，高质量的答案由具有深度领域知识的专业人士提供。 所以这是一个具有真正价值的语料，而不是玩具。
+
+在上述论文中，
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
         
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-09-19 15:26" pubdate>
+              2020-09-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/NLP/">NLP</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/QABot/">QABot</a>
+            
+          </div>
+        
       </div>
-    </footer>
+    </article>
   </div>
 
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/18/invest-pratice-0/" target="_self">
+          财务自由实证#0——自由能实现吗?
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/18/invest-pratice-0/" target="_self">
+          
+          
+            
+          
+          写在前面受公众号 【也谈钱】 的影响，以及互联网加班的摧残，觉得有必要早早的开始梳理家庭的财务状况，并且制定财务自由的目标和方案，为自由而奋斗。
+财务自由的目标设置 财务自由 的目标前，首先需要知道财务自由的定义，明确自己需要实现的是哪种等级的财务自由，才能以此为依据，制定出切实可行的计划，并开始行动。
+这里我拍脑袋定了一个目标：
+
+目标：500万（流动性资产）
+期限：25年
+
+下面详细解释下这个
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-18 15:28" pubdate>
+              2020-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/27/Go-Modules-md/" target="_self">
+          Go Modules 简介
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/27/Go-Modules-md/" target="_self">
+          
+          
+            
+          
+          前言
+In Go 1.14, module support is considered ready for production use, and all users are encouraged to migrate to modules from other dependency management systems.
+
+在go1.14中，模块支持被认为已经可以在生产环境中使用，因此鼓励所有用
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-27 19:16" pubdate>
+              2020-06-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Golang/">Golang</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Go-Modules/">Go Modules</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/" target="_self">
+          MySQL之索引
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/" target="_self">
+          
+          
+            
+          
+          为什么需要索引索引就像书籍的目录一样，可以更快的查找数据。
+常见的索引模型
+innodb 索引模型选用B+树是由MySQL的应用场景（等值区间查找、插入删除等操作频繁）及机械磁盘的特点（寻址耗时）决定的。像Redis等一些Nosql数据库，他们的索引模型就是哈希表、跳表等。
+
+
+数组
+等值查询很快（数组有序排列的情况下，二分查找）
+区间查询很快
+数据的插入删除很慢
+
+
+哈希表
+等值查询极快
+插入删
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-21 16:00" pubdate>
+              2020-06-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/31/mysql%E4%B9%8B%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/" target="_self">
+          MySQL之事务的隔离性
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/31/mysql%E4%B9%8B%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/" target="_self">
+          
+          
+            
+          
+          一提到事务，我们就会想到事务的4个特性ACID（Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性和持久性）。本篇文章，主要讲的就是隔离性。
+mysql里面并不是所有的存储引擎都支持事务，因此本文中针对事务的讨论都是基于存储引擎innodb。
+一、隔离级别1.1 “隔离级别”的概念
+脏读（dirty read）: A 事务可以读到B事务未
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-31 23:22" pubdate>
+              2020-05-31
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/06/2020%E5%B9%B4%E5%BA%A6%E8%A7%84%E5%88%92/" target="_self">
+          2020年度规划
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/06/2020%E5%B9%B4%E5%BA%A6%E8%A7%84%E5%88%92/" target="_self">
+          
+          
+            
+          
+          临近春节，工作上没有那么忙了，正好把2020年的年度计划整理下，定上几个小目标。
+为了提高计划的完成度，下面制定计划的时候，会尽可能的给出相应的时间节点和比较可行的操作步骤。
+专业技能19年在专业技能上的完成度比较差，所以这一部分先列出来，以体现其重要性。
+对于目前的自己来说，有两个方向，一个是后端开发，另一个是算法（NLP方向）。从行业的发展来看，后端开发的需求量大，技术更新迭代较快，但是在企业
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-06 01:38" pubdate>
+              2020-05-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B4%E5%BA%A6%E8%A7%84%E5%88%92/">年度规划</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
 
   
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
   <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
   </script>
 
 
@@ -1219,9 +654,9 @@
 
 
 
-  
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
-  
 
 </body>
 </html>
