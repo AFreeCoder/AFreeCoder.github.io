@@ -178,13 +178,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/05/16/go-channel-1/" target="_self">
-          Go 并发基石之 channel（一）
+        <a href="/2021/05/16/go-channel-2/" target="_self">
+          Go 并发基石之 channel (二) —— 源码初探
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/05/16/go-channel-1/" target="_self">
+        <a href="/2021/05/16/go-channel-2/" target="_self">
           
           
             
@@ -192,9 +192,10 @@
           
 Go 并发系列是根据我对晁岳攀老师的《Go 并发编程实战课》的吸收和理解整理而成，如有偏差，欢迎指正~
 
-作为 Go 的核心数据结构以及 goroutine 之间的通信方式，channel 是支撑 Go 语言高性能并发编程模型的重要数据结构。
-学习 Go，channel 是无论如何都无法绕过的特性。因此本篇就和大家一起看下 channel 的由来、基本用法以及常犯的一些错误。
-1. channe
+在上一篇 Go 并发基石之 channel（一） 中简单介绍了 channel 的由来、基本用法以及几种容易出错的场景。
+这一篇，尝试通过 channel 源码的阅读，了解 channel 的实现思路。
+说明：以下源码均基于 go1.16。
+channel 的定义channel 的数据类型是
         </a>
       </p>
 
@@ -340,13 +341,13 @@ Go 并发系列是根据我对晁岳攀老师的《Go 并发编程实战课》�
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/05/02/go-channel-2/" target="_self">
-          Go 并发基石之 channel (二) —— 源码初探
+        <a href="/2021/05/02/go-channel-1/" target="_self">
+          Go 并发基石之 channel（一）
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/05/02/go-channel-2/" target="_self">
+        <a href="/2021/05/02/go-channel-1/" target="_self">
           
           
             
@@ -354,10 +355,9 @@ Go 并发系列是根据我对晁岳攀老师的《Go 并发编程实战课》�
           
 Go 并发系列是根据我对晁岳攀老师的《Go 并发编程实战课》的吸收和理解整理而成，如有偏差，欢迎指正~
 
-在上一篇 Go 并发基石之 channel（一） 中简单介绍了 channel 的由来、基本用法以及几种容易出错的场景。
-这一篇，尝试通过 channel 源码的阅读，了解 channel 的实现思路。
-说明：以下源码均基于 go1.16。
-channel 的定义channel 的数据类型是
+作为 Go 的核心数据结构以及 goroutine 之间的通信方式，channel 是支撑 Go 语言高性能并发编程模型的重要数据结构。
+学习 Go，channel 是无论如何都无法绕过的特性。因此本篇就和大家一起看下 channel 的由来、基本用法以及常犯的一些错误。
+1. channe
         </a>
       </p>
 
