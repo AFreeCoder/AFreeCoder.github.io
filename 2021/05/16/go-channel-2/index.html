@@ -244,7 +244,7 @@
               <blockquote>
 <p>Go 并发系列是根据我对晁岳攀老师的《Go 并发编程实战课》的吸收和理解整理而成，如有偏差，欢迎指正~</p>
 </blockquote>
-<p>在上一篇 <a href="https://tjjsjwhj.me/2021/05/16/go-channel-1/">Go 并发基石之 channel（一）</a> 中简单介绍了 channel 的由来、基本用法以及几种容易出错的场景。</p>
+<p>在上一篇 <a href="https://tjjsjwhj.me/2021/05/06/go-channel-1/">Go 并发基石之 channel（一）</a> 中简单介绍了 channel 的由来、基本用法以及几种容易出错的场景。</p>
 <p>这一篇，尝试通过 channel 源码的阅读，了解 channel 的实现思路。</p>
 <p><em>说明：以下源码均基于 go1.16。</em></p>
 <h2 id="channel-的定义"><a href="#channel-的定义" class="headerlink" title="channel 的定义"></a>channel 的定义</h2><p>channel 的数据类型是 <a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/release-branch.go1.16/src/runtime/chan.go">runtime.hchan</a>，其详细定义如下：</p>
