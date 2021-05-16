@@ -238,14 +238,12 @@
     
     <categories>
       
-      <category>Golang</category>
+      <category>Go</category>
       
     </categories>
     
     
     <tags>
-      
-      <tag>golang</tag>
       
       <tag>context</tag>
       
@@ -294,14 +292,12 @@
     
     <categories>
       
-      <category>Golang</category>
+      <category>Go</category>
       
     </categories>
     
     
     <tags>
-      
-      <tag>golang</tag>
       
       <tag>文件锁</tag>
       
@@ -421,7 +417,7 @@
     
     <categories>
       
-      <category>Golang</category>
+      <category>Go</category>
       
     </categories>
     
