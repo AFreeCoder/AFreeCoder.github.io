@@ -1,0 +1,582 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="996的码农，也能自由~">
+  <meta name="author" content="AFreeCoder">
+  <meta name="keywords" content="">
+  
+  <title>记一次学习 orDone 模式爬坑经历 - 码农的自由之路</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tjjsjwhj.me","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 30vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>码农的自由之路</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/stars.jpeg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="记一次学习 orDone 模式爬坑经历">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      AFreeCoder
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-25 11:51" pubdate>
+        2021年4月25日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      32
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">记一次学习 orDone 模式爬坑经历</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>Go 并发系列是根据我对晁岳攀老师的《Go 并发编程实战课》的吸收和理解整理而成，如有偏差，欢迎指正~</p>
+</blockquote>
+<p>看了下上次 Go 技术学习的文章 《Go 并发之原子操作 atomic》发布时间: 3月27，一个月之前。再想一想最初立的 flag：每周一篇 Go 技术学习的文章。霍，脸真疼！</p>
+<p>最近在看 channel 。作为 Go 核心的数据结构和 goroutine 之间的通信方式，channel 是支撑 Go 语言高性能并发编程模型的重要数据结构。</p>
+<p>今天就来聊一聊 channel 实现的 Go 的并发模式 orDone 以及我在学习这个模式中不断跳坑出坑的经历。</p>
+<h2 id="任务编排之-orDone-模式"><a href="#任务编排之-orDone-模式" class="headerlink" title="任务编排之 orDone 模式"></a>任务编排之 orDone 模式</h2><p>先介绍一下 orDone 模式。</p>
+<p>orDone 模式是信号通知模式中应用比较广泛的一种模式。</p>
+<p>什么是信号通知模式呢？信号通知模式实现了某个任务执行完成后的通知机制。在实现的时候，通常使用 channel strcut{} 类型，如果任务完成就 close 这个 channel，其它 receiver 就会收到这个信号。</p>
+<p>orDone 模式是说我们有一个任务可以发送给 n 个处理方来执行，只要有一个处理方完成，就返回任务完成的信号。</p>
+<p>如果 n 已知，实现方式很简单，用 select-case 语句就行。但是有些时候，你并不知道有多少个处理者，有可能是10个，也有可能是100个，所以没办法直接使用 select-case 。</p>
+<p>在 《Go 并发编程实战》的 channel 相关的章节中，orDone 模式的代码实现如下（这段代码其实是有问题的，后面会说）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">or</span><span class="hljs-params">(channels ...&lt;-<span class="hljs-keyword">chan</span> <span class="hljs-keyword">interface</span>&#123;&#125;)</span> &lt;-<span class="hljs-title">chan</span> <span class="hljs-title">interface</span></span>&#123;&#125; &#123;<br>    <span class="hljs-comment">// 特殊情况，只有零个或者1个chan</span><br>    <span class="hljs-keyword">switch</span> <span class="hljs-built_in">len</span>(channels) &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>        <span class="hljs-keyword">return</span> channels[<span class="hljs-number">0</span>]<br>    &#125;<br><br>    orDone := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">interface</span>&#123;&#125;)<br>    <span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">defer</span> <span class="hljs-built_in">close</span>(orDone)<br><br>        <span class="hljs-keyword">switch</span> <span class="hljs-built_in">len</span>(channels) &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-comment">// 2个也是一种特殊情况</span><br>            <span class="hljs-keyword">select</span> &#123;<br>            <span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">0</span>]:<br>            <span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">1</span>]:<br>            &#125;<br>        <span class="hljs-keyword">default</span>: <span class="hljs-comment">//超过两个，二分法递归处理</span><br>            m := <span class="hljs-built_in">len</span>(channels) / <span class="hljs-number">2</span><br>            <span class="hljs-keyword">select</span> &#123;<br>            <span class="hljs-keyword">case</span> &lt;-or(channels[:m]...):<br>            <span class="hljs-keyword">case</span> &lt;-or(channels[m:]...):<br>            &#125;<br>        &#125;<br>    &#125;()<br><br>    <span class="hljs-keyword">return</span> orDone<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>该示例代码中，采取二分递归的方式来监听任务的完成信号。</p>
+<p>附带测试代码如下 ：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">sig</span><span class="hljs-params">(after time.Duration)</span> &lt;-<span class="hljs-title">chan</span> <span class="hljs-title">interface</span></span>&#123;&#125; &#123;<br>    c := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">interface</span>&#123;&#125;)<br>    <span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">defer</span> <span class="hljs-built_in">close</span>(c)<br>        time.Sleep(after)<br>    &#125;()<br>    <span class="hljs-keyword">return</span> c<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    start := time.Now()<br><br>    &lt;-or(<br>        sig(<span class="hljs-number">20</span>*time.Second),<br>        sig(<span class="hljs-number">10</span>*time.Second),<br>        sig(<span class="hljs-number">30</span>*time.Second),<br>        sig(<span class="hljs-number">40</span>*time.Second),<br>        sig(<span class="hljs-number">50</span>*time.Second),<br>        sig(<span class="hljs-number">01</span>*time.Minute),<br>    )<br><br>    fmt.Printf(<span class="hljs-string">&quot;done after %v&quot;</span>, time.Since(start))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>测试结果完美符合预期，10s 之后，printf 语句成功打印。</p>
+<h2 id="问题1：goroutine-泄露问题"><a href="#问题1：goroutine-泄露问题" class="headerlink" title="问题1：goroutine 泄露问题"></a>问题1：goroutine 泄露问题</h2><p>上面的代码乍看之下很合理，但是仔细想一想，却有两个问题：</p>
+<ol>
+<li>变量 orDone 在函数中的作用到底是什么？ </li>
+<li>case 2 所说的特殊情况到底是什么？能否在 case 2 处就递归？</li>
+</ol>
+<p>带着这两个问题，一顿搜索，搜到了《Concurrency in Go》这本书。在这本书中，orDone 模式的代码示例如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">or</span><span class="hljs-params">(channels ...&lt;-<span class="hljs-keyword">chan</span> <span class="hljs-keyword">interface</span>&#123;&#125;)</span> &lt;-<span class="hljs-title">chan</span> <span class="hljs-title">interface</span></span>&#123;&#125; &#123; <span class="hljs-comment">//1</span><br><br>	<span class="hljs-keyword">switch</span> <span class="hljs-built_in">len</span>(channels) &#123;<br>	<span class="hljs-keyword">case</span> <span class="hljs-number">0</span>: <span class="hljs-comment">//2</span><br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>	<span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-comment">//3</span><br>		<span class="hljs-keyword">return</span> channels[<span class="hljs-number">0</span>]<br>	&#125;<br><br>	orDone := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">interface</span>&#123;&#125;)<br>	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123; <span class="hljs-comment">//4</span><br>		<span class="hljs-keyword">defer</span> <span class="hljs-built_in">close</span>(orDone)<br><br>		<span class="hljs-keyword">switch</span> <span class="hljs-built_in">len</span>(channels) &#123;<br>		<span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-comment">//5</span><br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">0</span>]:<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">1</span>]:<br>			&#125;<br>		<span class="hljs-keyword">default</span>: <span class="hljs-comment">//6</span><br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">0</span>]:<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">1</span>]:<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">2</span>]:<br>			<span class="hljs-keyword">case</span> &lt;-or(<span class="hljs-built_in">append</span>(channels[<span class="hljs-number">3</span>:], orDone)...): <span class="hljs-comment">//6</span><br>			&#125;<br>		&#125;<br>	&#125;()<br>	<span class="hljs-keyword">return</span> orDone<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对比发现，这两种写法最主要的一个区别就是变量 orDone 有没有作为参数传递给子函数中。</p>
+<p>在 or 函数执行结束前，orDone 会被 close，递归子函数的 case 分支接收到这个信号后，在立即退出的同时会将新 orDone 的 close 信号传递给它的递归子函数。也就是说，变量 orDone 的作用是用来通知其它协程退出。</p>
+<p>在《Concurrency in Go》一书中，有如下解释：</p>
+<blockquote>
+<p>Here we recursively create an or-channel from all the channels in our slice after the third index, and then select from this. This recurrence relation will destructure the rest of the slice into or-channels to form a tree from which the first sig‐ nal will return. <strong>We also pass in the orDone channel so that when goroutines up the tree exit, goroutines down the tree also exit</strong>.</p>
+</blockquote>
+<p>到这里，基本可以确认，晁老师的二分递归版本的代码是有问题的。这个版本没有传递 orDone 信号，通知其它协程退出，<strong>会造成 goroutine 泄露问题</strong>！</p>
+<p>谨慎起见，我还是大胆的联系了晁老师，进行确认。</p>
+<p><em>注：为了方便起见，下文中用二分递归版代指晁老师的代码示例，用直接递归版代指《Concurrency in Go》中的示例。</em></p>
+<h2 id="问题2：slice-切片问题"><a href="#问题2：slice-切片问题" class="headerlink" title="问题2：slice 切片问题"></a>问题2：slice 切片问题</h2><p>在和晁老师确认的过程中，我先根据自己的理解，对他的代码进行了一番修改，改动点（default 分支）如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">default</span>: <span class="hljs-comment">//超过两个，二分法递归处理</span><br>    m := <span class="hljs-built_in">len</span>(channels) / <span class="hljs-number">2</span><br>    <span class="hljs-keyword">select</span> &#123;<br>    <span class="hljs-keyword">case</span> &lt;-or(<span class="hljs-built_in">append</span>(channels[:m], orDone)...):<br>    <span class="hljs-keyword">case</span> &lt;-or(<span class="hljs-built_in">append</span>(channels[m:], orDone)...):<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>用上文的测试代码测试发现，程序在30s末的时候，才执行了 print 语句，不符合预期！</p>
+<p>这个时候，晁老师回复了，先是夸了一通我看的仔细，然后确认这个地方确实遗漏了 orDone 信号的传递，并给出了修改版代码，改动如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">default</span>:<br>    m := <span class="hljs-built_in">len</span>(channels) / <span class="hljs-number">2</span><br>    <span class="hljs-keyword">select</span> &#123;<br>    <span class="hljs-keyword">case</span> &lt;-or(<span class="hljs-built_in">append</span>(channels[:m:m], orDone)...): <span class="hljs-comment">// must append orDone to avoid leak!!!!</span><br>    <span class="hljs-keyword">case</span> &lt;-or(<span class="hljs-built_in">append</span>(channels[m:], orDone)...):<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>我一看，这不和我改的一样嘛。再一想，晁老师不可能未经测试就给出代码，于是我跑了一遍测试代码，不出所料，这个结果是正确的！</p>
+<p>问题出在哪呢？</p>
+<p>逐字对比后，发现这两份代码在 slice 切片上有细微差别。晁老师版本指定了切片容量 m。</p>
+<p>经过一番查阅，发现 slice 切片的时候，如果不指定容量，直接 append，仍然会对底层的 slice 产生影响。这里的影响就是 channels[m:] 的第一个元素 sig(10*time.Second) 被 orDone 覆盖了。</p>
+<p><strong>注：slice 切片的知识点其实很基础，各位读者稍微一搜就知道，我就不详细介绍了，不要像我一样犯这个错误😂。</strong></p>
+<h2 id="问题3：二分递归无法退出问题"><a href="#问题3：二分递归无法退出问题" class="headerlink" title="问题3：二分递归无法退出问题"></a>问题3：二分递归无法退出问题</h2><p>到这里，问题已经得到了解决，接下来的剧情本应是和大佬客气几句然后愉快的结束讨论，继续接下来的学习。</p>
+<p>但是！转折来了！</p>
+<p>在执行二分递归版代码的过程中，电脑的风扇总是发出“呼呼”的噪音，而执行直接递归版代码的时候，就没有这个问题。</p>
+<p>似乎有哪里不对🤔？</p>
+<p>带着这个疑问，我写了下面的测试代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	start := time.Now()<br>	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>		time.Sleep(time.Second)<br>		fmt.Println(<span class="hljs-string">&quot;任务进行中，当前协程数:&quot;</span>, runtime.NumGoroutine())<br>	&#125;()<br>	<span class="hljs-comment">//测试 orDone 模式</span><br>	&lt;-or(<br>		sig(<span class="hljs-number">20</span>*time.Second),<br>		sig(<span class="hljs-number">10</span>*time.Second),<br>		sig(<span class="hljs-number">30</span>*time.Second),<br>		sig(<span class="hljs-number">40</span>*time.Second),<br>		sig(<span class="hljs-number">50</span>*time.Second),<br>		sig(<span class="hljs-number">01</span>*time.Minute),<br>	)<br>	fmt.Printf(<span class="hljs-string">&quot;done after %v\n&quot;</span>, time.Since(start))<br>	fmt.Println(<span class="hljs-string">&quot;任务结束后，当前协程数:&quot;</span>, runtime.NumGoroutine())<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><em>注：sig 函数的实现和原来一样。</em></p>
+<p>二分递归版代码的测试结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">任务进行中，当前协程数: 233059<br><span class="hljs-keyword">done</span> after 10.011710905s<br>任务结束后，当前协程数: 1248213<br></code></pre></td></tr></table></figure>
+
+<p>直接递归版代码测试结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">任务进行中，当前协程数: 11<br><span class="hljs-keyword">done</span> after 10.002369341s<br>任务结束后，当前协程数: 6<br></code></pre></td></tr></table></figure>
+
+<p>对比之下，问题很明显：二分递归版本创建的协程数巨多！且任务执行结束后，协程数翻了6倍！</p>
+<p>根据这个结果，我们大胆的猜测一下：二分递归的代码陷入了无穷递归。</p>
+<p>在纸上画一下测试 case 的递归树，发现 len(channels) == 3 的情况下，左右子树 len(channels) 分别是 1 和 2，但是加上退出信号 orDone 之后，变成了2和3。这里长度为 3 的这个分支发生了无穷递归。</p>
+<p>这也解答了<strong>问题1</strong>最开始的第2个疑问：case2 为什么是特殊情况？能不能省掉，直接递归？</p>
+<p>答案是 case len(channels)==2 如果直接递归，会发生无穷递归，所以不能省掉。并且 case len(channels)==3 也应该作为特殊情况处理，避免无穷递归。</p>
+<p>所以二分递归版正确的写法是：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>		<span class="hljs-keyword">defer</span> <span class="hljs-built_in">close</span>(orDone)<br><br>		<span class="hljs-keyword">switch</span> <span class="hljs-built_in">len</span>(channels) &#123;<br>		<span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">0</span>]:<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">1</span>]:<br>			&#125;<br>		<span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">0</span>]:<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">1</span>]:<br>			<span class="hljs-keyword">case</span> &lt;-channels[<span class="hljs-number">2</span>]:<br>			&#125;<br>		<span class="hljs-keyword">default</span>:<br>			m := <span class="hljs-built_in">len</span>(channels) / <span class="hljs-number">2</span><br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-or(<span class="hljs-built_in">append</span>(channels[:m:m], orDone)...): <span class="hljs-comment">// must append orDone to avoid leak!!!!</span><br>			<span class="hljs-keyword">case</span> &lt;-or(<span class="hljs-built_in">append</span>(channels[m:], orDone)...):<br>			&#125;<br>		&#125;<br>	&#125;()<br></code></pre></td></tr></table></figure>
+
+<p>再次和晁老师沟通后，得到了肯定的答复！</p>
+<h2 id="问题4：二分递归的效率问题"><a href="#问题4：二分递归的效率问题" class="headerlink" title="问题4：二分递归的效率问题"></a>问题4：二分递归的效率问题</h2><p>如果你不怕麻烦，在跑一遍二分递归的最终版代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">任务进行中，当前协程数: 15<br><span class="hljs-keyword">done</span> after 10.002655818s<br>任务结束后，当前协程数: 6<br></code></pre></td></tr></table></figure>
+
+<p>结果没有异常，任务结束后，剩余协程数是6，说明任务结束信号正常传递，递归出来的协程都正常退出了。但是任务进行中的协程数比直接递归多4个！</p>
+<p>难道二分递归的效率反而更低些？</p>
+<p>随便测试几组 case 就能发现，随着 len(channels) 的上升，二分递归版衍生出来的协程数与直接递归衍生出来的协程数的差值也在上升。</p>
+<p>这是因为二分递归版每递归一次，len(channels) 就会加2，而直接递归版 len(channels) 只会加1。而且为了减少递归衍生出的协程数，直接递归版把 case 2 单独拎了出来进行处理​。</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>本文记录了学习 channel 的应用场景 orDone 模式中一次又一次的跳坑出坑的经历，虽然痛苦，却苦尽甘来。</p>
+<p>文末留个开放性问题吧，二分递归和直接递归衍生出来的协程数似乎能用数学表达式写出来，你知道怎么写吗？</p>
+<p>我反正是干不动，躺下了。</p>
+<p>下期再见。</p>
+<hr>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" srcset="/img/loading.gif" lazyload alt="gongzhonghaopic"></p>
+<p><strong>都看到这里了，不如加个关注呗~~</strong></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Go/">Go</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/channel/">channel</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/05/02/go-channel-1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Go 并发基石之 channel（一）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/30/invest-pratice-6/">
+                        <span class="hidden-mobile">财务自由实证#6——你的预期年化收益率是多少？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
