@@ -251,7 +251,7 @@
 <p>二是投资理财部分没想好要怎么展开。这一部分能写的点太多，却又都不深刻，无法形成系统的文章。</p>
 <p>不过这个问题最近已经想的差不多了，所以接下来奋力码字~</p>
 <h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>不再多说废话，上图：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16143531861520.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16143531861520.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>本月进展2.26%，相比上个月增加0.1%，缓慢而顽强的朝着目标前进。。。</p>
 <p>特殊操作，除了之前跟投的组合外，新增两个组合的跟投：积极进取和全球精选。</p>
 <p>感觉每个月的跟投额度有渐渐不受控制的倾向😂，不过积极进取和全球精选侧重资产配置，定期会有平衡操作，所有后续即使不跟投，问题也不大。</p>
@@ -533,6 +533,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

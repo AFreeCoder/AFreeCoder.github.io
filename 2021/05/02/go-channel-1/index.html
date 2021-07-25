@@ -251,7 +251,7 @@
 <p>作者认为，并发场景中，<strong>输入</strong>和<strong>输出</strong>是被忽略的两个原语。在最初的 CSP 中，Hoare 创造了 <strong>!</strong> 和 <strong>?</strong> 命令，分别表示输入和输出，并展示了如何用通信的方式来解决并发问题！</p>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/16/16198628955968.jpg" srcset="/img/loading.gif" lazyload alt="-w1047"></p>
 <p>在上图的最后一个例子中，描述了从 west 进程不断读取字符到变量 c 并发送给 east 进程的通信过程。</p>
-<p>此外，CSP 中还使用了守护命令 **—&gt;**，命令左边的语句是 false 或者退出，那么命令的右边就不会执行。</p>
+<p>此外，CSP 中还使用了守护命令 <strong>—&gt;</strong>，命令左边的语句是 false 或者退出，那么命令的右边就不会执行。</p>
 <p>这和 channel 的用法是何其的相似！</p>
 <p>CSP 描述了一种多个任务之间通过通信来进行信息交互的处理问题的方案，这也构成了 Go 并发哲学的基础。</p>
 <h2 id="2-channel-和-sync"><a href="#2-channel-和-sync" class="headerlink" title="2. channel 和 sync"></a>2. channel 和 sync</h2><p>前面一系列的文章介绍了 Go sync 包下的并发原语，如 Mutex，WaitGroup，Once，Cond 等。在 Go 中，它们和 channel 其实是竞争关系。</p>
@@ -264,9 +264,7 @@
 <p>以最常见的计数器为例，看一下这两种方式分别是如何处理的。</p>
 <h3 id="1-sync-的解决方案"><a href="#1-sync-的解决方案" class="headerlink" title="1) sync 的解决方案"></a>1) sync 的解决方案</h3><p>sync 的解决方式很直观，就是通过 Mutex 来确保同一时刻只有一个 goroutine 在修改数据。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-comment">//countByShareMemory</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">countByShareMemory</span><span class="hljs-params">()</span></span> &#123;<br>	count := <span class="hljs-number">0</span><br>	<span class="hljs-keyword">var</span> w sync.WaitGroup <span class="hljs-comment">// 用于确保100个 goroutine 都执行完毕</span><br>	<span class="hljs-keyword">var</span> m sync.Mutex<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++ &#123;<br>		w.Add(<span class="hljs-number">1</span>)<br>		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>			m.Lock()<br>			<span class="hljs-keyword">defer</span> w.Done()<br>			<span class="hljs-keyword">defer</span> m.Unlock()<br>			count++<br>		&#125;()<br>	&#125;<br>	w.Wait()<br>	fmt.Println(count)<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <h3 id="2-channel-的解决方案"><a href="#2-channel-的解决方案" class="headerlink" title="2) channel 的解决方案"></a>2) channel 的解决方案</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-comment">// countByCommunicating</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">countByCommunicating</span><span class="hljs-params">()</span></span> &#123;<br>	w := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>, <span class="hljs-number">100</span>) <span class="hljs-comment">// 用于确保100个 goroutine 都执行完毕</span><br>	ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>, <span class="hljs-number">1</span>)<br>	ch &lt;- <span class="hljs-number">0</span><br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++ &#123;<br>		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> count := &lt;-ch:<br>				ch &lt;- count + <span class="hljs-number">1</span><br>			&#125;<br>			w &lt;- <span class="hljs-number">0</span><br>		&#125;()<br><br>	&#125;<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++ &#123;<br>		&lt;-w<br>	&#125;<br>	fmt.Println(&lt;-ch)<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>并发场景下，需要保证 count++ 操作的原子性，也就是 count 变量独占权的问题。sync.Mutex 的解决方案中，通过<strong>互斥锁</strong>保证同一时刻只有一个 goroutine 对count 拥有所有权；channel 的解决方案中，则是通过管道<strong>转移</strong>对 count 的所有权。</p>
 <h3 id="3-如何选择-sync-和-channel"><a href="#3-如何选择-sync-和-channel" class="headerlink" title="3) 如何选择 sync 和 channel"></a>3) 如何选择 sync 和 channel</h3><p>尽管 Go 的设计者极力推荐使用 CSP 的方式来解决并发问题，但是 CSP 只是解决并发安全问题的其中一种途径，在某些场景，还是要具体问题具体分析。</p>
 <p>该课程中给出的建议如下：</p>
@@ -280,35 +278,24 @@
 </ul>
 <h2 id="3-channel-的基本用法"><a href="#3-channel-的基本用法" class="headerlink" title="3. channel 的基本用法"></a>3. channel 的基本用法</h2><p>你既可以往 channel 中发送数据，也可以从 channel 中接收数据，所以，channel 的类型有如下三种：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">chan</span>    <span class="hljs-comment">// 既可以发送数据，又可以接收数据的 channel</span><br><span class="hljs-keyword">chan</span>&lt;-  <span class="hljs-comment">// 只能接收数据的 channel</span><br>&lt;-<span class="hljs-keyword">chan</span>  <span class="hljs-comment">// 只能发送数据的 channel</span><br></code></pre></td></tr></table></figure>
-
 <p>channel 是管道，因此一个传输具体类型数据的 channel 声明方式如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">var</span> ch <span class="hljs-keyword">chan</span> <span class="hljs-keyword">string</span>      <span class="hljs-comment">// 既可以往 ch 中写，也可以从 ch 中读 string 类型数据</span><br><span class="hljs-keyword">var</span> ch <span class="hljs-keyword">chan</span>&lt;- <span class="hljs-keyword">struct</span>&#123;&#125;  <span class="hljs-comment">// 只能往 ch 中发送 struct&#123;&#125; 类型数据</span><br><span class="hljs-keyword">var</span> ch &lt;-<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>       <span class="hljs-comment">// 只能从 ch 中读取 int 数据</span><br></code></pre></td></tr></table></figure>
-
 <p>channel 的初始化和 slice 类似，都是使用关键字 make，未初始化的 channel 零值是 nil。具体的声明方式如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Go">ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>, <span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
-
 <p>其中 5 是 channel 的容量。也可以不指定 channel 的容量，即容量为 0，这样的 channel 一般叫做 unbuffered channel。</p>
 <h3 id="1-发送数据"><a href="#1-发送数据" class="headerlink" title="1) 发送数据"></a>1) 发送数据</h3><p>往 channel 中发送数据使用 “ch&lt;-“，示例如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Go">ch &lt;- <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
-
 <p>这里的 ch 的类型是 <code>chan int</code> 或者 <code>chan&lt;- int</code>。</p>
 <h3 id="2-接收数据"><a href="#2-接收数据" class="headerlink" title="2) 接收数据"></a>2) 接收数据</h3><p>从 channel 中接收数据使用 “&lt;-ch”，示例如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Go">x := &lt;-ch  <span class="hljs-comment">// 把 ch 中接收到的一条数据赋值给 x</span><br>foo(&lt;-ch) <span class="hljs-comment">// 把 ch 中接收到的一条数据作为函数 foo 的参数</span><br>&lt;-ch      <span class="hljs-comment">// 丢弃一条从 ch 中接收到的数据</span><br></code></pre></td></tr></table></figure>
-
 <p>从 channel 中接收数据的时候，还可以接收两个值：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Go">x, ok := &lt;-ch<br></code></pre></td></tr></table></figure>
-
 <p>ok 是一个 bool 值，表示是否成功的从 channel 中接收到了数据。如果 ok 是 false，ch 已经被 close，且 ch 中没有缓存数据，那么 x 就是零值。所以，如果 x 是零值，有可能是接收到了零值，也有可能是空的且被 close 的 channel 产生的零值。</p>
 <h3 id="3-其它操作"><a href="#3-其它操作" class="headerlink" title="3) 其它操作"></a>3) 其它操作</h3><p>Go 的内建函数 close、cap、len 都可以操作 channel。close 可以关闭 channel，关闭之后的 channel 无法接收数据；cap 返回 channel 的容量；len 返回 channel 的长度。</p>
 <p>发送和接收数据还可以作为 select 语句的 case clause，例如：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">var</span> ch = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">int</span>, <span class="hljs-number">10</span>)<br>    <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ &#123;<br>        <span class="hljs-keyword">select</span> &#123;<br>        <span class="hljs-keyword">case</span> ch &lt;- i:<br>        <span class="hljs-keyword">case</span> v := &lt;-ch:<br>            fmt.Println(v)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>channel 还可以用于 for-range 语句中：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">for</span> v := <span class="hljs-keyword">range</span> ch &#123;<br>    fmt.Println(v)<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>或者是忽略读取的值，只是清空 channel：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">for</span> <span class="hljs-keyword">range</span> ch &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
-
+<p>channel 还可以用于 for-range 语句中：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">for</span> v := <span class="hljs-keyword">range</span> ch &#123;<br>    fmt.Println(v)<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>或者是忽略读取的值，只是清空 channel：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-keyword">for</span> <span class="hljs-keyword">range</span> ch &#123;<br>&#125;<br></code></pre></td></tr></table></figure></p>
 <p>到这里，channel 的基本用法就介绍完了，下面说几种使用 channel 过程中常见的错误。</p>
 <h2 id="4-使用-channel-常见的错误"><a href="#4-使用-channel-常见的错误" class="headerlink" title="4. 使用 channel 常见的错误"></a>4. 使用 channel 常见的错误</h2><p>使用 channel 最常见的错误就是 panic 和 goroutine 泄露。</p>
 <h3 id="1-panic-错误"><a href="#1-panic-错误" class="headerlink" title="1) panic 错误"></a>1) panic 错误</h3><p>常见的会导致 panic 的三种场景如下：</p>
@@ -319,7 +306,6 @@
 </ul>
 <h3 id="2-goroutine-泄露"><a href="#2-goroutine-泄露" class="headerlink" title="2) goroutine 泄露"></a>2) goroutine 泄露</h3><p>这里的泄露指的是 channel 阻塞导致 goroutine 一直无法退出的情况。下面是课程中的一个例子：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs Go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">process</span><span class="hljs-params">(timeout time.Duration)</span> <span class="hljs-title">bool</span></span> &#123;<br>    ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">bool</span>)<br><br>    <span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-comment">// 模拟处理耗时的业务</span><br>        time.Sleep((timeout + time.Second))<br>        ch &lt;- <span class="hljs-literal">true</span> <span class="hljs-comment">// block</span><br>        fmt.Println(<span class="hljs-string">&quot;exit goroutine&quot;</span>)<br>    &#125;()<br>    <span class="hljs-keyword">select</span> &#123;<br>    <span class="hljs-keyword">case</span> result := &lt;-ch:<br>        <span class="hljs-keyword">return</span> result<br>    <span class="hljs-keyword">case</span> &lt;-time.After(timeout):<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>该示例中，假设业务处理的时间大于超时时间，故 select 语句先接收超时的信号，返回 false，这导致第 7 行一直阻塞，goroutine 无法退出，进而造成泄露。</p>
 <p>出现这种情况的原因是第二行初始化的 ch 是一个 unbuffered channel，向 unbuffered channel 发送数据的时候，由于容量为 0，必须同时存在接收方接收数据，发送方才能将数据发送出去，否则只能阻塞。</p>
 <p>改进的方式也很简单，ch 初始化的时候，指定容量为 1 就行。</p>
@@ -565,6 +551,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

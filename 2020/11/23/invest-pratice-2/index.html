@@ -280,14 +280,8 @@
 <h3 id="如何应对延迟退休"><a href="#如何应对延迟退休" class="headerlink" title="如何应对延迟退休"></a>如何应对延迟退休</h3><p>首先我们要摒弃一个观念，即退休之后，完全靠退休金生活（体制内除外），不信，看下面各个年代的口号：</p>
 <blockquote>
 <p>1985年，宣传口号是”计划生育好，政府来养老”</p>
-</blockquote>
-<blockquote>
 <p>1995年，宣传“只生一个好，政府帮养老”</p>
-</blockquote>
-<blockquote>
 <p>2005年，宣传“养老不能全靠政府“</p>
-</blockquote>
-<blockquote>
 <p>2012年，推出“推迟退休好，自己来养老”</p>
 </blockquote>
 <p>再过几年，会是啥口号呢，你猜~~</p>
@@ -531,6 +525,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

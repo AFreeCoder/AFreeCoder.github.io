@@ -292,11 +292,10 @@
 <p>这个方案的目的不是为了应对平时零用，也不是为了应对可能的大病，更不是为了应对3年内的大额支出，而是为了实现资产的最终增值。也就是说，前3笔的配置都是为了确保第4笔钱在增值的过程中不受到任何干扰。</p>
 <h2 id="4月回顾"><a href="#4月回顾" class="headerlink" title="4月回顾"></a>4月回顾</h2><p><strong>写作</strong></p>
 <p>本月一共写了三篇文章，一篇 Go 的，两篇投资理财相关的。数量上严重不达标。。</p>
-<p>不过 <a href="https://tjjsjwhj.me/2021/05/06/%E5%AE%9A%E6%8A%95%E7%9A%84%E9%99%B7%E9%98%B1/">定投的“陷阱” </a> 这一篇的数据很好看，阅读、点赞、在看分别是383、22、15，三个数据都是历史新高，说明花心思写还是有用的！</p>
+<p>不过 <a href="https://tjjsjwhj.me/2021/05/06/定投的陷阱/">定投的“陷阱” </a> 这一篇的数据很好看，阅读、点赞、在看分别是383、22、15，三个数据都是历史新高，说明花心思写还是有用的！</p>
 <p><strong>个人项目</strong></p>
 <p>4月份完成了公众号服务端Demo的开发以及服务的部署，项目地址见：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://github.com/AFreeCoder/wechat-official-account<br></code></pre></td></tr></table></figure>
-
 <p>现在还只是一个Demo，刚跑通了流程，效果如下：</p>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/16201088646753.jpg" srcset="/img/loading.gif" lazyload alt="-w414"></p>
 <p>有了这个作为基础，后面的基金入门知识的 QABot 可以提上日程了。</p>
@@ -550,6 +549,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

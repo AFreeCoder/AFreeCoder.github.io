@@ -253,16 +253,8 @@
 <h4 id="解压编译"><a href="#解压编译" class="headerlink" title="解压编译"></a>解压编译</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar -xzf openssl-1.1.1d.tar.gz<br><span class="hljs-built_in">cd</span> openssl-1.1.1d<br><span class="hljs-comment"># --prefix是安装路径，--openssl是配置文件路径</span><br>./config shared --prefix=/opt/openssl --openssldir=/usr/<span class="hljs-built_in">local</span>/ssl -D_GNU_SOURCE<br>make clean<br>make<br>make install<br></code></pre></td></tr></table></figure>
 <p><code>-D_GNU_SOURCE</code>并不是必须的，只有当出现错误提示 <code>&#39;pthread_mutex_recursive&#39; undeclared (first use in this function)</code> 才需要带上，这个一般是因为系统太老。(<a target="_blank" rel="noopener" href="https://github.com/openssl/openssl/issues/2261">相关问题链接</a>)</p>
 <h4 id="检查动态链接"><a href="#检查动态链接" class="headerlink" title="检查动态链接"></a>检查动态链接</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ldd /opt/openssl/bin/openssl<br></code></pre></td></tr></table></figure>
-<p><strong>如果提示</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">libssl.so.1.1 =&gt; not found<br>libcrypto.so.1.1 =&gt; not found<br>libdl.so.2 =&gt; /lib64/libdl.so.2 (0x0000003f0b300000)<br>libpthread.so.0 =&gt; /lib64/tls/libpthread.so.0 (0x0000003f0b900000)<br>libc.so.6 =&gt; /lib64/tls/libc.so.6 (0x0000003f0b000000)<br>/lib64/ld-linux-x86-64.so.2 (0x0000003f0ae00000)<br></code></pre></td></tr></table></figure>
-<p>说明 <code>libssl.so.1.1</code> 等没有链接上，执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ln -s /opt/openssl/lib/libssl.so.1.1 /usr/lib64/libssl.so.1.1<br>sudo ln -s /opt/openssl/lib/libcrypto.so.1.1 /opt/openssl/lib/libcrypto.so.1.1<br></code></pre></td></tr></table></figure>
-
-<h4 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h4><p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/opt/openssl/bin/openssl version<br></code></pre></td></tr></table></figure>
-<p>显示：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">OpenSSL 1.1.1d  10 Sep 2019<br></code></pre></td></tr></table></figure>
-
+<p><strong>如果提示</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">libssl.so.1.1 =&gt; not found<br>libcrypto.so.1.1 =&gt; not found<br>libdl.so.2 =&gt; /lib64/libdl.so.2 (0x0000003f0b300000)<br>libpthread.so.0 =&gt; /lib64/tls/libpthread.so.0 (0x0000003f0b900000)<br>libc.so.6 =&gt; /lib64/tls/libc.so.6 (0x0000003f0b000000)<br>/lib64/ld-linux-x86-64.so.2 (0x0000003f0ae00000)<br></code></pre></td></tr></table></figure><br>说明 <code>libssl.so.1.1</code> 等没有链接上，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ln -s /opt/openssl/lib/libssl.so.1.1 /usr/lib64/libssl.so.1.1<br>sudo ln -s /opt/openssl/lib/libcrypto.so.1.1 /opt/openssl/lib/libcrypto.so.1.1<br></code></pre></td></tr></table></figure></p>
+<h4 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h4><p>执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/opt/openssl/bin/openssl version<br></code></pre></td></tr></table></figure><br>显示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">OpenSSL 1.1.1d  10 Sep 2019<br></code></pre></td></tr></table></figure></p>
 <h2 id="PHP下升级openssl"><a href="#PHP下升级openssl" class="headerlink" title="PHP下升级openssl"></a>PHP下升级openssl</h2><p><strong>php下添加openss扩展有两种方式</strong></p>
 <ol>
 <li>PHP源码编译安装的时候，带上 <code>--with-openssl[=DIR]</code> ,</li>
@@ -526,6 +518,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

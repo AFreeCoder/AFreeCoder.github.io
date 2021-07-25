@@ -244,7 +244,7 @@
               <p>这个系列的第零篇是 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/">财务自由实证#0——自由能实现吗？</a>。</p>
 <p>追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。</p>
 <h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>本月进展如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16170307690332.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16170307690332.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>当前进展 2.26%，相比上个月，增加 0%。较真的话，其实是有增加的，增加了不到400，聊胜于无。毛估了下，从春节到现在，回撤大概10%。</p>
 <p>不过这才是真实的市场，不是吗？</p>
 <h2 id="春节之后"><a href="#春节之后" class="headerlink" title="春节之后"></a>春节之后</h2><p>随着A股市场近一个多月的断崖式下跌，公募基金募集日光的现象暂时偃旗息鼓，多只基金的募集都发出了延期的公告。</p>
@@ -265,7 +265,7 @@
 <p>预期年化收益率其实就是投资目标。没有目标的投资，投资行为很容易变形。而且，有了合理的预期之后，我们面对暴涨暴跌，也会从容许多，因为那超出预期的，必然会回落；而那低于预期的，必然会反弹。</p>
 <p>那么，重点来了，合理的预期年化收益率是多少？我们应该如何估计呢？</p>
 <h2 id="股票合理的预期收益率应该是多少？"><a href="#股票合理的预期收益率应该是多少？" class="headerlink" title="股票合理的预期收益率应该是多少？"></a>股票合理的预期收益率应该是多少？</h2><p>在之前的文章《为什么要坚持长期投资？》中贴过一张图：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16169417733213.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16169417733213.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>这张图是1802年到2008年这207年间，不同的统计周期下，年回报率的均值和标准差的对应情况。</p>
 <p>以一年为统计周期，207年的平均收益率是6.5%，标准差是18.3%，也就是说，大约2/3的时间里，年回报率在-11.3%~25.3% 之间波动。实际上，一年的回报率最高能到66.6%，最低只有-38.6%。</p>
 <p>统计周期拉长后，年回报率的标准差迅速减小，但是均值却没有什么变化，这说明，无论短期收益率波动如何剧烈，长期下来，收益率都会回归到某个值附近，这才是我们更有可能获得的真实收益率。</p>
@@ -287,7 +287,7 @@
 <li>组合的生命周期无法保证。</li>
 </ol>
 <p>组合的存在与否很大程度上由主理人主观决定，跟投者只能被动接受。我信任长赢计划，然而谁能保证它还有下一轮呢？</p>
-<ol start="2">
+<ol>
 <li>策略不透明。</li>
 </ol>
 <p>虽然每个组合都有其投资策略的介绍，但是策略的细节仍然是不透明的；而且具体到每一次的操作上，我们也无法判断主理人是否完美的执行了该策略。</p>
@@ -533,6 +533,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

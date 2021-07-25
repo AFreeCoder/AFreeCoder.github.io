@@ -243,6 +243,7 @@
             <div class="markdown-body">
               <h1 id="如何提高定投收益率（中）"><a href="#如何提高定投收益率（中）" class="headerlink" title="如何提高定投收益率（中）"></a>如何提高定投收益率（中）</h1><p><em>原本这一篇应该是《如何提高定投收益率（下）》，但是忽然发现两篇可能写不完，先用“中”顶一下。</em></p>
 <p>上一篇<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/9_YBNH_8V5DTbgfMQuXitA">《如何提高定投收益率（上）》</a>对比了<strong>普通定投</strong>和<strong>估值定投V1版</strong>的优劣。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -252,7 +253,8 @@
 <th>总收益率</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>普通定投</td>
 <td>2005.4.1-2021.6.19</td>
 <td><strong>102.43%</strong></td>
@@ -264,7 +266,9 @@
 <td><strong>102.43%</strong></td>
 <td><strong>8.03%</strong></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p><em>注：估值定投V1版策略的详细内容见<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/9_YBNH_8V5DTbgfMQuXitA">《如何提高定投收益率（上）》</a></em></p>
 <p>普通定投的优势是无视市场行情，操作极其简单，不需要投入任何精力；缺点是收益率稍微低一些。</p>
 <p>估值定投V1版的优势能根据指数估值进行简单的“低买高卖”，收益率相比普通定投要高一些；缺点是指数估值水平较高时，现金持有比重较高，资金利用率低。</p>
@@ -279,11 +283,11 @@
 <p>由于数据源限制，手上只有沪深300、中证500、创业板指的PE数据，所以接下来就用这三只指数做一个组合，对估值定投V2版策略做一个回测。</p>
 <p>这三只指数的发布日期不一样，创业板指发布的最晚，因此取公共时间段2010.6.1-至今，分别回测定投1年、3年、5年、以及至今的收益率。</p>
 <p>回测结果如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16263639832957.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16263639832957.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>其中单只指数采用的是<strong>估值定投V1版</strong>策略，指数组合采用的是<strong>估值定投V2版</strong>策略。</p>
 <p>从图中能看出，除了定投3年时，指数组合的年化收益率低于创业板指，其余时间跨度，指数组合的收益率都是大于等于单只指数的收益率的。</p>
 <p>总收益率的表现也同样如此：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16263640265930.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16263640265930.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>这个回测结果验证了本文开头的猜想：对指数组合进行采用估值定投V2版策略，是能提高收益率的。</p>
 <h2 id="如何配置指数组合？"><a href="#如何配置指数组合？" class="headerlink" title="如何配置指数组合？"></a>如何配置指数组合？</h2><p>这其实是个开放性问题~~</p>
 <p>虽然估值定投V2版能进一步提高收益率，但是因为数据源所限，回测采用的指数组合是【沪深300+中证500+创业板指】。</p>
@@ -292,14 +296,14 @@
 <p>定投什么样的指数组合收益率最大？</p>
 </blockquote>
 <p>​理想组合应该是这样的：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16263617214217.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16263617214217.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>指数组合中各指数的走势不相关，甚至负相关。比如指数A高估的时候，指数B低估；指数B高估的时候，指数A低估。这样就能最大限度的利用资金实现完美的实现“低买高卖”😝。</p>
 <p>然而，理想有多丰满，现实就有多骨感~~</p>
 <p>我们把沪深300、中证500、创业板指的走势画出来，对比一下（为了方便讨论，加入了中证红利）：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16262835996868.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16262835996868.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>一眼看去，这四只指数的走势竟然基本一致！让人大跌眼镜！</p>
 <p>为了更加精确的描述，计算一下这四只指数的相关系数，结果如下：</p>
-<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16262833665001.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/07/18/16262833665001.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>这四个指数两两之间不仅正相关，而且相关系数很高。</p>
 <p>相关系数高意味着<strong>要涨一起涨，要跌一起跌</strong>。显然组合【沪深300+中证500+创业板指】并不是一个好的组合，尽管该组合的收益率比单只指数要高。</p>
 <p>一个好的组合内部各指数应该是不相关或者负相关的。比如不同行业指数的组合，不同国家的宽基指数的组合等。</p>
@@ -348,6 +352,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2021/07/25/how-to-compute-irr/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">如何计算收益率？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -546,6 +556,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

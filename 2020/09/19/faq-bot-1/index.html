@@ -258,12 +258,10 @@
 <p><strong>问题</strong></p>
 <p>train，test，valid 是存放问题的文件，分别对应着训练集、测试集和验证集。对应的 txt 文件中是中英对照的问题，json 文件中的信息比较全，包含了中英对照的问题，问题的领域（类别），对应的答案以及错误的答案（负样本）。示例如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<br>    <span class="hljs-attr">&quot;0&quot;</span>: &#123;<br>        <span class="hljs-attr">&quot;zh&quot;</span>: <span class="hljs-string">&quot;医疗保险拿起公司支付吗？&quot;</span>,<br>        <span class="hljs-attr">&quot;en&quot;</span>: <span class="hljs-string">&quot;Does  Medicare  Pick  Up  Co  Pays?&quot;</span>,<br>        <span class="hljs-attr">&quot;domain&quot;</span>: <span class="hljs-string">&quot;medicare-insurance&quot;</span>,<br>        <span class="hljs-attr">&quot;answers&quot;</span>: [<br>            <span class="hljs-string">&quot;4436&quot;</span><br>        ],<br>        <span class="hljs-attr">&quot;negatives&quot;</span>: [<br>            <span class="hljs-string">&quot;1650&quot;</span>,<br>            <span class="hljs-string">&quot;14016&quot;</span>,<br>            <span class="hljs-string">&quot;24487&quot;</span>,<br>            <span class="hljs-string">&quot;18224&quot;</span>,<br>            <span class="hljs-string">&quot;15953&quot;</span>,<br>            <span class="hljs-string">&quot;16740&quot;</span><br>        ]<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p><code>zh</code> 是根据答案原文翻译过来的，翻译质量一般。比如示例中英文的意思其实是问【医疗保险会承担挂号费吗】（ <code>co-pay</code> 是看医生前需要支付的定额费用，类似挂号费），如果直接看翻译就不知所云了。<code>answers</code> 和 <code>negatives</code> 中的数字表示对应答案的id，下面会提到。</p>
 <p><strong>答案</strong></p>
 <p><code>answers</code> 中包含了答案的id和答案的中英文对照。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<br>    <span class="hljs-attr">&quot;0&quot;</span>: &#123;<br>        <span class="hljs-attr">&quot;zh&quot;</span>: <span class="hljs-string">&quot; 汽车跟随着。示例1：如果你被给了一辆汽车（借给），那辆车没有保险，你可以在汽车上买保险，你的保险将是主要的。另一个选择，有人帮你买车。例如，您的信用评分不足以融资，因此您的朋友在您的贷款下签署了主要付款人。您可以根据您的姓名获得保险，甚至将您的朋友列为保险单，作为损失赔偿人。在这种情况下，我们总是建议您获得贷款差距：汽车的实际现金价值与其仍然拥有的金额之间的差额。例2：你借的车有保险。您可以以您的名义购买政策，列出该政策的车辆，如果发生事故，您的政策将成为次要或超额。一旦主要汽车保险的限制用尽，您的保险将踢入，并希望支付其余费用。我特意用了这个词，因为每个事故都是独一无二的，没有实际的索赔情况就很难解释这个覆盖面。即使在给定的索赔情况下，有时索赔有两个可能的结果。&quot;</span>,<br>        <span class="hljs-attr">&quot;en&quot;</span>: <span class="hljs-string">&quot; Coverage follows the car. Example 1: If you were given a car (loaned) and the car has no insurance, you can buy insurance on the car and your insurance will be primary. Another option, someone helped you to buy a car. For example your credit score isn&#x27;t good enough to finance, so a friend of yours signed under your loan as a primary payor. You can get insurance under your name and even list your friend on the policy as a loss payee. In this case, we always suggest you get a loan gap coverage: the difference between the car&#x27;s actual cash value and the amount still owned on it. Example 2: The car you are loaned has insurance. You can buy a policy under your name, list the car on that policy and in case of the accident, your policy will become a secondary or excess. Once the limits of the primary car insurance are exhausted, your coverage would kick in and hopefully pay for the rest. I specifically used the word hopefully, because each accident is unique and it&#x27;s hard to interpret the coverage without the actual claim scenario. And even with a given claim scenario, sometimes there are 2 possible outcomes of a claim.&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <h4 id="加工语料"><a href="#加工语料" class="headerlink" title="加工语料"></a>加工语料</h4><blockquote>
 <p>使用原始语料，还需要做很多工作才能进入机器学习的模型，比如分词，去停用词，去标点符号，添加label标记。所以，在原始语料的基础上，，insuranceqa-corpus-zh提供了一个使用HanLP分词和去标，去停，添加label的数据集，这个数据集完全是基于原始语料</p>
 </blockquote>
@@ -271,8 +269,8 @@
 <p><strong>词表</strong><br><code>vocab_data</code> 包含<code>word2id</code> (dict, 从word到id), <code>id2word</code> (dict, 从id到word),<code>tf</code> (dict, 词频统计)和 <code>total</code> (单词总数)。 其中，未登录词的标识为 <code>UNKNOWN</code>，未登录词的id为0。</p>
 <p><strong>数据格式</strong><br>train、test、valid中的数据格式一直。示例中 <code>qid</code> 对应原始语料中问题的 <code>id</code>。 <code>question</code> 中的数值表示分词后，该词对应的<code>id</code>，即 <code>word2id</code> 的查表结果。<code>utterance</code> 是回复，<code>label</code> 如果是 <code>[1,0]</code> 代表回复是正确答案，<code>[0,1]</code> 代表回复不是正确答案，所以 <code>utterance</code> 包含了正例和负例的数据。每个问题含有10个负例和1个正例。该项目并没有说明负样本的采集方式。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<br>    <span class="hljs-attr">&quot;qid&quot;</span>:<span class="hljs-string">&quot;344&quot;</span>,<br>    <span class="hljs-attr">&quot;question&quot;</span>:[<br>        <span class="hljs-number">2462</span>,<span class="hljs-number">3206</span>,<span class="hljs-number">8878</span>,<span class="hljs-number">17449</span>,<span class="hljs-number">11331</span><br>    ],<br>    <span class="hljs-attr">&quot;utterance&quot;</span>:[<br>        <span class="hljs-number">8878</span>,<span class="hljs-number">17449</span>,<span class="hljs-number">11331</span>,<span class="hljs-number">3206</span>,<span class="hljs-number">9757</span>,<span class="hljs-number">21338</span>,<span class="hljs-number">4757</span>,<span class="hljs-number">11331</span>,<span class="hljs-number">13381</span>,<span class="hljs-number">10310</span>,<span class="hljs-number">10114</span>,<span class="hljs-number">6069</span>,<span class="hljs-number">5231</span>,<span class="hljs-number">13346</span>,<span class="hljs-number">4185</span>,<span class="hljs-number">12750</span>,<span class="hljs-number">6568</span>,<span class="hljs-number">5425</span>,<span class="hljs-number">3206</span>,<span class="hljs-number">10114</span>,<span class="hljs-number">11705</span>,<span class="hljs-number">6194</span>,<span class="hljs-number">13402</span>,<span class="hljs-number">23991</span>,<span class="hljs-number">11273</span>,<span class="hljs-number">8231</span>,<span class="hljs-number">490</span>,<span class="hljs-number">10299</span>,<span class="hljs-number">9757</span>,<span class="hljs-number">9843</span>,<span class="hljs-number">18157</span>,<span class="hljs-number">13334</span>,<span class="hljs-number">23611</span>,<span class="hljs-number">1907</span>,<span class="hljs-number">10099</span>,<span class="hljs-number">6568</span>,<span class="hljs-number">7344</span>,<span class="hljs-number">1704</span>,<span class="hljs-number">16818</span>,<span class="hljs-number">2311</span>,<span class="hljs-number">6683</span>,<span class="hljs-number">12268</span>,<span class="hljs-number">7197</span>,<span class="hljs-number">9757</span>,<span class="hljs-number">11869</span>,<span class="hljs-number">23800</span>,<span class="hljs-number">10617</span>,<span class="hljs-number">1134</span>,<span class="hljs-number">22430</span>,<span class="hljs-number">23810</span>,<span class="hljs-number">9843</span>,<span class="hljs-number">14297</span>,<span class="hljs-number">10227</span>,<span class="hljs-number">14005</span>,<span class="hljs-number">5526</span>,<span class="hljs-number">12360</span>,<span class="hljs-number">13467</span>,<span class="hljs-number">16917</span>,<span class="hljs-number">22724</span>,<span class="hljs-number">22086</span>,<span class="hljs-number">24346</span>,<span class="hljs-number">20333</span>,<span class="hljs-number">12268</span><br>    ],<br>    <span class="hljs-attr">&quot;label&quot;</span>:[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h3 id="语料统计"><a href="#语料统计" class="headerlink" title="语料统计"></a>语料统计</h3><table>
+<h3 id="语料统计"><a href="#语料统计" class="headerlink" title="语料统计"></a>语料统计</h3><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>语料集</th>
@@ -281,7 +279,8 @@
 <th>平均长度</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>train</td>
 <td>Q</td>
 <td>42</td>
@@ -317,9 +316,10 @@
 <td>878</td>
 <td>165</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h2 id="Baseline复现"><a href="#Baseline复现" class="headerlink" title="Baseline复现"></a>Baseline复现</h2><h3 id="环境准备-训练"><a href="#环境准备-训练" class="headerlink" title="环境准备+训练"></a>环境准备+训练</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">// git <span class="hljs-built_in">clone</span><br>git <span class="hljs-built_in">clone</span> git@github.com:chatopera/insuranceqa-corpus-zh.git<br><br>// 安装环境依赖<br>pip install -r Requirements.txt<br><br>// 更新数据处理的代码<br>pip install --upgrade insuranceqa_data<br><br>// 模型训练<br>python3 deep_qa_1/network.py<br></code></pre></td></tr></table></figure>
-
 <p>训练的过程中可能会出现以下错误：</p>
 <ol>
 <li>ssl.SSLError 问题<ul>
@@ -334,7 +334,6 @@
 </ol>
 <h3 id="训练结果"><a href="#训练结果" class="headerlink" title="训练结果"></a>训练结果</h3><p><strong>主要训练参数</strong></p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">hidden_layers</span> = [<span class="hljs-number">100</span>, <span class="hljs-number">50</span>]<br><span class="hljs-attr">question_max_length</span> = <span class="hljs-number">20</span><br><span class="hljs-attr">utterance_max_length</span> = <span class="hljs-number">99</span><br><span class="hljs-attr">lr</span> = <span class="hljs-number">0.001</span><br><span class="hljs-attr">epoch</span> = <span class="hljs-number">50</span><br><span class="hljs-attr">batch_size</span> = <span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
-
 <p><strong>准确率</strong></p>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/insuranceqa_baseline_accuracy.png" srcset="/img/loading.gif" lazyload alt="accuracy"></p>
 <p><strong>loss变化</strong></p>
@@ -580,6 +579,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

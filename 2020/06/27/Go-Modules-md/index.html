@@ -247,24 +247,20 @@
 <p>在go1.14中，模块支持被认为已经可以在生产环境中使用，因此鼓励所有用户将项目中的依赖管理系统都迁移到Go Mudules中。</p>
 <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="Go-版本升级"><a href="#Go-版本升级" class="headerlink" title="Go 版本升级"></a>Go 版本升级</h3><p><strong>查看Go版本</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go env<br></code></pre></td></tr></table></figure>
-
 <p>如果显示版本低于1.14，则需要升级。</p>
 <p><strong>下载Go最新版本</strong></p>
 <p>官网地址：<a target="_blank" rel="noopener" href="https://golang.org/dl/">https://golang.org/dl/</a> ，下载对应版本。这里以 <code>go1.14.4.darwin-amd64.tar.gz</code> 为例。</p>
 <p><strong>删除旧版本</strong></p>
 <ul>
 <li>通过 <code>go env</code> 获取安装路径（即 <code>GOROOT</code> ），一般是 <code>/usr/local/go</code> 。</li>
-<li><code> rm -rf /usr/local/go</code> </li>
+<li><code>rm -rf /usr/local/go</code> </li>
 </ul>
 <p><strong>安装新版本</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo tar -C /usr/<span class="hljs-built_in">local</span> -xzf go1.14.4.darwin-amd64.tar.gz<br></code></pre></td></tr></table></figure>
-
 <p>至此，Go1.14 升级完成，so easy~</p>
 <h3 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h3><p>由于一些原因，下载Go的各种依赖包的时候，速度很慢，通过一些镜像网站下载的话，可以获得如丝滑般的下载体验。</p>
 <p><strong>常见的Go Modules镜像网站：</strong><br>1、<a target="_blank" rel="noopener" href="https://proxy.golang.org/">https://proxy.golang.org/</a><br>GOPROXY 的默认值，这是一个在大陆无法访问的地址。。<br>2、<a target="_blank" rel="noopener" href="https://goproxy.io/">https://goproxy.io/</a><br>一个开源的为 Go Modules 而生的全球代理。国内开发者使用的较多，维护者是个人。<br>3、<a target="_blank" rel="noopener" href="https://goproxy.cn/">https://goproxy.cn/</a><br>Goproxy 中国，最初开发者是 <a target="_blank" rel="noopener" href="https://aofeisheng.com/">@盛傲飞</a>，目前是七牛云托管和维护。你甚至可以像 goproxy.baidu.com 一样将该服务用作上游代理。</p>
-<p><strong>如何设置</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">go env -w GO111MODULE=on<br>go env -w GOPROXY=https://goproxy.cn,direct<br></code></pre></td></tr></table></figure>
-
+<p><strong>如何设置</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">go env -w GO111MODULE=on<br>go env -w GOPROXY=https://goproxy.cn,direct<br></code></pre></td></tr></table></figure></p>
 <p><strong>趣闻</strong>：<a target="_blank" rel="noopener" href="https://github.com/goproxy/goproxy.cn/issues/61">goproxy.io 和 goproxy.cn 是什么关系?</a></p>
 <h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><blockquote>
 <p>如果使用 Go Modules 来管理依赖，那么你的项目就没有必要在 <code>GOPATH</code> 中了。</p>
@@ -277,8 +273,8 @@
 <p>3、测试代码</p>
 <p>repo 下 main.go 中添加如下测试代码</p>
 <figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs golang"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>	<span class="hljs-string">&quot;net/http&quot;</span><br>	<br>	<span class="hljs-string">&quot;github.com/labstack/echo&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	e := echo.New()<br>	e.GET(<span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(c echo.Context)</span> <span class="hljs-title">error</span></span> &#123;<br>		<span class="hljs-keyword">return</span> c.String(http.StatusOK, <span class="hljs-string">&quot;Hello, World!&quot;</span>)<br>	&#125;)<br>	e.Logger.Fatal(e.Start(<span class="hljs-string">&quot;:1323&quot;</span>))<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>4、go mod xxx 相关命令</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -286,7 +282,8 @@
 <th>解释</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>download</td>
 <td>download modules to local cache</td>
 </tr>
@@ -318,7 +315,9 @@
 <td>why</td>
 <td>explain why packages or modules are needed</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="日常工作流程"><a href="#日常工作流程" class="headerlink" title="日常工作流程"></a>日常工作流程</h3><p>使用 go mod 之后，你的<strong>日常工作流程</strong>应该是这样：</p>
 <ol>
 <li>在代码文件中写好 <code>import</code> 语句</li>
@@ -327,8 +326,8 @@
 </ol>
 <p>一些你可能会用到的其它功能：</p>
 <ol>
-<li><code>go list -m all</code> – 查看全部直接或者间接的依赖</li>
-<li><code>go list -u -m all</code> – 查看全部直接或者间接的依赖版本及最新版本</li>
+<li><code>go list -m all</code> — 查看全部直接或者间接的依赖</li>
+<li><code>go list -u -m all</code> — 查看全部直接或者间接的依赖版本及最新版本</li>
 <li><code>go get -u ./...</code> or <code>go get -u=patch ./...</code> ,，更新全部直接或者间接依赖到最新 <code>minor</code> 版本或者 <code>patch</code> 版本</li>
 <li><code>go build ./...</code> or <code>go test ./...</code></li>
 <li><code>go mod tidy</code> 精简不必要的依赖，同时增加任何必要的依赖。</li>
@@ -354,7 +353,6 @@
 <h3 id="go-mod"><a href="#go-mod" class="headerlink" title="go.mod"></a>go.mod</h3><p><code>go.mod</code> 文件中有4个命令：<code>module</code>， <code>require</code>，<code>replace</code>，<code>exclude</code>。</p>
 <p><strong>example</strong></p>
 <figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs golang">module github.com/my/thing<br><br>require (<br>    github.com/some/dependency v1<span class="hljs-number">.2</span><span class="hljs-number">.3</span><br>    github.com/another/dependency/v4 v4<span class="hljs-number">.0</span><span class="hljs-number">.0</span><br>)<br></code></pre></td></tr></table></figure>
-
 <p><code>module</code> 命令声明了当前模块的名称以及导入路径。</p>
 <p><code>require</code> 命令标明了当前模块所依赖的模块。</p>
 <p><code>replace</code> 和 <code>exclude</code> 命令仅对当前模块生效，即 build 主模块时，其它依赖模块中的 <code>replace</code> 和 <code>exclude</code> 命令都会被忽略掉。</p>
@@ -631,6 +629,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

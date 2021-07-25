@@ -307,8 +307,7 @@
 <h3 id="理论基础的重要性"><a href="#理论基础的重要性" class="headerlink" title="理论基础的重要性"></a>理论基础的重要性</h3><pre><code>1. 价值投资：知和行的关系
 2. 胜者为王，宁可错过，不要做错
 3. 做好价值投资，保持健康
-</code></pre>
-<p><strong>投资是艺术，不是科学</strong></p>
+</code></pre><p><strong>投资是艺术，不是科学</strong></p>
 <p><strong><a target="_blank" rel="noopener" href="https://pc-shop.xiaoe-tech.com/appCRApuVG28915/video_details?id=v_5c4142617c5d9_e6jBxu1Y">视频地址</a></strong> </p>
 <hr>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" srcset="/img/loading.gif" lazyload alt="gongzhonghaopic"></p>
@@ -549,6 +548,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

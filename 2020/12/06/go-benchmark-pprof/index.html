@@ -249,12 +249,10 @@
 <p>AES对称加密是业务代码中经常会用到的一种加密方式，但是编码习惯如果不好，或者测试代码忘了删，就会导致加密性能急剧下降。</p>
 <p><strong>大师兄写的AES加密函数</strong></p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">AesEncryptA</span><span class="hljs-params">(aesKey, IV, origin []<span class="hljs-keyword">byte</span>)</span> []<span class="hljs-title">byte</span></span> &#123;<br>	block, err := aes.NewCipher(aesKey)<br>	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>	&#125;<br>	blocksize := block.BlockSize()<br>	blockMode := cipher.NewCBCEncrypter(block, IV)<br>	originData := PKCS5Pading(origin, blocksize)<br>	crypted := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>, <span class="hljs-built_in">len</span>(originData))<br>	blockMode.CryptBlocks(crypted, originData)<br>	<span class="hljs-keyword">return</span> crypted<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p><strong>二师兄写的AES加密函数</strong></p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">AesEncryptB</span><span class="hljs-params">(aesKey, IV, origin []<span class="hljs-keyword">byte</span>)</span> []<span class="hljs-title">byte</span></span> &#123;<br>	block, err := aes.NewCipher(aesKey)<br>	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>	&#125;<br>	blocksize := block.BlockSize()<br>	blockMode := cipher.NewCBCEncrypter(block, IV)<br>	originData := PKCS5Pading(origin, blocksize)<br>	crypted := <span class="hljs-built_in">make</span>([]<span class="hljs-keyword">byte</span>, <span class="hljs-built_in">len</span>(originData))<br>	blockMode.CryptBlocks(crypted, originData)<br>    <br>    <span class="hljs-comment">// 把加密结果打印到日志看看</span><br>	f, _ := os.Create(<span class="hljs-string">&quot;temp.log&quot;</span>)<br>	<span class="hljs-keyword">defer</span> f.Close()<br>	log.SetOutput(f)<br>	log.Println(fmt.Sprintf(<span class="hljs-string">&quot;encrypt res is %s&quot;</span>, base64.StdEncoding.EncodeToString(crypted)))<br><br>	<span class="hljs-keyword">return</span> crypted<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>乍一看，大师兄和二师兄写的差不多，只是二师兄多了一个把加密结果写到日志中的操作。</p>
-<p><em><strong>就这么一点点的区别，性能能差多少呢?让我们把悬念留到最后。</strong></em></p>
+<p><strong><em>就这么一点点的区别，性能能差多少呢?让我们把悬念留到最后。</em></strong></p>
 <h2 id="benchmark-实施"><a href="#benchmark-实施" class="headerlink" title="benchmark 实施"></a>benchmark 实施</h2><p>假设当前项目中的代码就是二师兄写的，我们就来分析一下，当前的性能瓶颈到底在什么地方。</p>
 <h3 id="benchmark编写"><a href="#benchmark编写" class="headerlink" title="benchmark编写"></a>benchmark编写</h3><p><strong>写benchmark几个注意点</strong>：</p>
 <ul>
@@ -265,14 +263,12 @@
 </ul>
 <p><strong>对二师兄的加密函数写个基准测试</strong></p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">BenchmarkAesEncryptB</span><span class="hljs-params">(b *testing.B)</span></span> &#123;<br>	aesKey := []<span class="hljs-keyword">byte</span>(<span class="hljs-string">&quot;1234567890abcdef&quot;</span>)<br>	IV := []<span class="hljs-keyword">byte</span>(<span class="hljs-string">&quot;7878676756564545&quot;</span>)<br><br>	originData := bytes.Repeat([]<span class="hljs-keyword">byte</span>&#123;<span class="hljs-number">28</span>&#125;, <span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">29</span>)<br>	b.ResetTimer()<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; b.N; i++ &#123;<br>		AesEncryptB(aesKey, IV, originData)<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>为了更加明显的对比，这里我们测试的加密数据的大小是512MB（即 1&lt;&lt; 29）</p>
 <h3 id="执行benchmark命令"><a href="#执行benchmark命令" class="headerlink" title="执行benchmark命令"></a>执行benchmark命令</h3><blockquote>
 <p>testing 框架下的基准测试依赖 <code>go test</code> 工具</p>
 </blockquote>
 <p><strong>benchmark 命令示例</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go <span class="hljs-built_in">test</span> -bench BenchmarkAesEncryptB -run none -benchmem -cpuprofile cpuprofile.out -memprofile memprofile.out<br></code></pre></td></tr></table></figure>
-
 <p>这个命令中的参数比较多，我们一个个的解释。</p>
 <ul>
 <li><code>-bench</code> 表示执行哪些基准测试函数，后面可以加需要执行的基准测试函数名称，也可以加 <code>.</code>，表示执行全部的基准测试函数。（其实 <code>-bench</code> 后面可以加正则表达式）</li>
@@ -283,7 +279,6 @@
 </ul>
 <p><strong>执行结果分析</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">goos: darwin<br>goarch: amd64<br>pkg: go_practice/benchmart_example<br>BenchmarkAesEncryptB-8                 1        8570217455 ns/op        6218811264 B/op       55 allocs/op<br>PASS<br>ok      go_practice/benchmart_example   9.985s<br></code></pre></td></tr></table></figure>
-
 <p>从执行结果中能看到，for 循环每执行一次，耗时 8570217455 纳秒，同时会有55次内存分配操作，每次操作 6218811264 字节。</p>
 <p>到这里，我们其实已经完成了基准测试的一个基本流程，也对二师兄的加密函数的性能和内存使用状况有了一个初步的认识。</p>
 <p><strong>但是，我们还是不知道性能瓶颈在哪！！</strong></p>
@@ -292,26 +287,20 @@
 </blockquote>
 <p>在前面的基准测试中，我们生成了 <code>CPU</code> 概要文件 <code>cpuprofile.out</code> 以及内存概要文件 <code>memprofile.out</code>，现在可以派上大用场了。</p>
 <p>pprof 既可以通过命令行交互的方式查看CPU（内存）的概要数据，也可以通过web的方式查看直观的图形化展示。这里我们主要通过web的方式来展示。</p>
-<p><em><strong>当然，使用pprof工具前，你需要先安装 <code>graphviz</code>，如果是mac，执行 <code>brew install graphviz</code> 就行。</strong></em></p>
-<h3 id="pprof-分析-CPU"><a href="#pprof-分析-CPU" class="headerlink" title="pprof 分析 CPU"></a>pprof 分析 CPU</h3><p><strong>执行命令</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go tool pprof -http=<span class="hljs-string">&quot;:8081&quot;</span> cpuprofile.out<br></code></pre></td></tr></table></figure>
-
+<p><strong><em>当然，使用pprof工具前，你需要先安装 <code>graphviz</code>，如果是mac，执行 <code>brew install graphviz</code> 就行。</em></strong></p>
+<h3 id="pprof-分析-CPU"><a href="#pprof-分析-CPU" class="headerlink" title="pprof 分析 CPU"></a>pprof 分析 CPU</h3><p><strong>执行命令</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go tool pprof -http=<span class="hljs-string">&quot;:8081&quot;</span> cpuprofile.out<br></code></pre></td></tr></table></figure></p>
 <p>通过地址 <code>http://localhost:8081/ui/</code> 能看到</p>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/go-benchmark-pprof/cpuprofile.png" srcset="/img/loading.gif" lazyload alt="cpuprofile.png"></p>
 <p>从这个截图中，我们很容易看到，加密部分总共耗时5.11s，完全用在加密上的耗时才0.76s，其它时间都是用在日志打印上和字符串转化上，</p>
 <h3 id="pprof-分析内存"><a href="#pprof-分析内存" class="headerlink" title="pprof 分析内存"></a>pprof 分析内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go tool pprof -http=<span class="hljs-string">&quot;:8081&quot;</span> memprofile.out<br></code></pre></td></tr></table></figure>
-
 <p>通过地址 <code>http://localhost:8081/ui/</code> 能看到</p>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/go-benchmark-pprof/memprofile.png" srcset="/img/loading.gif" lazyload alt="memprofile.png"></p>
 <p>从这个截图图中，我们很容易看到，5930.71MB的内存使用，真正用在加密上的才512MB以及对原始字符串padding操作的640MB，其它内存都耗费在字符串转化和各种 <code>print</code> 操作上。</p>
 <p>很直观的，我们就知道了二师兄的代码问题就在那一段日志打印的操作上。</p>
 <h3 id="优化二师兄的代码"><a href="#优化二师兄的代码" class="headerlink" title="优化二师兄的代码"></a>优化二师兄的代码</h3><p>根据上面的分析，我们需要优化的就是日志打印的那部分代码。二师兄的代码优化后其实就是大师兄的代码。</p>
-<p>我们把大师兄和二师兄的代码放一起跑一遍基准测试：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go <span class="hljs-built_in">test</span> -bench . -run none -benchmem -cpuprofile cpuprofile.out -memprofile memprofile.out<br></code></pre></td></tr></table></figure>
-
+<p>我们把大师兄和二师兄的代码放一起跑一遍基准测试：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">go <span class="hljs-built_in">test</span> -bench . -run none -benchmem -cpuprofile cpuprofile.out -memprofile memprofile.out<br></code></pre></td></tr></table></figure></p>
 <p><strong>得到</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">goos: darwin<br>goarch: amd64<br>pkg: go_practice/benchmart_example<br>BenchmarkAesEncryptA-8                 1        1174023307 ns/op        1207968624 B/op       13 allocs/op<br>BenchmarkAesEncryptB-8                 1        7496300203 ns/op        6218810296 B/op       50 allocs/op<br>PASS<br>ok      go_practice/benchmart_example   9.508s<br></code></pre></td></tr></table></figure>
-
 <p>从 <code>CPU</code> 耗时上看，大师兄的代码耗时只有二师兄的 1/7，单次内存消耗只有二师兄的 1/5，并且内存分配次数也只有二师兄的 1/4 左右。</p>
 <h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>二师兄在追赶大师兄的道路上，又前进了一大步，可喜可贺~~</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://my.oschina.net/solate/blog/3034188">go benchmark 性能测试</a></p>
@@ -559,6 +548,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

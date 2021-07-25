@@ -243,10 +243,10 @@
             <div class="markdown-body">
               <p>这个系列的第零篇是 <a href="https://tjjsjwhj.me/2020/07/18/invest-pratice-0/">财务自由实证#0</a>，原本打算每月一篇，没想到这都过去两个月了。过去的就不补了，从10月份开始，立个flag，每月1篇。</p>
 <h2 id="实证进展"><a href="#实证进展" class="headerlink" title="实证进展"></a>实证进展</h2><p>先看下当前进展。</p>
-<img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/demonstration1.png" srcset="/img/loading.gif" lazyload width="50%" height="50%">
-
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/demonstration1.png" srcset="/img/loading.gif" lazyload width="50%" height="50%"></p>
 <p>当前进展 1.69%，本周上涨：无。图中记录的软件是且慢小账本（微信小程序），纯手动记录，由于开始几次记录的不完整，收益率等指标可能有偏差，等多记录几次就好了。</p>
 <p>虽然这个实证计划最近才开始，但是实际上投资计划已经开始一年多了，不能完全算从0开始。开始投资的时候，还没有通过投资实现财务自由的想法，纯粹就是希望不贬值，能涨一些就更好。所以当前的账户体系比较混乱，有自己的养老金，也有小孩的教育金，还有一时冲动跟投的不同的投资组合。具体有以下几块：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -255,7 +255,8 @@
 <th>备注</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>长赢计划-150</td>
 <td>且慢</td>
 <td>主理人E大的公开计划，跟投</td>
@@ -285,7 +286,9 @@
 <td>且慢</td>
 <td>如云长进取等组合</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>这两天重新梳理了下，觉得将非教育金计划的其它计划都归入到500万的目标中比较合理。因此当前以及之后的统计中均不会包含教育金计划。上文的截图就是除教育金计划之外的总额。</p>
 <h2 id="如何开始自己的自由计划"><a href="#如何开始自己的自由计划" class="headerlink" title="如何开始自己的自由计划"></a>如何开始自己的自由计划</h2><blockquote>
 <p>在真正重要的事情面前，我们一定要慎重，不能轻易的下决定，尤其是涉及到投资的时候。</p>
@@ -557,6 +560,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

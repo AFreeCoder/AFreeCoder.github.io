@@ -247,6 +247,7 @@
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/16120621994964.jpg" srcset="/img/loading.gif" lazyload alt="-w414"></p>
 <p>当前进度：2.16%，相比上个月，增加0.16%。本月无特殊操作，按时定投，按比例跟投，其它时间老老实实学习，工作，写公众号。</p>
 <h2 id="目前跟投的基金组合"><a href="#目前跟投的基金组合" class="headerlink" title="目前跟投的基金组合"></a>目前跟投的基金组合</h2><p>附一下当前实证计划中主要的组合：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -256,7 +257,8 @@
 <th>特点</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>长赢指数投资计划-150份</td>
 <td>且慢APP</td>
 <td>ETF拯救世界</td>
@@ -280,7 +282,9 @@
 <td>Alex价值发现者</td>
 <td>按比例跟投</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>强调一下，实证中的这些组合服务于长期投资组合，能承受的风险等级较高，因此仅供参考。</p>
 <h3 id="什么是基金组合"><a href="#什么是基金组合" class="headerlink" title="什么是基金组合"></a>什么是基金组合</h3><p>基金组合是这两年兴起的一种比较流行的投资方式。这些基金组合是组合的主理人（管这个组合的人）根据一定的投资策略，购买的一篮子基金。</p>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/02/ji-jin-zu-he.jpg" srcset="/img/loading.gif" lazyload alt="基金组合"></p>
@@ -554,6 +558,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

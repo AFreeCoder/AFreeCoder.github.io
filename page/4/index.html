@@ -178,6 +178,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/12/02/go-file-lock/" target="_self">
+          golang下文件锁的使用
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/12/02/go-file-lock/" target="_self">
+          
+          
+            
+          
+          前言题目是golang下文件锁的使用，但本文的目的其实是通过golang下的文件锁的使用方法，来一窥文件锁背后的机制。
+为什么需要文件锁
+只有多线程/多进程这种并发场景下读写文件，才需要加锁，
+
+场景1-读写并发
+读写并发场景下，如果不加锁，就会出现读到脏数据的情况。想象一下，读文件的进程，读到第500字节，有其它进程以覆盖写的方式向文件中写入1000字节，那读进程读到的后500字节就是脏数据。
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-12-02 03:26" pubdate>
+              2020-12-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Go/">Go</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%96%87%E4%BB%B6%E9%94%81/">文件锁</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/11/23/invest-pratice-2/" target="_self">
           财务自由实证#2——延迟退休的影响
         </a>
@@ -246,9 +302,8 @@
           这个系列的第零篇是 财务自由实证#0，原本打算每月一篇，没想到这都过去两个月了。过去的就不补了，从10月份开始，立个flag，每月1篇。
 实证进展先看下当前进展。
 
-
 当前进展 1.69%，本周上涨：无。图中记录的软件是且慢小账本（微信小程序），纯手动记录，由于开始几次记录的不完整，收益率等指标可能有偏差，等多记录几次就好了。
-虽然这个实证计划最近才开始，但是实际上投资计划已经开始一年多了，不能完
+虽然这个实证计划最近才开始，但是实际上投资计划已经开始一年多了，不能完全
         </a>
       </p>
 
@@ -440,69 +495,6 @@ In Go 1.14, module support is considered ready for production use, and all users
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Go-Modules/">Go Modules</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/" target="_self">
-          MySQL之索引
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/" target="_self">
-          
-          
-            
-          
-          为什么需要索引索引就像书籍的目录一样，可以更快的查找数据。
-常见的索引模型
-innodb 索引模型选用B+树是由MySQL的应用场景（等值区间查找、插入删除等操作频繁）及机械磁盘的特点（寻址耗时）决定的。像Redis等一些Nosql数据库，他们的索引模型就是哈希表、跳表等。
-
-
-数组
-等值查询很快（数组有序排列的情况下，二分查找）
-区间查询很快
-数据的插入删除很慢
-
-
-哈希表
-等值查询极快
-插入删
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-06-21 16:00" pubdate>
-              2020-06-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a>
             
           </div>
         

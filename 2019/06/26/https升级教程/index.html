@@ -190,7 +190,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      693 字
+      688 字
     </span>
   
 
@@ -200,7 +200,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      8
        分钟
     </span>
   
@@ -255,33 +255,17 @@
 <li>确保有ssh权限，即能通过ssh远程访问你的web host</li>
 </ol>
 <p><strong><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>是电子前哨基金会EFF为了推广https协议，提供的免费的、自动化的和开放的CA(Certificate Authority)。<a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>的一个贡献是ACME协议，ACME协议旨在确保域名验证、发布和管理方法是完全自动化、一致、符合合规性和安全的。</strong></p>
-<p>**支持ACME协议的工具有很多(<a target="_blank" rel="noopener" href="https://letsencrypt.org/docs/client-options/)%EF%BC%8C%E6%9C%AC%E6%96%87%E9%80%89%E6%8B%A9%E7%9A%84%E6%8E%A8%E8%8D%90%E7%9A%84[certbot](https://certbot.eff.org/)**%E3%80%82">https://letsencrypt.org/docs/client-options/)，本文选择的推荐的[certbot](https://certbot.eff.org/)**。</a></p>
+<p><strong>支持ACME协议的工具有很多(<a target="_blank" rel="noopener" href="https://letsencrypt.org/docs/client-options/)，本文选择的推荐的[certbot](https://certbot.eff.org/">https://letsencrypt.org/docs/client-options/)，本文选择的推荐的[certbot](https://certbot.eff.org/</a>)</strong>。</p>
 <h2 id="升级教程"><a href="#升级教程" class="headerlink" title="升级教程"></a>升级教程</h2><p><strong>首先，进入<a target="_blank" rel="noopener" href="https://certbot.eff.org/">certbot</a>网站，选择对应的web服务器软件（nginx，apache等）和操作系统版本（CentOs 6）,网站会给出对应的操作指令</strong></p>
-<p><strong>1. 获取cerbot执行脚本</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://dl.eff.org/certbot-auto<br></code></pre></td></tr></table></figure>
-<p><code>certbot-auto</code> 实际上是一个shell执行脚本</p>
-<p><strong>2. 放到习惯的路径下</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo mv certbot-auto /usr/<span class="hljs-built_in">local</span>/bin/certbot-auto<br></code></pre></td></tr></table></figure>
-
-<p><strong>3. 修改执行脚本的所有者</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo chown root /usr/<span class="hljs-built_in">local</span>/bin/certbot-auto<br></code></pre></td></tr></table></figure>
-<p>由于certbot需要验证你就是改域名的持有者，所以3、4两步都需要在root权限下进行</p>
+<p><strong>1. 获取cerbot执行脚本</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://dl.eff.org/certbot-auto<br></code></pre></td></tr></table></figure><br><code>certbot-auto</code> 实际上是一个shell执行脚本</p>
+<p><strong>2. 放到习惯的路径下</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo mv certbot-auto /usr/<span class="hljs-built_in">local</span>/bin/certbot-auto<br></code></pre></td></tr></table></figure></p>
+<p><strong>3. 修改执行脚本的所有者</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo chown root /usr/<span class="hljs-built_in">local</span>/bin/certbot-auto<br></code></pre></td></tr></table></figure><br>由于certbot需要验证你就是改域名的持有者，所以3、4两步都需要在root权限下进行</p>
 <p><strong>4. 修改执行脚本的权限</strong><br><code>sudo chmod 0755 /usr/local/bin/certbot-auto</code></p>
-<p><strong>5. 自动获取证书，同时修改nginx配置文件</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo /usr/<span class="hljs-built_in">local</span>/bin/certbot --nginx --nginx-server-root=/usr/<span class="hljs-built_in">local</span>/nginx/conf<br></code></pre></td></tr></table></figure>
-
-<p>这里有个坑，网站给出的命令是 <code>sudo /usr/local/bin/certbot --nginx</code>，这条命令默认ngxin安装在/etc/nginx，所以有可能会报错：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stata">nginx: [emerg] <span class="hljs-keyword">open</span>() <span class="hljs-string">&quot;/etc/nginx/nginx.conf&quot;</span> failed (2: <span class="hljs-keyword">No</span> such <span class="hljs-keyword">file</span> or directory)<br>nginx: configuration <span class="hljs-keyword">file</span> /etc/nginx/nginx.<span class="hljs-keyword">conf</span> <span class="hljs-keyword">test</span> failed<br></code></pre></td></tr></table></figure>
-<p>所以需要用 <code>--nginx-server-root</code> 指定nginx.conf的路径</p>
+<p><strong>5. 自动获取证书，同时修改nginx配置文件</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo /usr/<span class="hljs-built_in">local</span>/bin/certbot --nginx --nginx-server-root=/usr/<span class="hljs-built_in">local</span>/nginx/conf<br></code></pre></td></tr></table></figure></p>
+<p>这里有个坑，网站给出的命令是 <code>sudo /usr/local/bin/certbot --nginx</code>，这条命令默认ngxin安装在/etc/nginx，所以有可能会报错：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stata">nginx: [emerg] <span class="hljs-keyword">open</span>() <span class="hljs-string">&quot;/etc/nginx/nginx.conf&quot;</span> failed (2: <span class="hljs-keyword">No</span> such <span class="hljs-keyword">file</span> or directory)<br>nginx: configuration <span class="hljs-keyword">file</span> /etc/nginx/nginx.<span class="hljs-keyword">conf</span> <span class="hljs-keyword">test</span> failed<br></code></pre></td></tr></table></figure><br>所以需要用 <code>--nginx-server-root</code> 指定nginx.conf的路径</p>
 <p>接下来的操作，按照提示操作即可。</p>
-<p><strong>6、添加定时任务</strong><br><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>证书的有效期是90天，90天之后就需要重新更新证书，因此需要设置一个定时任务自动更新证书</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;0 0,12 * * * root python -c &#x27;import random; import time; time.sleep(random.random() * 3600)&#x27; &amp;&amp; /usr/local/bin/certbot-auto renew&quot;</span> | sudo tee -a /etc/crontab &gt; /dev/null<br></code></pre></td></tr></table></figure>
-<p>上面这行命令是网站提供的，意思是每天12点和0点自动更新证书。至于为什么需要time.sleep(random.random() * 3600)，猜测是为了让大家错开时间，降低证书请求的压力</p>
-<p><strong>相关配置文件</strong><br>新的配置文件目录, 同之前的nginx.conf目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/usr/<span class="hljs-built_in">local</span>/nginx/conf/vhost/<br></code></pre></td></tr></table></figure>
-<p>证书目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/etc/letsencrypt/<br></code></pre></td></tr></table></figure>
-
+<p><strong>6、添加定时任务</strong><br><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>证书的有效期是90天，90天之后就需要重新更新证书，因此需要设置一个定时任务自动更新证书<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;0 0,12 * * * root python -c &#x27;import random; import time; time.sleep(random.random() * 3600)&#x27; &amp;&amp; /usr/local/bin/certbot-auto renew&quot;</span> | sudo tee -a /etc/crontab &gt; /dev/null<br></code></pre></td></tr></table></figure><br>上面这行命令是网站提供的，意思是每天12点和0点自动更新证书。至于为什么需要time.sleep(random.random() * 3600)，猜测是为了让大家错开时间，降低证书请求的压力</p>
+<p><strong>相关配置文件</strong><br>新的配置文件目录, 同之前的nginx.conf目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/usr/<span class="hljs-built_in">local</span>/nginx/conf/vhost/<br></code></pre></td></tr></table></figure><br>证书目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/etc/letsencrypt/<br></code></pre></td></tr></table></figure></p>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html">HTTPS 升级指南</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29507417">Linux下使用acme.sh申请和管理Let’s Encrypt证书
 </a></p>
@@ -524,6 +508,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

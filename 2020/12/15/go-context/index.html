@@ -245,10 +245,9 @@
 <p>比如一段程序，在执行之初，我们可以设定一个环境参数：最大运行时间，一旦超过这个时间，程序也应该随之终止。</p>
 <p>在 golang 中， Context 被用来在各个 goroutine 之间传递取消信号、超时时间、截止时间、key-value等环境参数。</p>
 <h2 id="golang-中的-Context-的实现"><a href="#golang-中的-Context-的实现" class="headerlink" title="golang 中的 Context 的实现"></a>golang 中的 Context 的实现</h2><p>golang中的Context包很小，除去注释，只有200多行，非常适合通过源码阅读来了解它的设计思路。</p>
-<p><em><strong>注：本文中的golang 均指 go 1.14</strong></em></p>
+<p><strong><em>注：本文中的golang 均指 go 1.14</em></strong></p>
 <h3 id="接口-Context-的定义"><a href="#接口-Context-的定义" class="headerlink" title="接口 Context 的定义"></a>接口 Context 的定义</h3><p>golang 中 Context 是一个接口类型，具体定义如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> Context <span class="hljs-keyword">interface</span> &#123;<br>	Deadline() (deadline time.Time, ok <span class="hljs-keyword">bool</span>)<br>	Done() &lt;-<span class="hljs-keyword">chan</span> <span class="hljs-keyword">struct</span>&#123;&#125;<br>	Err() error<br>	Value(key <span class="hljs-keyword">interface</span>&#123;&#125;) <span class="hljs-keyword">interface</span>&#123;&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p><strong>Deadline()</strong></p>
 <p>Deadline() 返回的是当前 Context 生命周期的截止时间。</p>
 <p><strong>Done()</strong></p>
@@ -257,64 +256,61 @@
 <p>这个比较简单，就是返回异常。</p>
 <p><strong>Value(key interface{})</strong></p>
 <p>Value(key interface{}) 返回的是 Context 存储的 key 对应的 value。如果在当前的 Context 中没有找到，就会从父 Context 中寻找，一直寻找到最后一层。</p>
-<h3 id="4种基本的context类型"><a href="#4种基本的context类型" class="headerlink" title="4种基本的context类型"></a>4种基本的context类型</h3><table>
+<h3 id="4种基本的context类型"><a href="#4种基本的context类型" class="headerlink" title="4种基本的context类型"></a>4种基本的context类型</h3><div class="table-container">
+<table>
 <thead>
 <tr>
-<th align="left">类型</th>
-<th align="left">说明</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">说明</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">emptyCtx</td>
-<td align="left">一个没有任何功能的 Context 类型，常用做 root Context。</td>
+<tbody>
+<tr>
+<td style="text-align:left">emptyCtx</td>
+<td style="text-align:left">一个没有任何功能的 Context 类型，常用做 root Context。</td>
 </tr>
 <tr>
-<td align="left">cancelCtx</td>
-<td align="left">一个 cancelCtx 是可以被取消的，同时由它派生出来的 Context 都会被取消。</td>
+<td style="text-align:left">cancelCtx</td>
+<td style="text-align:left">一个 cancelCtx 是可以被取消的，同时由它派生出来的 Context 都会被取消。</td>
 </tr>
 <tr>
-<td align="left">timerCtx</td>
-<td align="left">一个 timeCtx 携带了一个timer(定时器)和截止时间，同时内嵌了一个 cancelCtx。当 timer 到期时，由 cancelCtx 来实现取消功能。</td>
+<td style="text-align:left">timerCtx</td>
+<td style="text-align:left">一个 timeCtx 携带了一个timer(定时器)和截止时间，同时内嵌了一个 cancelCtx。当 timer 到期时，由 cancelCtx 来实现取消功能。</td>
 </tr>
 <tr>
-<td align="left">valueCtx</td>
-<td align="left">一个 valueCtx 携带了一个 key-value 对，其它的 key-value 对由它的父 Context 携带。</td>
+<td style="text-align:left">valueCtx</td>
+<td style="text-align:left">一个 valueCtx 携带了一个 key-value 对，其它的 key-value 对由它的父 Context 携带。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="emptyCtx-定义及实现"><a href="#emptyCtx-定义及实现" class="headerlink" title="emptyCtx 定义及实现"></a>emptyCtx 定义及实现</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> emptyCtx <span class="hljs-keyword">int</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(*emptyCtx)</span> <span class="hljs-title">Deadline</span><span class="hljs-params">()</span> <span class="hljs-params">(deadline time.Time, ok <span class="hljs-keyword">bool</span>)</span></span> &#123;<br>	<span class="hljs-keyword">return</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(*emptyCtx)</span> <span class="hljs-title">Done</span><span class="hljs-params">()</span> &lt;-<span class="hljs-title">chan</span> <span class="hljs-title">struct</span></span>&#123;&#125; &#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(*emptyCtx)</span> <span class="hljs-title">Err</span><span class="hljs-params">()</span> <span class="hljs-title">error</span></span> &#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(*emptyCtx)</span> <span class="hljs-title">Value</span><span class="hljs-params">(key <span class="hljs-keyword">interface</span>&#123;&#125;)</span> <span class="hljs-title">interface</span></span>&#123;&#125; &#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>看 emptyCtx 很轻松，因为它什么都没做，仅仅是实现了 Context 这个接口。在 context 包中，有一个全局变量 background，值为 new(emptyCtx)，它的作用就是做个跟 Context。其它类型的 Context 都是在 background 的基础上扩展功能。</p>
 <h3 id="cancelCtx-定义及实现"><a href="#cancelCtx-定义及实现" class="headerlink" title="cancelCtx 定义及实现"></a>cancelCtx 定义及实现</h3><p>先看下 cancelCtx 的定义和创建。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 定义</span><br><span class="hljs-keyword">type</span> cancelCtx <span class="hljs-keyword">struct</span> &#123;<br>	Context<br><br>	mu       sync.Mutex            <span class="hljs-comment">// protects following fields</span><br>	done     <span class="hljs-keyword">chan</span> <span class="hljs-keyword">struct</span>&#123;&#125;         <span class="hljs-comment">// created lazily, closed by first cancel call</span><br>	children <span class="hljs-keyword">map</span>[canceler]<span class="hljs-keyword">struct</span>&#123;&#125; <span class="hljs-comment">// set to nil by the first cancel call</span><br>	err      error                 <span class="hljs-comment">// set to non-nil by the first cancel call</span><br>&#125;<br><br><span class="hljs-comment">// 创建</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">WithCancel</span><span class="hljs-params">(parent Context)</span> <span class="hljs-params">(ctx Context, cancel CancelFunc)</span></span> &#123;<br>	c := newCancelCtx(parent)<br>	propagateCancel(parent, &amp;c)<br>	<span class="hljs-keyword">return</span> &amp;c, <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123; c.cancel(<span class="hljs-literal">true</span>, Canceled) &#125;<br>&#125;<br><br><span class="hljs-comment">// newCancelCtx returns an initialized cancelCtx.</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">newCancelCtx</span><span class="hljs-params">(parent Context)</span> <span class="hljs-title">cancelCtx</span></span> &#123;<br>	<span class="hljs-keyword">return</span> cancelCtx&#123;Context: parent&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
 <p>总体来说，cancelCtx 的创建就是把父 Context 复制到 cancelCtx 的成员 Context 上，然后把父 Context 的一些信号广播到子 Context 上。最后返回了 cancelCtx 的引用，以及一个 cancelFunc。</p>
 <p>我们看一下 cancel 实现的细节：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(c *cancelCtx)</span> <span class="hljs-title">cancel</span><span class="hljs-params">(removeFromParent <span class="hljs-keyword">bool</span>, err error)</span></span> &#123;<br>	<span class="hljs-keyword">if</span> err == <span class="hljs-literal">nil</span> &#123;<br>		<span class="hljs-built_in">panic</span>(<span class="hljs-string">&quot;context: internal error: missing cancel error&quot;</span>)<br>	&#125;<br>	c.mu.Lock()<br>	<span class="hljs-keyword">if</span> c.err != <span class="hljs-literal">nil</span> &#123;<br>		c.mu.Unlock()<br>		<span class="hljs-keyword">return</span> <span class="hljs-comment">// already canceled</span><br>	&#125;<br>	c.err = err<br>	<span class="hljs-keyword">if</span> c.done == <span class="hljs-literal">nil</span> &#123;<br>		c.done = closedchan<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-built_in">close</span>(c.done)<br>	&#125;<br>	<span class="hljs-keyword">for</span> child := <span class="hljs-keyword">range</span> c.children &#123;<br>		<span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> acquiring the child&#x27;s lock while holding parent&#x27;s lock.</span><br>		child.cancel(<span class="hljs-literal">false</span>, err)<br>	&#125;<br>	c.children = <span class="hljs-literal">nil</span><br>	c.mu.Unlock()<br><br>	<span class="hljs-keyword">if</span> removeFromParent &#123;<br>		removeChild(c.Context, c)<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>cancel 有两个参数，一个是 removeFromParent，表示当前的取消操作是否需要把自己从父 Context 中移除，第二个参数就是执行取消操作需要返回的错误提示。</p>
 <p>根据 cancel 的流程，如果 c.done 是 nil (父 Context 是 emptyCtx 的情况)，就赋值 closedchan。（ closedchan 是一个被关闭的channel）；如果不是nil，就直接关闭。然后递归关闭子 Context。</p>
 <p>这里注意一下，关闭子 Context 的时候，removeFromParent 参数传值是 false，这是因为当前 Context 在关闭的时候，把 child 置成了 nil，所以子 Context 就不用再执行一次从父 Context 移除自身的操作了。</p>
 <p>最后，我们重点说一说 <strong>propagateCancel</strong> 函数。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs go"><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">propagateCancel</span><span class="hljs-params">(parent Context, child canceler)</span></span> &#123;<br>	done := parent.Done()<br>	<span class="hljs-keyword">if</span> done == <span class="hljs-literal">nil</span> &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-comment">// parent is never canceled</span><br>	&#125;<br><br>	<span class="hljs-keyword">select</span> &#123;<br>	<span class="hljs-keyword">case</span> &lt;-done:<br>		<span class="hljs-comment">// parent is already canceled</span><br>		child.cancel(<span class="hljs-literal">false</span>, parent.Err())<br>		<span class="hljs-keyword">return</span><br>	<span class="hljs-keyword">default</span>:<br>	&#125;<br><br>	<span class="hljs-keyword">if</span> p, ok := parentCancelCtx(parent); ok &#123;<br>		p.mu.Lock()<br>		<span class="hljs-keyword">if</span> p.err != <span class="hljs-literal">nil</span> &#123;<br>			<span class="hljs-comment">// parent has already been canceled</span><br>			child.cancel(<span class="hljs-literal">false</span>, p.err)<br>		&#125; <span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-keyword">if</span> p.children == <span class="hljs-literal">nil</span> &#123;<br>				p.children = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[canceler]<span class="hljs-keyword">struct</span>&#123;&#125;)<br>			&#125;<br>			p.children[child] = <span class="hljs-keyword">struct</span>&#123;&#125;&#123;&#125;<br>		&#125;<br>		p.mu.Unlock()<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		atomic.AddInt32(&amp;goroutines, +<span class="hljs-number">1</span>)<br>		<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-parent.Done():<br>				child.cancel(<span class="hljs-literal">false</span>, parent.Err())<br>			<span class="hljs-keyword">case</span> &lt;-child.Done():<br>			&#125;<br>		&#125;()<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>从函数名 propagateCancel 大概能看出看出来这个函数的功能，即 “传播取消（信号）”。回想一下，父 Context 是如何判断有没有收到取消信号的？是根据它的私有成员 ctx.done 来判断的。那子 Context 如何能接收到这个信号呢？这就是函数 propagateCancel 干的事情，把 ctx.done 赋值给子 Context 的私有成员 done，子 Context 就可以获取到取消的信号。</p>
 <p>propagateCancel 的实际处理要更为复杂一些。首先是判断判断父 Context 有没有被 cancel 掉？如果已经 cancel 掉，那么直接 cancel 掉当前的子 Context；如果没有的话，就会<strong>断言父 Context 是否是emptyCtx 类型</strong>，如果是，就通过父 Context 的成员 children 把子 Context 挂在父 Context 下面；如果不是，就启一个协程监听父 Context 信号。</p>
 <p>解释一下为什么会 <strong>断言父 Context 是否是emptyCtx 类型</strong> ？想象一下，如果是你来写这段逻辑，会怎么写？最简单的方法就是每个子 Context 启一个协程，监听取消信号。这种方式能确实能实现取消信号广播的功能，但缺点就是如果子 Context 过多，协程就会很多，一直占用系统资源；而如果父 Context 的类型是 cancelCtx，那么它就能通过成员 children 递归的取消子 Context。一边是 n 个协程监听取消信号，一遍是一个协程就能递归取消所有子 Context，哪种方式消耗资源少，一目了然。</p>
 <h3 id="timerCtx-定义及实现"><a href="#timerCtx-定义及实现" class="headerlink" title="timerCtx 定义及实现"></a>timerCtx 定义及实现</h3><p>先看以下 timerCtx 的定义和创建：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> timerCtx <span class="hljs-keyword">struct</span> &#123;<br>	cancelCtx<br>	timer *time.Timer <span class="hljs-comment">// Under cancelCtx.mu.</span><br><br>	deadline time.Time<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">WithDeadline</span><span class="hljs-params">(parent Context, d time.Time)</span> <span class="hljs-params">(Context, CancelFunc)</span></span> &#123;<br>	<span class="hljs-keyword">if</span> cur, ok := parent.Deadline(); ok &amp;&amp; cur.Before(d) &#123;<br>		<span class="hljs-comment">// The current deadline is already sooner than the new one.</span><br>		<span class="hljs-keyword">return</span> WithCancel(parent)<br>	&#125;<br>	c := &amp;timerCtx&#123;<br>		cancelCtx: newCancelCtx(parent),<br>		deadline:  d,<br>	&#125;<br>	propagateCancel(parent, c)<br>	dur := time.Until(d)<br>	<span class="hljs-keyword">if</span> dur &lt;= <span class="hljs-number">0</span> &#123;<br>		c.cancel(<span class="hljs-literal">true</span>, DeadlineExceeded) <span class="hljs-comment">// deadline has already passed</span><br>		<span class="hljs-keyword">return</span> c, <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123; c.cancel(<span class="hljs-literal">false</span>, Canceled) &#125;<br>	&#125;<br>	c.mu.Lock()<br>	<span class="hljs-keyword">defer</span> c.mu.Unlock()<br>	<span class="hljs-keyword">if</span> c.err == <span class="hljs-literal">nil</span> &#123;<br>		c.timer = time.AfterFunc(dur, <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>			c.cancel(<span class="hljs-literal">true</span>, DeadlineExceeded)<br>		&#125;)<br>	&#125;<br>	<span class="hljs-keyword">return</span> c, <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123; c.cancel(<span class="hljs-literal">true</span>, Canceled) &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">WithTimeout</span><span class="hljs-params">(parent Context, timeout time.Duration)</span> <span class="hljs-params">(Context, CancelFunc)</span></span> &#123;<br>	<span class="hljs-keyword">return</span> WithDeadline(parent, time.Now().Add(timeout))<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>有了前面的 cancelCtx 的基础后，看 timerCtx 会清晰很多。timerCtx 的结构简单一些。timeCtx 有三个成员，第一个是 cancelCtx，这意味这 timerCtx 的取消的操作其实是通过 cancelCtx 实现的；第二个成员是 timer，这是一个定时器，干的事情就是到 deadline 的时候，执行 cancel 操作；第三个成员就是 deadline。</p>
 <p>当然，除了等定时器到期自动执行 cancel 操作，也可以主动执行：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(c *timerCtx)</span> <span class="hljs-title">cancel</span><span class="hljs-params">(removeFromParent <span class="hljs-keyword">bool</span>, err error)</span></span> &#123;<br>	c.cancelCtx.cancel(<span class="hljs-literal">false</span>, err)<br>	<span class="hljs-keyword">if</span> removeFromParent &#123;<br>		<span class="hljs-comment">// Remove this timerCtx from its parent cancelCtx&#x27;s children.</span><br>		removeChild(c.cancelCtx.Context, c)<br>	&#125;<br>	c.mu.Lock()<br>	<span class="hljs-keyword">if</span> c.timer != <span class="hljs-literal">nil</span> &#123;<br>		c.timer.Stop()<br>		c.timer = <span class="hljs-literal">nil</span><br>	&#125;<br>	c.mu.Unlock()<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>如果主动执行 cancel 操作，除了会递归取消子 Context，还是终止定时器。</p>
 <h3 id="valueCtx-的定义和创建"><a href="#valueCtx-的定义和创建" class="headerlink" title="valueCtx 的定义和创建"></a>valueCtx 的定义和创建</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> valueCtx <span class="hljs-keyword">struct</span> &#123;<br>	Context<br>	key, val <span class="hljs-keyword">interface</span>&#123;&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">WithValue</span><span class="hljs-params">(parent Context, key, val <span class="hljs-keyword">interface</span>&#123;&#125;)</span> <span class="hljs-title">Context</span></span> &#123;<br>	<span class="hljs-keyword">if</span> key == <span class="hljs-literal">nil</span> &#123;<br>		<span class="hljs-built_in">panic</span>(<span class="hljs-string">&quot;nil key&quot;</span>)<br>	&#125;<br>	<span class="hljs-keyword">if</span> !reflectlite.TypeOf(key).Comparable() &#123;<br>		<span class="hljs-built_in">panic</span>(<span class="hljs-string">&quot;key is not comparable&quot;</span>)<br>	&#125;<br>	<span class="hljs-keyword">return</span> &amp;valueCtx&#123;parent, key, val&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(c *valueCtx)</span> <span class="hljs-title">Value</span><span class="hljs-params">(key <span class="hljs-keyword">interface</span>&#123;&#125;)</span> <span class="hljs-title">interface</span></span>&#123;&#125; &#123;<br>	<span class="hljs-keyword">if</span> c.key == key &#123;<br>		<span class="hljs-keyword">return</span> c.val<br>	&#125;<br>	<span class="hljs-keyword">return</span> c.Context.Value(key)<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>valueCtx 也很简单，一个 Context 类型的成员，还有两个都是 interface{} 类型的成员 key，value。</p>
 <p>从 valueCtx 的创建能看到，如果想给 Context 存储一个键值对，只能通过 WithValue 函数创建，且每个 Context 只能存储一对。取值的方式是递归寻找父 Context 存储的键值对，所以一个 Context 相当于存储了全部父节点的键值对。</p>
 <p>另外可以看到，valueCtx 的成员是 Context 类型，不是 cancelCtx 类型，这一点需要注意。所以不同的业务场景需要选择不同的 Context。</p>
 <h2 id="golang-中-Context-的使用"><a href="#golang-中-Context-的使用" class="headerlink" title="golang 中 Context 的使用"></a>golang 中 Context 的使用</h2><p>golang 中 Context 的使用套路是在最开始的时候，创建一个 root Context，这个 root Context 就是 emptyCtx 的一个实例。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> (<br>	background = <span class="hljs-built_in">new</span>(emptyCtx)<br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Background</span><span class="hljs-params">()</span> <span class="hljs-title">Context</span></span> &#123;<br>	<span class="hljs-keyword">return</span> background<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>接着是根据各个场景，创建不同类型的 Context。</p>
 <p>此外，官方博客也给出了 Context 使用的一些建议：</p>
 <ol>
@@ -327,7 +323,7 @@
 <h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>golang 的 Context 就讲到这里，由于篇幅原因，总觉得还有不少地方没有讲清楚，下回有机会结合业务场景讲一下 Context 的具体使用。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68792989">深度解密Go语言之context</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011957758/article/details/82948750?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160788294719726891176947%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=160788294719726891176947&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-10-82948750.nonecase&utm_term=golang%E4%B8%AD%E7%9A%84context&spm=1018.2118.3001.4449">由浅入深聊聊Golang的context</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011957758/article/details/82948750?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160788294719726891176947%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&amp;request_id=160788294719726891176947&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-10-82948750.nonecase&amp;utm_term=golang%E4%B8%AD%E7%9A%84context&amp;spm=1018.2118.3001.4449">由浅入深聊聊Golang的context</a></li>
 </ol>
 <hr>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" srcset="/img/loading.gif" lazyload alt="gongzhonghaopic"></p>
@@ -568,6 +564,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

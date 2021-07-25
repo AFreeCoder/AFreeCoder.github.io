@@ -255,16 +255,10 @@
 <li><strong>可重复读</strong>（repeatable read）: 一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的。</li>
 <li><strong>串行化</strong>（sirializable）: 对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行。</li>
 </ol>
-<h3 id="1-3-隔离级别的修改"><a href="#1-3-隔离级别的修改" class="headerlink" title="1.3 隔离级别的修改"></a>1.3 隔离级别的修改</h3><p><strong>隔离级别的查看</strong></p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-section">mysql&gt; show variables like &quot;%transaction_isolation%&quot;;</span><br><span class="hljs-section">+-----------------------+-----------------+</span><br><span class="hljs-section">| Variable_name         | Value           |</span><br><span class="hljs-section">+-----------------------+-----------------+</span><br><span class="hljs-section">| transaction_isolation | REPEATABLE-READ |</span><br><span class="hljs-section">+-----------------------+-----------------+</span><br>1 row in set (0.00 sec)<br></code></pre></td></tr></table></figure>
-
-<p><strong>隔离级别的修改</strong></p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">set</span> [ <span class="hljs-keyword">global</span> | <span class="hljs-keyword">session</span> ] <span class="hljs-keyword">transaction</span> <span class="hljs-keyword">isolation</span> <span class="hljs-keyword">level</span> [ <span class="hljs-keyword">Read</span> <span class="hljs-keyword">uncommitted</span>  | <span class="hljs-keyword">Read</span> <span class="hljs-keyword">committed</span> | <span class="hljs-keyword">Repeatable</span> <span class="hljs-keyword">read</span> | <span class="hljs-keyword">Serializable</span> ];<br></code></pre></td></tr></table></figure>
-<p>注：<code>[]</code> 表示可选。</p>
+<h3 id="1-3-隔离级别的修改"><a href="#1-3-隔离级别的修改" class="headerlink" title="1.3 隔离级别的修改"></a>1.3 隔离级别的修改</h3><p><strong>隔离级别的查看</strong><br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-section">mysql&gt; show variables like &quot;%transaction_isolation%&quot;;</span><br><span class="hljs-section">+-----------------------+-----------------+</span><br><span class="hljs-section">| Variable_name         | Value           |</span><br><span class="hljs-section">+-----------------------+-----------------+</span><br><span class="hljs-section">| transaction_isolation | REPEATABLE-READ |</span><br><span class="hljs-section">+-----------------------+-----------------+</span><br>1 row in set (0.00 sec)<br></code></pre></td></tr></table></figure></p>
+<p><strong>隔离级别的修改</strong><br><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">set</span> [ <span class="hljs-keyword">global</span> | <span class="hljs-keyword">session</span> ] <span class="hljs-keyword">transaction</span> <span class="hljs-keyword">isolation</span> <span class="hljs-keyword">level</span> [ <span class="hljs-keyword">Read</span> <span class="hljs-keyword">uncommitted</span>  | <span class="hljs-keyword">Read</span> <span class="hljs-keyword">committed</span> | <span class="hljs-keyword">Repeatable</span> <span class="hljs-keyword">read</span> | <span class="hljs-keyword">Serializable</span> ];<br></code></pre></td></tr></table></figure><br>注：<code>[]</code> 表示可选。</p>
 <h3 id="1-4-可重复读隔离级别的演示"><a href="#1-4-可重复读隔离级别的演示" class="headerlink" title="1.4 可重复读隔离级别的演示"></a>1.4 可重复读隔离级别的演示</h3><p>由于mysql默认的隔离级别是可重复读，因此这里就以可重复读为例进行演示，其它情况可通过修改隔离级别模拟。</p>
-<p>步骤1：创建测试表，插入测试数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> T(c <span class="hljs-type">int</span>) engine<span class="hljs-operator">=</span>InnoDB;<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> T(c) <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
-
+<p>步骤1：创建测试表，插入测试数据<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> T(c <span class="hljs-type">int</span>) engine<span class="hljs-operator">=</span>InnoDB;<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> T(c) <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure></p>
 <p>步骤2：起2个事务模仿并发的情况，以下是两个事务中不同操作的执行顺序。</p>
 <p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/repeatable%20read.png" srcset="/img/loading.gif" lazyload alt="可重复读"></p>
 <p>从图中可以看到，右边的事务无论是执行 update 操作，还是提交事务，左边的事务都是看不到的。当左边的事务提交之后，再次查询，才能看到更新之后的数据。完美契合可重复读的定义：事务执行期间看到数据可事务开启时看到的数据一致。</p>
@@ -275,7 +269,7 @@
 <li>如果是读提交，那在上图第7步的时候，会发现数据发生变化</li>
 <li>如果是串行化，那在执行第4步的时候，会失败，必须等左边的事务提交，右边的事务才能继续执行。</li>
 </ul>
-<h3 id="1-5-事务隔离的实现"><a href="#1-5-事务隔离的实现" class="headerlink" title="1.5 事务隔离的实现"></a>1.5 事务隔离的实现</h3><p>实现上，数据库会创建一个视图，访问的时候以视图的逻辑结果为准（<em><strong>注：此视图实为一致性读视图 consistend read view，不是MySQL中特指查询结果的那个视图</strong></em>）。不同时刻启动的事务，会有不同的视图，这意味着不同视图里面的同一条数据会有不同的版本，这就是数据库多版本并发控制（MVCC）。</p>
+<h3 id="1-5-事务隔离的实现"><a href="#1-5-事务隔离的实现" class="headerlink" title="1.5 事务隔离的实现"></a>1.5 事务隔离的实现</h3><p>实现上，数据库会创建一个视图，访问的时候以视图的逻辑结果为准（<strong><em>注：此视图实为一致性读视图 consistend read view，不是MySQL中特指查询结果的那个视图</em></strong>）。不同时刻启动的事务，会有不同的视图，这意味着不同视图里面的同一条数据会有不同的版本，这就是数据库多版本并发控制（MVCC）。</p>
 <p>“读未提交”隔离级别下，直接读取的最新数据，没有视图的概念；”读提交”隔离级别下，事务中每次执行查询语句前，都会新建一个视图；”可重复读”隔离级别下，事务启动的时候，会创建一个视图，整个事务执行期间都用这个视图；”串行化”隔离级别下，直接用加锁的方式来避免并行访问。</p>
 <p><strong>以可重复读为例:</strong></p>
 <p>在可重复读隔离级别下，不同事务在启动的时候，就拍了不同的”快照”: 一个基于整个库的快照。我们先来看下这个快照是怎么实现的。</p>
@@ -556,6 +550,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 
