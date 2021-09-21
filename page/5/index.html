@@ -117,18 +117,6 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/market/">
-                <i class="iconfont icon-books"></i>
-                市场行情
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 关于
@@ -190,6 +178,283 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/12/02/go-file-lock/" target="_self">
+          golang下文件锁的使用
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/12/02/go-file-lock/" target="_self">
+          
+          
+            
+          
+          前言题目是golang下文件锁的使用，但本文的目的其实是通过golang下的文件锁的使用方法，来一窥文件锁背后的机制。
+为什么需要文件锁
+只有多线程/多进程这种并发场景下读写文件，才需要加锁，
+
+场景1-读写并发
+读写并发场景下，如果不加锁，就会出现读到脏数据的情况。想象一下，读文件的进程，读到第500字节，有其它进程以覆盖写的方式向文件中写入1000字节，那读进程读到的后500字节就是脏数据。
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-12-02 03:26" pubdate>
+              2020-12-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Go/">Go</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%96%87%E4%BB%B6%E9%94%81/">文件锁</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/11/23/invest-pratice-2/" target="_self">
+          财务自由实证#2——延迟退休的影响
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/11/23/invest-pratice-2/" target="_self">
+          
+          
+            
+          
+          序财务自由实证 系列的第零篇是 财务自由实证#0。
+追求财务自由，并不是希望大富大贵，而是希望自由之后，能更有底气的把生命浪费在更”美好“的事物上，而无须担心生计问题。
+实证进展先上进展：
+当前进度：1.88%。相比上个月增加0.19%，呃，听上去有些微不足道。如果仔细看下就会发现，这1个多月中，总资产增加近1万，但是实际新增投入不到6000，这么一看，很惊喜有没有。
+投资计划的一些调整这一个月中
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-11-23 01:53" pubdate>
+              2020-11-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/10/10/invest-pratice-1/" target="_self">
+          财务自由实证#1——如何开始？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/10/10/invest-pratice-1/" target="_self">
+          
+          
+            
+          
+          这个系列的第零篇是 财务自由实证#0，原本打算每月一篇，没想到这都过去两个月了。过去的就不补了，从10月份开始，立个flag，每月1篇。
+实证进展先看下当前进展。
+
+当前进展 1.69%，本周上涨：无。图中记录的软件是且慢小账本（微信小程序），纯手动记录，由于开始几次记录的不完整，收益率等指标可能有偏差，等多记录几次就好了。
+虽然这个实证计划最近才开始，但是实际上投资计划已经开始一年多了，不能完全
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-10-10 23:20" pubdate>
+              2020-10-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/09/19/faq-bot-1/" target="_self">
+          FAQBot 实践系列#1 —— 从开源语料入手
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/09/19/faq-bot-1/" target="_self">
+          
+          
+            
+          
+          语料FAQBot构建的基础是有一份高质量的问答语料。通过不断的搜索和查找，找到一份 保险行业 的问答语料：insuranceqa-corpus-zh
+语料背景该语料库包含从网站 Insurance Library 收集的问题和答案。以下是官方介绍：
+
+
+该语料库的内容由现实世界的用户提出，高质量的答案由具有深度领域知识的专业人士提供。 所以这是一个具有真正价值的语料，而不是玩具。
+
+在上述论文中，
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-09-19 15:26" pubdate>
+              2020-09-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/NLP/">NLP</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/QABot/">QABot</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/18/invest-pratice-0/" target="_self">
+          财务自由实证#0——自由能实现吗?
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/18/invest-pratice-0/" target="_self">
+          
+          
+            
+          
+          写在前面受公众号 【也谈钱】 的影响，以及互联网加班的摧残，觉得有必要早早的开始梳理家庭的财务状况，并且制定财务自由的目标和方案，为自由而奋斗。
+财务自由的目标设置 财务自由 的目标前，首先需要知道财务自由的定义，明确自己需要实现的是哪种等级的财务自由，才能以此为依据，制定出切实可行的计划，并开始行动。
+这里我拍脑袋定了一个目标：
+
+目标：500万（流动性资产）
+期限：25年
+
+下面详细解释下这个
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-18 15:28" pubdate>
+              2020-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/06/27/Go-Modules-md/" target="_self">
           Go Modules 简介
         </a>
@@ -237,291 +502,11 @@ In Go 1.14, module support is considered ready for production use, and all users
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/" target="_self">
-          MySQL之索引
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/06/21/mysql%E4%B9%8B%E7%B4%A2%E5%BC%95/" target="_self">
-          
-          
-            
-          
-          为什么需要索引索引就像书籍的目录一样，可以更快的查找数据。
-常见的索引模型
-innodb 索引模型选用B+树是由MySQL的应用场景（等值区间查找、插入删除等操作频繁）及机械磁盘的特点（寻址耗时）决定的。像Redis等一些Nosql数据库，他们的索引模型就是哈希表、跳表等。
-
-
-数组
-等值查询很快（数组有序排列的情况下，二分查找）
-区间查询很快
-数据的插入删除很慢
-
-
-哈希表
-等值查询极快
-插入删
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-06-21 16:00" pubdate>
-              2020-06-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/05/31/mysql%E4%B9%8B%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/" target="_self">
-          MySQL之事务的隔离性
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/05/31/mysql%E4%B9%8B%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/" target="_self">
-          
-          
-            
-          
-          一提到事务，我们就会想到事务的4个特性ACID（Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性和持久性）。本篇文章，主要讲的就是隔离性。
-mysql里面并不是所有的存储引擎都支持事务，因此本文中针对事务的讨论都是基于存储引擎innodb。
-一、隔离级别1.1 “隔离级别”的概念
-脏读（dirty read）: A 事务可以读到B事务未
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-05-31 23:22" pubdate>
-              2020-05-31
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/05/06/2020%E5%B9%B4%E5%BA%A6%E8%A7%84%E5%88%92/" target="_self">
-          2020年度规划
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/05/06/2020%E5%B9%B4%E5%BA%A6%E8%A7%84%E5%88%92/" target="_self">
-          
-          
-            
-          
-          临近春节，工作上没有那么忙了，正好把2020年的年度计划整理下，定上几个小目标。
-为了提高计划的完成度，下面制定计划的时候，会尽可能的给出相应的时间节点和比较可行的操作步骤。
-专业技能19年在专业技能上的完成度比较差，所以这一部分先列出来，以体现其重要性。
-对于目前的自己来说，有两个方向，一个是后端开发，另一个是算法（NLP方向）。从行业的发展来看，后端开发的需求量大，技术更新迭代较快，但是在企业
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-05-06 01:38" pubdate>
-              2020-05-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B9%B4%E5%BA%A6%E8%A7%84%E5%88%92/">年度规划</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/04/13/mysql%E4%B9%8Bredolog/" target="_self">
-          MySQL 日志之 redolog
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/04/13/mysql%E4%B9%8Bredolog/" target="_self">
-          
-          
-            
-          
-          一、redolog 概述mysql 有多种日志，每种日志都有其特定的用途。 redolog 是 mysql 存储引擎为 innodb 时，特有的日志。 innodb 是 mysql 最常用的存储引擎，它的事务的持久性就是通过 redolog保证的。
-二、redolog 介绍为了更清晰的将 redolog 讲清楚，本文会围绕以下几个方面逐层展开。
-
-redolog 是什么？
-redolog 存储形式
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-04-13 01:55" pubdate>
-              2020-04-13
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/01/09/openssl%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" target="_self">
-          openssl升级教程
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/01/09/openssl%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/" target="_self">
-          
-          
-            
-          
-          前言openssl版本号的含义
-
-OpenSSL version numbers are formatted as n1.n2.n3x, where n1-3 are numbers and x, if present, is one or more letters. These can change depending on the release type:
-Major releases th
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-01-09 01:23" pubdate>
-              2020-01-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/php/">php</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/php/">php</a>
-            
-              <a href="/tags/openssl/">openssl</a>
-            
-              <a href="/tags/sm3/">sm3</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

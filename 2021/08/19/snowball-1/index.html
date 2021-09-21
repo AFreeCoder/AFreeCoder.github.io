@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="996的码农，也能自由~">
+  <meta name="author" content="AFreeCoder">
+  <meta name="keywords" content="">
+  
+  <title>最近大火的“雪球”是什么 - 码农的自由之路</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tjjsjwhj.me","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 30vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>码农的自由之路</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/stars.jpeg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="最近大火的“雪球”是什么">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      AFreeCoder
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-08-19 14:40" pubdate>
+        2021年8月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">最近大火的“雪球”是什么</h1>
+            
+            <div class="markdown-body">
+              <h1 id="最近大火的“雪球”是什么"><a href="#最近大火的“雪球”是什么" class="headerlink" title="最近大火的“雪球”是什么"></a>最近大火的“雪球”是什么</h1><p>最近看到多篇关于“雪球”的新闻：</p>
+<p>8月6号，中国基金报发表了一篇文章：《一分钟售罄！“雪球”产品太火爆，监管部门重磅出手了！》<br><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/16291118183718.jpg" srcset="/img/loading.gif" lazyload alt="-w828"></p>
+<p>8月11日，监管层要求券商自查“雪球型自动敲入敲出式券商收益凭证”。</p>
+<p>12日再获消息，证监会已向多家券商发文，要求强化对“雪球”的风险管控。发文主要强调提示风险与合规，虽未要求券商“彻底停掉”，但部分券商已经主动减少甚或暂停新产品发行。</p>
+<p>出师未捷身先死，长使英雄泪满襟！</p>
+<p>等等，这个雪球到底是个什么东西？监管部门不让玩雪了吗？</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/16291229536432.jpg" srcset="/img/loading.gif" lazyload alt=""></p>
+<h2 id="此雪球非彼雪球"><a href="#此雪球非彼雪球" class="headerlink" title="此雪球非彼雪球"></a>此雪球非彼雪球</h2><p>首先，这个“雪球”不是自然界的雪球。</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/xueqiu.gif" srcset="/img/loading.gif" lazyload alt="xueqiu"></p>
+<p>其次，这个“雪球”也和雪球（投资者社区）、雪球APP无关。</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/16291233815285.jpg" srcset="/img/loading.gif" lazyload alt="-w691"></p>
+<p>那这个“雪球”是什么东西呢？</p>
+<h2 id="“雪球”产品简介"><a href="#“雪球”产品简介" class="headerlink" title="“雪球”产品简介"></a>“雪球”产品简介</h2><p>“雪球”产品本质上是一种<strong>结构化产品</strong>，其对应的雪球型结构属于<strong>收益增强型结构</strong>，是一种<strong>收益凭证</strong>。</p>
+<p>这种产品可以应对一定幅度的市场下跌，同时具有类固收产品的特点，只要挂钩标的资产价格不发生大跌，持有期限越长，绝对收益就越高。而这个过程就像滚雪球一样，只要路面不出现大的坑洼，雪球就会越滚越大，由此而得名“雪球”。</p>
+<p>概念有点多，慢慢解释。</p>
+<h3 id="什么结构化产品"><a href="#什么结构化产品" class="headerlink" title="什么结构化产品"></a>什么结构化产品</h3><p>结构化产品是指<strong>表现与基础资产、产品或指数挂钩的金融工具</strong>。许多研究或描述中大多简单定义结构化产品为<strong>“资产”和“期权”</strong>的结合。</p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/16291345865266.jpg" srcset="/img/loading.gif" lazyload alt="-w749"></p>
+<p>这是结构化产品的示意图。</p>
+<p>虽然结构化投资产品可以以票据、结构化存款等形式存在，但应当以衍生品的特征来看待，而非固定收益类资产。结构化产品挂钩的资产往往是风险资产，结构化产品也同样会承担市场变化带来的收益风险。尽管结构化产品的风险结构与资产的线性风险会有所差别。</p>
+<p>由于结构化产品多种多样，所以这里不做介绍，接下来主要介绍“雪球”结构。</p>
+<h3 id="雪球型结构关键要素"><a href="#雪球型结构关键要素" class="headerlink" title="雪球型结构关键要素"></a>雪球型结构关键要素</h3><p>理解雪球型结构产品之前，有必要先了解几个专有名词。</p>
+<p>找一家发行过雪球产品的券商，搜索雪球，点击任意一个产品，查看合约，都会有如下要素：</p>
+<p><strong>1、挂钩标的</strong></p>
+<p>前面讲过，结构化产品都是<strong>表现与基础资产、产品或指数挂钩的金融工具</strong>，雪球产品挂钩的是指数。</p>
+<p>国内绝大部分的雪球产品挂钩的都是中证500指数。</p>
+<p><strong>2、存续期限</strong></p>
+<p>购买雪球产品的时候，认购协议会约定该产品的到期时间。投资者持有该产品期间，如果没有发生协议所规定的几种提前终止情况，则投资者需一直持有，直至到期。</p>
+<p><strong>3、敲入、敲出界限和观察频率</strong></p>
+<p>先解释下什么是敲入和敲出。</p>
+<p>假设起初指数加个为1，协议约定波动区间为 75% ~ 103%，那么 75% 就是敲入界限，103% 就是敲出界限。持有该产品期间，如果指数价格相比于期初下跌25%，则发生敲入现象；如果指数价格相比于期初上涨3%，则发生敲出现象。</p>
+<p>所谓的观察频率是指只在特定的日期观察是否发生敲入敲出现象。其它日期即使指数价格波动到约定的区间之外，也不作数。</p>
+<p>通常敲入的观察频率是每个交易日；敲出的观察日是每月的某一天（非交易日顺延）。比如我看到的一款产品，它的敲出观察日就是：</p>
+<p>2021年10月11日<br>2021年11月09日<br>2021年12月09日<br>2022年01月10日<br>……<br>2023年07月10日</p>
+<p><em>虽然敲出水平很容易达到，但是不在观察日，并不算数，这大大提高了观察到敲出的难度。</em></p>
+<p><strong>4、敲出票息（票面利率）</strong></p>
+<p>购买雪球类产品，有一个票面利率。购买协议会约定在哪几种场景下（下文会讲）投资者会获得利息。</p>
+<p><em>如果想更具体的了解这些词汇，可以找一个雪球产品，打开它的认购协议，阅读一遍即可彻底了解。</em></p>
+<h3 id="雪球型结构示意图及收益计算方式"><a href="#雪球型结构示意图及收益计算方式" class="headerlink" title="雪球型结构示意图及收益计算方式"></a>雪球型结构示意图及收益计算方式</h3><p>购买雪球产品后，投资者会遇到如下的几种场景：</p>
+<p><strong>第一种：观察期间发生敲出现象</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/xue-qiuqiao-chu.jpg" srcset="/img/loading.gif" lazyload alt="雪球-敲出"></p>
+<p>这种情况下，只要观察到敲出现象，产品提前终止，投资者获得利息（按22%利率折算到具体的持有期限上）。</p>
+<p><strong>第二种：观察期间未发生敲入，也未发生敲出现象</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/xue-qiuwu-qiao-ru-wu-qiao-chu.jpg" srcset="/img/loading.gif" lazyload alt="雪球-无敲入无敲出"></p>
+<p>如果在持有雪球产品期间，未观察到敲入现象，也未观察到敲出现象，投资者仍能获得利息（按22%利率折算到具体的持有期限上）。</p>
+<p><strong>第三种：观察期间，发生敲入，未发生敲出，期末指数略高于期初</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/xue-qiuqiao-ru-wu-qiao-chu-qi-mo-hui-fu.png" srcset="/img/loading.gif" lazyload alt="雪球-敲入无敲出期末恢复"></p>
+<p>如果在持有雪球产品期间，观察到敲入现象，但是未观察到敲出现象，投资者仅能获得本金，无利息。</p>
+<p><strong>第四种：观察期间发生敲入，未发生敲出现象，且期末指数水平低于期初</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/08/19/xue-qiuqiao-ru-wu-qiao-chu-qi-mo-mei-you-hui-fu.png" srcset="/img/loading.gif" lazyload alt="雪球-敲入无敲出期末没有恢复"></p>
+<p>如果在持有雪球产品期间，观察到敲入现象，但是未观察到敲出现象，且直到期末，挂钩指数也没有恢复到期初水平，则投资者承担实际亏损，亏损比例为指数实际下降幅度。</p>
+<h3 id="什么情况下适合购买雪球产品"><a href="#什么情况下适合购买雪球产品" class="headerlink" title="什么情况下适合购买雪球产品"></a>什么情况下适合购买雪球产品</h3><p>对比上面讨论的几种情况，我们发现，只要不发生敲入现象，投资者的本金就一定能保证。所以可以把雪球产品当成一种有一定下跌安全边际的产品，如果判断未来一段时间内挂钩指数的最大下跌空间有限，就可以买入雪球产品，提前锁定收益。</p>
+<p>但是如果投资者判断未来一段时间内，挂钩指数不仅下跌空间有限，而且极有可能迅速上涨，这种情况下购买雪球产品虽然能锁定一部分收益，但是相比市场，错过的收益会更多（等到敲出观察日的时候，指数可能已经上涨了很多了）。</p>
+<p>总而言之，是否购买雪球产品，都需要投资者能对指数未来一段时间内的走势有一个初步的预估，否则最终收益和预期会偏差很大。</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>以上是看到“雪球”产品后出于好奇查阅相关资料汇总整理而得。啰啰嗦嗦了一大堆，到这里，相信大家对雪球产品的收益模式有了一个基本的认识。</p>
+<p>从投资者角度，了解了雪球产品的收益模式之后，就可以根据自身风险偏好以及当下市场行情决定是否购买。</p>
+<p>但是从券商的角度，你知道它们是如何盈利从而保证利息支付的吗？</p>
+<p>我也不知道，希望下一篇能给出答案[旺柴]</p>
+<h2 id="说点其它的"><a href="#说点其它的" class="headerlink" title="说点其它的"></a>说点其它的</h2><p>最近在开发和验证一些简单但有效的投资策略，以期构建属于自己的投资组合，在实践中加快自己投资体系的建立。</p>
+<p>由于深知“闭门造车”的弊端，所以借这篇文章推广一下：</p>
+<p>如果你对投资理财感兴趣，想找一些志同道合的人，公众号回复【搞事情】or 【联系方式】，欢迎进群一起交流！</p>
+<hr>
+<p><strong>都看到这里了，不如点个 赞/在看，加个关注呗~~</strong></p>
+<p><img src="https://tjjsjwhj-blog.oss-cn-beijing.aliyuncs.com/2021/05/06/gongzhonghaopic.jpeg" srcset="/img/loading.gif" lazyload alt="公众号二维码"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9B%AA%E7%90%83%E7%BB%93%E6%9E%84/">雪球结构</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/28/invest-pratice-11/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">财务自由实证#11——一点小感慨</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/10/fix-investment-3/">
+                        <span class="hidden-mobile">如何提高定投收益率（下）—— 没什么用的绝对估值</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
