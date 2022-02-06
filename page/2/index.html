@@ -178,6 +178,65 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/12/14/go-closure/" target="_self">
+          Go 闭包问题
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/14/go-closure/" target="_self">
+          
+          
+            
+          
+          前几天在机械的堆砌业务代码时，不小心掉进了 Go 循环中使用闭包的一个坑，因此借这个机会总结一下 Go 闭包问题相关的知识。
+1. 什么是闭包？
+一个函数和对其周围状态（词法环境）的引用捆绑在一起，这样的组合就是闭包。
+
+直接看定义，很难理解闭包到底什么。所以我画了下面这张图：
+
+这张图中，自由变量 i 和函数 f 构成了闭包。
+由此，可以总结闭包的几个关键点：
+
+自由变量 i 和函数 f 同属于
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-14 11:57" pubdate>
+              2021-12-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Golang/">Golang</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%97%AD%E5%8C%85/">闭包</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/12/04/invest-pratice-14/" target="_self">
           财务自由实证#14——抢先E大一步发车！
         </a>
@@ -465,63 +524,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E6%8C%87%E6%A0%87%E4%BD%93%E7%B3%BB/">指标体系</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/28/invest-pratice-11/" target="_self">
-          财务自由实证#11——一点小感慨
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/28/invest-pratice-11/" target="_self">
-          
-          
-            
-          
-          这个系列的第零篇是 财务自由实证#0——自由能实现吗？
-追求财务自由，并不是希望大富大贵，而是希望能拥有自由选择生活方式的权利，能更有底气的把生命浪费在更“美好”的事物上。
-本月进展8月进展如下：
-
-当前进展 2.78%，相比上个月增加了 0.15%。
-翻了下历史记录，当前累计收益和今年2月底几乎一样，也就是说这六个月的净增长基本等于净投入🤣。
-本月操作：定投，跟投组合，无其他特殊操作。
-调整一
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-28 12:46" pubdate>
-              2021-08-28
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/">投资理财</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/">财务自由实证</a>
             
           </div>
         
