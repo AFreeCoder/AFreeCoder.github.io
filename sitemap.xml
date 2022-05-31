@@ -146,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://afreecoder.cn/2020/10/10/invest-pratice-1/</loc>
+    <loc>https://afreecoder.cn/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/</loc>
     
     <lastmod>2022-01-08</lastmod>
     
@@ -155,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://afreecoder.cn/2019/06/26/https%E5%8D%87%E7%BA%A7%E6%95%99%E7%A8%8B/</loc>
+    <loc>https://afreecoder.cn/2020/10/10/invest-pratice-1/</loc>
     
     <lastmod>2022-01-08</lastmod>
     
@@ -593,6 +593,27 @@
   </url>
   
   <url>
+    <loc>https://afreecoder.cn/tags/testing/</loc>
+    <lastmod>2022-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://afreecoder.cn/tags/benchmark/</loc>
+    <lastmod>2022-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://afreecoder.cn/tags/pprof/</loc>
+    <lastmod>2022-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://afreecoder.cn/tags/channel/</loc>
     <lastmod>2022-05-31</lastmod>
     <changefreq>weekly</changefreq>
@@ -628,27 +649,6 @@
   </url>
   
   <url>
-    <loc>https://afreecoder.cn/tags/testing/</loc>
-    <lastmod>2022-05-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://afreecoder.cn/tags/benchmark/</loc>
-    <lastmod>2022-05-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://afreecoder.cn/tags/pprof/</loc>
-    <lastmod>2022-05-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://afreecoder.cn/tags/%E8%B4%A2%E5%8A%A1%E8%87%AA%E7%94%B1%E5%AE%9E%E8%AF%81/</loc>
     <lastmod>2022-05-31</lastmod>
     <changefreq>weekly</changefreq>
@@ -657,27 +657,6 @@
   
   <url>
     <loc>https://afreecoder.cn/tags/%E6%97%A5%E5%BF%97/</loc>
-    <lastmod>2022-05-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://afreecoder.cn/tags/%E7%B4%A2%E5%BC%95/</loc>
-    <lastmod>2022-05-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://afreecoder.cn/tags/%E9%9B%AA%E7%90%83%E7%BB%93%E6%9E%84/</loc>
-    <lastmod>2022-05-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://afreecoder.cn/tags/%E4%BA%8B%E5%8A%A1/</loc>
     <lastmod>2022-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -705,7 +684,21 @@
   </url>
   
   <url>
-    <loc>https://afreecoder.cn/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E8%AE%AD%E7%BB%83%E8%90%A5/</loc>
+    <loc>https://afreecoder.cn/tags/%E4%BA%8B%E5%8A%A1/</loc>
+    <lastmod>2022-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://afreecoder.cn/tags/%E9%9B%AA%E7%90%83%E7%BB%93%E6%9E%84/</loc>
+    <lastmod>2022-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://afreecoder.cn/tags/%E7%B4%A2%E5%BC%95/</loc>
     <lastmod>2022-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -713,6 +706,13 @@
   
   <url>
     <loc>https://afreecoder.cn/tags/%E6%8C%87%E6%A0%87%E4%BD%93%E7%B3%BB/</loc>
+    <lastmod>2022-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://afreecoder.cn/tags/%E4%BB%B7%E5%80%BC%E6%8A%95%E8%B5%84%E8%AE%AD%E7%BB%83%E8%90%A5/</loc>
     <lastmod>2022-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
